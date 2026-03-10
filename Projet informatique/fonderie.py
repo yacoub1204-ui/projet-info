@@ -1,9 +1,9 @@
 import materiau
-import taule
+import tole
 
 class Fonderie:
     
-    def __init__ (self, x : float, y : float, client : Client, cout : float, list_mat : list[Materiau], ):
+    def __init__ (self, x : float, y : float, client : Client, cout : float, list_mat : list[Materiau]):
         self._x = x
         self._y = y
         self._client = client
@@ -28,6 +28,4 @@ class Fonderie:
     
     def get_list_mat(self):
         return self._list_mat
-
-
 
