@@ -1,4 +1,4 @@
-import materiau
+eriau
 import taule
 
 class Fonderie:
@@ -28,4 +28,5 @@ class Fonderie:
     
     def get_list_mat(self):
         return self._list_mat
+
 
