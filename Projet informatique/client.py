@@ -15,7 +15,9 @@ class Client:
         return self._dict_quantites
     
     def get_pmax(self, dict_quantites, mat : Materiau):
+        '''pourcentage minimal de matériau demandé par le client'''
         return dict_quantites[mat][0]
     
     def get_pmax(self, dict_quantites, mat : Materiau):
+        '''pourcentage maximal de matériau demandé par le client'''
         return dict_quantites[mat][1]
