@@ -1,23 +1,22 @@
-import client
-import fonderie
-import main
-import materiau
-import tole
+import Client
+import Fonderie
+import Alliage
+import Tole
 
 def read_file(file : str):
     if file.find("_fonderie") >= 0:
-
+        print(file)
     elif file.find("_fournisseurs") >= 0:
-
+        print(file)
     elif file.find("_plaque") >= 0:
-
+        print(file)
     else:
         raise(ValueError)
 
 
 """
 Fichier à completer
-Seule la méthode resoudre() sera appelee
+Seule la méthode resoudre() sera appelée
 """
 import os
 import time
