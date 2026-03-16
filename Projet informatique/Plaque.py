@@ -16,3 +16,15 @@ class Plaque:
     def get_fig(self):
         return self._fig
 
+
+"""
+def rotation(self,x,y):   A TERMINER
+    
+
+nouveau_min_x=min_x
+nouveau_max_x=nouveau_min_x + (max_y-min_y)
+
+
+nouveau_min_y=min_y
+nouveau_max_y=nouveau_min_y +(max_x-min_x)
+"""
