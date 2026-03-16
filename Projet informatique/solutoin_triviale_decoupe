@@ -1,0 +1,35 @@
+"""
+solution 1 plaque par tole:
+premiere plaque non fabriquee
+si elle rentre en longueur:
+	si elle rentre en largeur:
+		c bon
+sinon si on la tourne de 90 degre:
+	si ok largeur:
+		si ok longueur:
+			c bon
+"""
+
+
+
+
+
+
+max_x_plaque=x
+max_y_plaque=y
+if max_x<=max_x_plaque and max_y<= max_y_plaque:
+	return decoupe(plaque)
+elif max_y<=max_x_plaque and max_x<= max_y_plaque:
+	return decoupe(rotation(plaque))
+
+
+
+
+fonction rotation:
+
+nouveau_min_x=min_x
+nouveau_max_x=nouveau_min_x + (max_y-min_y)
+
+
+nouveau_min_y=min_y
+nouveau_max_y=nouveau_min_y +(max_x-min_x)
