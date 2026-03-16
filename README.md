@@ -16,3 +16,7 @@ fonderie interne
 	+ achat des matériaux purs(masse volumique, cout et poid connu)
 
 	toutes les toles produites viennent de la meme tournee de production dans la fonderie
+	
+	cout processus fabrication
+	definir qté produire pour COUT MINIMAL!!!!!!!!!!!
+
