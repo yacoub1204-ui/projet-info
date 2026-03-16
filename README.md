@@ -20,3 +20,14 @@ fonderie interne
 	cout processus fabrication
 	definir qté produire pour COUT MINIMAL!!!!!!!!!!!
 
+
+
+
+	retour prof pre rapport
+partie 3 manque d'info (qlq classe)
+manque classes solution			c les classes de stockage de solution et classe d'ecriture
+
+
+
+fonderie: utiliser methode differente pour fonderie 
+
