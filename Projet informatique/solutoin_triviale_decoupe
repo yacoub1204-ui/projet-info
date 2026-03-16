@@ -1,13 +1,12 @@
 """
-solution 1 plaque par tole:
+solution triviale: 1 plaque par tole:
 premiere plaque non fabriquee
-si elle rentre en longueur:
-	si elle rentre en largeur:
+si elle rentre en longueur et largeur:
 		c bon
 sinon si on la tourne de 90 degre:
-	si ok largeur:
-		si ok longueur:
-			c bon
+	si ok largeur et longueur:
+		c bon
+sinon change tole (pour solutions non triviales)
 """
 #x = largeur
 #y = hauteur
