@@ -18,6 +18,15 @@ class Plaque:
 
 
 """
+fonctoin origine plaque (coordonnees du point en bas a gauche de la plaque)
+
+initialement:(0,0) <- en bas a gauche de la tole
+ensuite l'origine devient le point le plus a gauche de la tole juste au dessus de la derniere plaque decoupee -> derniere origine + (max_y,0)
+ensuite si on peut rien decouper a l'origine precedente, l'origine devient le point a droite de toutes les plaques precedemment decoupees et tout en bas -> (0,max(max_x))
+ensuite on fait remonter l'origine comme au debut-> iteration donc parler eventuellement de max(max_y)) pour etre au dessus de differentes plaques
+"""
+
+"""
 def rotation(self,x,y):   A TERMINER
     
 
