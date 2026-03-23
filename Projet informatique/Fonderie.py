@@ -26,3 +26,7 @@ class Fonderie:
         '''liste des matériaux '''
         return self._dict_mat
 
+    def produire_plaque(self):
+         """meme si fournisseurs dispo: faire avec  fonderie interne: payer totalelnt matieres premieres meme si stock de matiere premiere suffisant"""
+        
+        
