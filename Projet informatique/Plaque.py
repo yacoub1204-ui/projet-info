@@ -30,7 +30,7 @@ def decoupe(self,x,y):
     return(Tole(self,x,y))
     return(tole_decoupee)
 
-def rotation(self,x,y):   
+def rotation(self):   
    return(Plaque(self._y,self._x,self._fig)) 
 """
     nouveau_min_x=min_x
