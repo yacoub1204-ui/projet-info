@@ -26,14 +26,14 @@ ensuite si on peut rien decouper a l'origine precedente, l'origine devient le po
 ensuite on fait remonter l'origine comme au debut-> iteration donc parler eventuellement de max(max_y)) pour etre au dessus de differentes plaques
 """
 
-"""
-def rotation(self,x,y):   A TERMINER
+
+def rotation(self,x,y):   
     
 
-nouveau_min_x=min_x
-nouveau_max_x=nouveau_min_x + (max_y-min_y)
+    nouveau_min_x=min_x
+    nouveau_max_x=nouveau_min_x + (max_y-min_y)
 
 
-nouveau_min_y=min_y
-nouveau_max_y=nouveau_min_y +(max_x-min_x)
-"""
+    nouveau_min_y=min_y
+    nouveau_max_y=nouveau_min_y +(max_x-min_x)
+
