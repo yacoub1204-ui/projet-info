@@ -34,5 +34,5 @@ class Fonderie:
     def creer_taule(self, t : int):
         '''permet de créer une taule venant de la fonderie'''
         tole = self._tole[t]
-        cout = tole.get_x() * tole.get_y() * self._client.get_z() * (tole.get_all().prix_cm3() + self._cout)
+        cout = self._client.get_x * self._client.get_y * self._client.get_z * (self._client.prix_cm3 + self._cout)
         self._list_kg[t] -= 
