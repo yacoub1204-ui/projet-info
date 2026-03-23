@@ -31,7 +31,7 @@ class Alliage:
     def prix_m3(self):
         mv = self.convert_mv()
         prix_m3=0
-        for i in range(len(list_prix)):
+        for i in range(len(self._list_prix)):
             prix_m3+=self._list_prix[i]*self._list_pct[i]*mv[i]
         return prix_m3
     
