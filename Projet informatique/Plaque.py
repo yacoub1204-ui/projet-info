@@ -26,7 +26,9 @@ ensuite si on peut rien decouper a l'origine precedente, l'origine devient le po
 ensuite on fait remonter l'origine comme au debut-> iteration donc parler eventuellement de max(max_y)) pour etre au dessus de differentes plaques
 """
 def decoupe(self,x,y):
-    return(Tole(self,x-Plaque(self._x),y-Plaque(self._y)))
+    tole_decoupee=Tole(self, Plaque(self._x),Plaque(self._y))
+    return(Tole(self,x,y))
+    return(tole_decoupee)
 
 def rotation(self,x,y):   
    return(Plaque(self._y,self._x,self._fig)) 
