@@ -17,6 +17,8 @@ class Plaque:
         return self._fig
 
 
+    def rotation(self):   
+        return(Plaque(self._y,self._x,self._fig)) 
 """
 fonctoin origine plaque (coordonnees du point en bas a gauche de la plaque)
 
@@ -27,8 +29,6 @@ ensuite on fait remonter l'origine comme au debut-> iteration donc parler eventu
 """
 
 
-def rotation(self):   
-   return(Plaque(self._y,self._x,self._fig)) 
 """
     nouveau_min_x=min_x
     nouveau_max_x=nouveau_min_x + (max_y-min_y)
