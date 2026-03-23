@@ -22,15 +22,18 @@ class Alliage:
         return self._list_pct
     
     def prix_kg(self):
-        prix=0
+        prix_kg=0
         for i in range(len(self._list_prix)):
-            prix+=self._list_prix[i]*self._list_pct[i]  
-        return prix
+            prix_kg+=self._list_prix[i]*self._list_pct[i]  
+        return prix_kg
         
         
     def prix_m3(self):
         mv = self.convert_mv()
-        return self._list_prix[0]*self._list_pct[0]*mv[0] + self._list_prix[1]*self._list_pct[1]*mv[1] + self._list_prix[2]*self._list_pct[2]*mv[2]
+        prix_m3=0
+        for i in range(len(list_prix)):
+            prix_m3+=self._list_prix[i]*self._list_pct[i]*mv[i]
+        return prix_m3
     
     def prix_cm3(self):
         return self.prix_m3()*10**6
