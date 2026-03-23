@@ -25,7 +25,7 @@ class Tole:
 
 
     def decouper_plaque(self, plaque):
-        if plaque._x<= self._zones_libres[2] and plaque._y<= self._zones_libres[3] :        
+        if plaque._x <= self._zones_libres[2] and plaque._y <= self._zones_libres[3] :        
             plaque._x = x
             plaque._y = y
             self._plaques.append(plaque)
