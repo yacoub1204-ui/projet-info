@@ -25,15 +25,16 @@ ensuite l'origine devient le point le plus a gauche de la tole juste au dessus d
 ensuite si on peut rien decouper a l'origine precedente, l'origine devient le point a droite de toutes les plaques precedemment decoupees et tout en bas -> (0,max(max_x))
 ensuite on fait remonter l'origine comme au debut-> iteration donc parler eventuellement de max(max_y)) pour etre au dessus de differentes plaques
 """
-
+def decoupe(self,x,y):
+    return(Tole(self,x-Plaque(self._x),y-Plaque(self._y)))
 
 def rotation(self,x,y):   
-    
-
+   return(Plaque(self._y,self._x,self._fig)) 
+"""
     nouveau_min_x=min_x
     nouveau_max_x=nouveau_min_x + (max_y-min_y)
 
 
     nouveau_min_y=min_y
     nouveau_max_y=nouveau_min_y +(max_x-min_x)
-
+"""
