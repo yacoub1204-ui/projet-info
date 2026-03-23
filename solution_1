@@ -1,0 +1,8 @@
+import Figure
+from random import randint
+def solution_1(data):
+    solution=[]
+    for lines in data:
+        number=randint(0,len(lines))
+        solution.append()
+    return solution
