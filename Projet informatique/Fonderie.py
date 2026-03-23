@@ -1,32 +1,38 @@
-import materiau
-import tole
-import client
+import Alliage
+import Tole
+import Client
 
 class Fonderie:
     
-    def __init__ (self, tole : Tole, client : Client, cout : float, dict_all : dict[Materiau]):
+    def __init__ (self, tole : list[Tole], list_all : list[Alliage], client : Client, list_kg : list[float], cout):
         self._tole = tole
         self._client = client
         self._cout = cout
-        self._dict_mat = dict_mat
+        self._list_all = list_all
+        self._list_kg = list_kg
 
     def get_tole(self):
-        '''toles produites'''
+        '''liste des toles produites'''
         return self._tole
     
     def get_z(self):
         '''épaisseur demandée par le client (cm)'''
-        return client.get_z(self._client)
+        return self._client.get_z()
     
     def get_cout(self):
         '''cout engendré par la fonte du métal et le laminage (€/cm^3)'''
         return self._cout
     
-    def get_dict_mat(self):
-        '''liste des matériaux '''
-        return self._dict_mat
-
-    def produire_plaque(self):
-         """meme si fournisseurs dispo: faire avec  fonderie interne: payer totalelnt matieres premieres meme si stock de matiere premiere suffisant"""
-        
-        
+    def get_list_kg(self):
+        '''liste des masses d'alliage 1 et 2 disponibles'''
+        return self._list_kg
+    
+    def get_list_all(self):
+        '''liste des alliages possibles'''
+        return self._list_all
+    
+    def creer_taule(self, t : int):
+        '''permet de créer une taule venant de la fonderie'''
+        tole = self._tole[t]
+        cout = tole.get_x() * tole.get_y() * self._client.get_z() * (tole.get_all().prix_cm3() + self._cout)
+        self._list_kg[t] -= 
