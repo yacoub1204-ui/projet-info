@@ -1,23 +1,13 @@
-import materiau
-
 class Client:
 
-    def __init__(self, z : float, dict_quantites : dict[Materiau : [[float][float]]]):
-        self._z = z
-        self._dict_quantites = dict_quantites
-
-    def get_z(self):
-        '''épaisseur demandée par le client'''
-        return self._z
+    def __init__(self, list_max : list, list_min : list):
+        self._list_max = list_max
+        self._list_min = list_min
     
-    def get_dict_quantites(self):
-        '''dictionnaire contenant les %ages min et max de matériau voulu par le client'''
-        return self._dict_quantites
+    def get_list_max(self):
+        '''pourcentages max de chaque matériau'''
+        return self._list_max
     
-    def get_pmax(self, dict_quantites, mat : Materiau):
-        '''pourcentage minimal du matériau mat demandé par le client'''
-        return dict_quantites[mat][0]
-    
-    def get_pmax(self, dict_quantites, mat : Materiau):
-        '''pourcentage maximal du matériau mat demandé par le client'''
-        return dict_quantites[mat][1]
+    def get_list_min(self):
+        '''pourcentages min de chaque matériau'''
+        return self._list_min

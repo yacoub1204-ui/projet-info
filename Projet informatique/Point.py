@@ -11,5 +11,5 @@ class Point:
     def get_y(self):
         return self._y
 
-    def distance(autre_p : Point):
-        return sqrt((-self._x + get_x(autre_p))**2 + (-self._y + get_y(autre_p))**2)
+    def distance(self, autre_p : Point):
+        return sqrt((-self._x + autre_p.get_x)**2 + (-self._y + autre_p.get_y)**2)
