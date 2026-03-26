@@ -88,8 +88,21 @@ def read(instance, list_files):
                 plaque = Plaques.Plaques(i_prix[0], d_plaques)
 
             elif element.find(f"{instance}_") >= 0:
-                
+                r = f.readlines()
+                i_dim = r[0]
+                i_dim.strip()
+                i_dim.split()
 
+                list_p : list[float] = []
+                for i in range(len(r)):
+                    i_pol = r[i]
+                    i_pol.strip()
+                    i_pol.split("  ")
+                    for j in range(len(i_pol)):
+                        i_pol[j].split()
+                        i_polt = (pol[j][0], pol[j][1])
+                        list_p.append(i_polt)
+                
 
             else:
                 raise(ValueError)
