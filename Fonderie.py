@@ -30,6 +30,25 @@ class Fonderie:
     def get_list_all(self):
         '''liste des alliages possibles'''
         return self._list_all
+
+    def get_client(self):
+        return self._client
+
+
+    def masse_necessaire(self, i:int):
+        """i c l'indice de la tole a produire"""
+        tole = self._tole[i]
+        alliage = tole.get_all()
+        volume_cm3 = tole.get_x() * tole.get_y() * tole.get_z()
+        #g/cm^3convertit en kg
+        mv_g_cm3 = alliage.get_mv()
+        # mv liste de mv par matériaux
+            pct = alliage.get_list_pct()
+            mv_moy = sum(mv_g_cm3[j] * pct[j] for j in range(len(pct)))
+        else:
+            mv_moy = mv_g_cm3
+        masse_kg = volume_cm3 * mv_moy / 1000.0
+        return masse_kg
     
     def creer_taule(self, t : int):
         '''permet de créer une taule venant de la fonderie'''
