@@ -49,6 +49,14 @@ class Fonderie:
             mv_moy = mv_g_cm3
         masse_kg = volume_cm3 * mv_moy / 1000.0
         return masse_kg
+
+    def cout_production_tole(self, i:int):
+        """meme i que masse_necessaire"""
+        tole = self._tole[i]
+        volume_cm3 = tole.get_x() * tole.get_y() * tole.get_z()
+        return volume_cm3 * (tole.get_all().prix_cm3() + self._cout)
+ 
+        
     
     def creer_taule(self, t : int):
         '''permet de créer une taule venant de la fonderie'''
