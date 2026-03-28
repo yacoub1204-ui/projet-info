@@ -70,8 +70,14 @@ class Fonderie:
     def mv_alliage(self,pct):
         inverse_mv = sum(pct[i] / self._mv_metaux[i] for i in range(len(pct)))
         return 1/ inverse_mv
+        """
+        Calcule la masse volumique d'un alliage (g/cm3) a partir des proportions en masse.
+        Formule physique exacte : 1/mv_alliage = sum(pct_i / mv_i)
+        :param pct: proportions en masse de chaque metal (liste, somme = 1)
+        :return: masse volumique de l'alliage (g/cm3)
+        """
         
-    def cout trivial(self, nb_toles):
+    def cout trivial(self, nb_toles):"""on achet metaux purs et pas de stock utilisé"""
         pct=self.pct_triviaux()
         volume_total_cm3 = nb_toles * self._x * self._y * self._client.get_z()
  
