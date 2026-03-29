@@ -1,0 +1,58 @@
+import math
+from typing import List, Tuple, Union
+
+def solution3(data):
+    pointactuel = (0,0)
+    plaque = data.copy()
+    solution=[]
+    for _ in range(len(data)):
+        procheliste=[]
+        for polygone in plaque:
+            procheliste.append(pointprocheliste(polygone, pointactuel))
+        point_plus_proche = min(procheliste, key=lambda p: distance(p, pointactuel))
+        index_a_supprimer = procheliste.index(point_plus_proche)
+        polygone_choisi = plaque[index_a_supprimer]
+        index_depart = polygone_choisi.index(point_plus_proche)
+        polygone_reordonne = polygone_choisi[index_depart:] + polygone_choisi[:index_depart]
+        solution.append(polygone_reordonne)
+        pointactuel = polygone_reordonne[-1]
+        del plaque[index_a_supprimer]
+        
+    return solution
+
+def distance(point1, point2):
+    return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+
+
+            
+
+def pointprocheliste(points, point_ref):
+    if not points:
+        return None
+    point_le_plus_proche = points[0]
+    distance_minimale = distance(points[0], point_ref)
+    for point in points[1:]:
+        dist = distance(point, point_ref)
+        if dist < distance_minimale:
+            distance_minimale = dist
+            point_le_plus_proche = point
+    
+    return point_le_plus_proche
+
+            
+
+def pointprocheliste(points, point_ref):
+    if not points:
+        return None
+    point_le_plus_proche = points[0]
+    distance_minimale = distance(points[0], point_ref)
+    for point in points[1:]:
+        dist = distance(point, point_ref)
+        if dist < distance_minimale:
+            distance_minimale = dist
+            point_le_plus_proche = point
+    
+    return point_le_plus_proche
+
+
+
