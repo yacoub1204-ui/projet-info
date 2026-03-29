@@ -36,64 +36,57 @@ class Fonderie:
 
 
     def pct_triviaux(self) -> list[float]:
-        """ 1.  metaux avec min = max  prioritare
+       """1.  metaux avec min = max  prioritare
           2. Tous les autres metaux partent de leur minimum.
-          3. Le reliquat (1 - somme actuelle) est distribué sur les metaux libres (min < max),
-             en remplissant chacun jusqu'a son maximum jusqu'a epuisement du reliquat.
-        :return: liste de proportions (une par metal), somme = 1"""
+          3. pour  la condition " somme pct metaux =1" il faut distribuer le reste des pct sur les metaux libres (min < max),
+             en remplissant chacun jusqu'a son maximum jusqu'a somme pct metal egale a 1."""
         list_min = self._client.get_list_min()
         list_max = self._client.get_list_max()
         n = len(list_min)
  
         # Etape 1 : tous les metaux partent de leur minimum
-        pct = list_min[:]
+        pct = list_min.copy()
  
         # Etape 2 : reperer les metaux libres (min < max), les fixes sont deja corrects
         indices_libres = [i for i in range(n) if list_min[i] < list_max[i]]
  
-        # Etape 3 : calculer le reliquat a distribuer sur les metaux libres
-        reliquat = 1.0 - sum(pct)
+        # Etape 3 : calculer le reste de pourcentage a distribuer sur les metaux libres
+        reste = 1 - sum(pct)
  
         for i in indices_libres:
             absorbable = list_max[i] - pct[i]   # marge disponible pour ce metal
-            ajout = min(reliquat, absorbable)
+            ajout = min(reste, absorbable)
             pct[i] += ajout
-            reliquat -= ajout
-            if reliquat <= 1e-9:                 # reliquat nul (tolerance flottant)
+            reste -= ajout
+            if reste <= 1e-9:                 # reste nul (tolerance flottant)
                 break
- 
-        assert reliquat <= 1e-9, \
-            f"Impossible de satisfaire le cahier des charges (reliquat = {reliquat})"
- 
         return pct
         
-    def mv_alliage(self,pct):
-        inverse_mv = sum(pct[i] / self._mv_metaux[i] for i in range(len(pct)))
-        return 1/ inverse_mv
-        """
-        Calcule la masse volumique d'un alliage (g/cm3) a partir des proportions en masse.
-        Formule physique exacte : 1/mv_alliage = sum(pct_i / mv_i)
-        :param pct: proportions en masse de chaque metal (liste, somme = 1)
-        :return: masse volumique de l'alliage (g/cm3)
-        """
+    def masse_volumique(self, pct, mv_metaux):
+        """masse volumique alliage."""
+        somme = 0
+        for i in range(len(pct)):
+            somme += pct[i] / mv_metaux[i]
+
+        return 1 / somme
         
-    def cout trivial(self, nb_toles):"""on achet metaux purs et pas de stock utilisé"""
-        pct=self.pct_triviaux()
-        volume_total_cm3 = nb_toles * self._x * self._y * self._client.get_z()
- 
-        # Masse totale de metal necessaire (g -> kg)
-        mv = self.mv_alliage(pct)
-        masse_totale_kg = volume_total_cm3 * mv / 1000.0
- 
-        # Repartition par metal et cout d'achat
-        kg_par_metal = [masse_totale_kg * pct[i] for i in range(len(pct))]
-        cout_achat = sum(kg_par_metal[i] * self._prix_metaux[i] for i in range(len(pct)))
- 
-        # Cout de fonte et laminage
-        cout_fonte = volume_total_cm3 * self._cout_cm3
- 
-        cout_total = cout_achat + cout_fonte
-        return cout_total, pct, kg_par_metal
+    def calcul_cout(self, nb_toles, mv_metaux, prix_metaux):
+        """coût total de production."""
+        pct = self.calcul_pourcentages()
+        # volume total
+        volume = nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()
+        # masse volumique
+        mv = self.masse_volumique(pct, mv_metaux)
+        # masse totale (kg)
+        masse = volume * mv / 1000
+        # coût des métaux
+        cout_metaux = 0
+        for i in range(len(pct)):
+            cout_metaux += masse * pct[i] * prix_metaux[i]
+        # coût fabrication
+        cout_fabrication = volume * self.cout_cm3
+        cout_total = cout_metaux + cout_fabrication
+        return cout_total
     
     
  
