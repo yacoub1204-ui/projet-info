@@ -4,9 +4,12 @@ class Plaque:
 
     def __init__(self, x: float, y: float, dict_p: dict[Polygone], prix_d: float,tole: list[str],qte_tole:list[(str,int)],rotation_plaque):""" tole et qte_tole pour savoir quelle figure on cree et quelle quantite de cette figure on produit car c des listes. Exemple: tole[i]=bateau et qte_tole[i]=(bateau,3)              rotation_plaque[i][j]=1car la j-eme plaque bateau(figure d'indice i) est tournee(car c 1, 0 si pas tournee) """
         self._x=x                                                                                                                                                                                                                                                                                                           """  rotation_plaque=[[0,1,0],[0,0,0,0,1,1,1,0]] la premiere liste represente les plaques bateaux tournees et la deuxieme les plaques dune autre figure tournee"""                                       
-        self.y=y
+        self._y=y
         self._prix_d = prix_d """euro/cm^2"""
         self._dict_p = dict_p
+        self._tole=tole
+        self._qte_tole=qte_tole
+        self._rotation_plaque = rotation_plaque
 
 
     def get_x(self):
@@ -21,28 +24,37 @@ class Plaque:
     def get_dict_p(self):
         return self._dict_p
 
+    def get_tole(self):
+        return self._tole
+
+    def get_qte_tole(self):
+        return self._qte_tole
+
+    def get_rotation_plaque(self):
+        return self._rotation_plaque
+
     def surface(self):
         return self._x*self._y
 
+    def rentre_dedans(self, tole_x, tole_y):
+        return self._x <=tole_x and self._y<= tole_y
+
 
     
-    def rotation_plaque(self):
-        for i in range(len(Figure.
+    def cout_decoupe(self):
+        return self._prix_d*self.surface
+        
 
-    def rotation(self,rotation_plaque):
-        for i in range (len(rotation_plaque[i])):
-            for j in range(len(rotation_plaque[i][j])):
-                if  rentre_dedans(self, tole_x,tole_y)==False:
-                    return Plaque(self._y,self._x,self._dict_p,self._prix_d,qte_tole:list[(str,int)],rotation_plaque[i][j]=1) 
-                else:
-                    return Plaque(self._y,self._x,self._dict_p,self._prix_d,qte_tole:list[(str,int)],rotation_plaque[i][j]=0) 
+    def ini_rotation_plaque(self):
+        ini_rotation=[]
+        for i in range(len(self._tole)):
+            nb_exemplaires = self._qte_tole[i][1]# qte_tole[i] = (nom de la figure, quantite)
+            ini_rotation.append([0] for j in range(nb_exemplaire))
+        return ini_rotation
         
 
 
 
-    def rentre_dedans(self, tole_x,tole_y):
-    """renvoie booléen"""
-        return self.x<=tole_x and self._y <= tole_y
 
 
     def cout_decoupe(self):
