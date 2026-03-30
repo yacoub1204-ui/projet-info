@@ -102,13 +102,14 @@ class Fonderie:
         nb_tole_final=len(self.tole)
         masse_metal_cree=[mv_metaux*pct[i]*nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()/1000 for i in range(len(list_min))
         masse_metal_stock_utilise=[ 0 for i in range(len(list_all_stock))]"""jsp si une variable repertoriant les alliages en stock existe"""
+        ligne_prod=[]
         rotation_plaque=0
         for i in range(len(nb_tole_final)):
         
             if rotation(plaque[i][1])=1: # parametres a refaire
                 rotation_plaque=1
         
-            ligne_i_prod= [i,tole[i],0,0,rotation_plaque] # memoire de rotation pour chaque plaque a faire dans plaque.py
+            ligne_prod[i]= [i,tole[i],0,0,rotation_plaque] # memoire de rotation pour chaque plaque a faire dans plaque.py
     
     
  
