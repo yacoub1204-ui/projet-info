@@ -14,6 +14,10 @@ class Fonderie:
     def get_tole(self):
         '''liste des toles produites'''
         return self._tole
+
+    def nb_tole(self): #nombre tole produites
+        nb_tole=len(tole)
+        return nb_tole
     
     def get_z(self):
         '''épaisseur demandée par le client (cm)'''
