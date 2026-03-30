@@ -75,5 +75,17 @@ class Plaque:
             return Plaque(self._x, self._y, self._dict_p, self._prix_d,
                           self._tole, self._qte_tole, nouvelle_rotation)
 
+    def masse_metaux(self, nb_toles, tole_x, tole_y, tole_z, alliage):
+        volume=nb_tole*tole._x*tole._y*tole.z"""cm^3"""
+        mv=alliage.get_mv()"""pas sur """#en g/cm^3
+        pct =alliage.get_list_pct()
+        masse=[]
+        for i in range(len(mv)):
+            masse_metal_i=volume*mv[i]*pct[i]/1000
+            masse;append(masse_metal_i)
+        return masse
+        
+        
+
     def cout_decoupe(self):
         return self._prix_d*self.surface()
