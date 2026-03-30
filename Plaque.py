@@ -55,7 +55,25 @@ class Plaque:
 
 
 
+    
+    def rentre_dedans(self, tole_x,tole_y):
+    """renvoie booléen"""
+        return self.x<=tole_x and self._y <= tole_y
 
+
+    def tourner_plaque(self, tole_x, tole_y):
+        """renvoi  plaque tournee ou pas"""
+        nouvelle_rotation = self.ini_rotation_plaque()
+        if self.rentre_dedans(tole_x, tole_y)==False:
+            """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
+            for i in range(len(nouvelle_rotation)):
+                for j in range(len(nouvelle_rotation[i])):
+                    nouvelle_rotation[i][j] = 1
+            return Plaque(self._y, self._x, self._dict_p, self._prix_d,
+                          self._tole, self._qte_tole, nouvelle_rotation)
+        else:
+            return Plaque(self._x, self._y, self._dict_p, self._prix_d,
+                          self._tole, self._qte_tole, nouvelle_rotation)
 
     def cout_decoupe(self):
         return self._prix_d*self.surface()
