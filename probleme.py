@@ -3,92 +3,128 @@ import Fonderie
 import Alliage
 import Tole
 import Fournisseur
-import Plaque
+import Plaques
 import Polygone
+import Point
+import Figure
 
-def read_file(file):
-    f= open(file, "r")
-    with f:
-        if file.find("_fonderie") >= 0:
-            r = f.readlines()
-            '''on crée les deux alliages possibles'''
-            i_pkg = r[2]
-            i_pkg.strip()
-            i_pkg.split()
+def read(instance, list_files):
+    for element in list_files:
+        f= open(element, "r")
+        with f:
 
-            i_mv = r[3]
-            i_mv.strip()
-            i_mv.split()
+            '''dictionnaire des figures à découper'''
+            figures = {}
 
-            i_pct1 = r[6]
-            i_pct1.strip()
-            i_pct1.split()
-            kg1 = i_pct1[:1]
-            i_pct1 = i_pct1[1:]
+            if element.find(f"{instance}_fonderie") >= 0:
+                r = f.readlines()
+                '''on crée les deux alliages possibles'''
+                i_pkg = r[2]
+                i_pkg.strip()
+                i_pkg.split()
 
-            i_pct2 = r[7]
-            i_pct2.strip()
-            i_pct2.split()
-            kg2 = i_pct2[:1]
-            i_pct2 = i_pct2[1:]
+                i_mv = r[3]
+                i_mv.strip()
+                i_mv.split()
 
-            all1 = Alliage.Alliage(i_mv, i_pkg, i_pct1)
-            all2 = Alliage.Alliage(i_mv, i_pkg, i_pct2)
+                i_pct1 = r[6]
+                i_pct1.strip()
+                i_pct1.split()
+                kg1 = i_pct1[:1]
+                i_pct1 = i_pct1[1:]
 
-            '''on crée les deux toles possibles'''
-            i_tole = r[0]
-            i_tole.strip()
-            i_tole.split()
-            tole1 = Tole.Tole(i_tole[0], i_tole[1], i_tole[2], all1)
-            tole2 = Tole.Tole(i_tole[0], i_tole[1], i_tole[2], all2)
+                i_pct2 = r[7]
+                i_pct2.strip()
+                i_pct2.split()
+                kg2 = i_pct2[:1]
+                i_pct2 = i_pct2[1:]
 
-            '''on crée le client'''
-            i_pmin = r[4]
-            i_pmin.strip()
-            i_pmin.split()
+                all1 = Alliage.Alliage(i_mv, i_pkg, i_pct1)
+                all2 = Alliage.Alliage(i_mv, i_pkg, i_pct2)
 
-            i_pmax = r[5]
-            i_pmax.strip()
-            i_pmax.split()
+                '''on crée les deux toles possibles'''
+                i_tole = r[0]
+                i_tole.strip()
+                i_tole.split()
+                tole1 = Tole.Tole(i_tole[0], i_tole[1], i_tole[2], all1)
+                tole2 = Tole.Tole(i_tole[0], i_tole[1], i_tole[2], all2)
 
-            client = Client.Client(i_pmax, i_pmin)
+                '''on crée le client'''
+                i_pmin = r[4]
+                i_pmin.strip()
+                i_pmin.split()
 
-            i_cout = r[1]
+                i_pmax = r[5]
+                i_pmax.strip()
+                i_pmax.split()
 
-            '''on crée la fonderie'''
-            list_tole = [tole1, tole2]
-            list_all = [all1, all2]
-            list_p = [kg1, kg2]
-            fonderie = Fonderie.Fonderie(list_tole, list_all, client, list_p, i_cout)
+                client = Client.Client(i_pmax, i_pmin)
 
+                i_cout = r[1]
 
-        elif file.find("_fournisseurs") >= 0:
-            r = f.readlines()
-            '''on crée un dictionnaire de fournisseurs'''
-            d_fournisseurs : dict[Fournisseur] = {}
-            for i in range(len(r)):
-                i_fi = r[i]
-                i_fi.strip()
-                i_fi.split()
-                d_fournisseurs[i_fi[0]] = Fournisseur.Fournisseur(i_fi[1], i_fi[2], i_fi[3])
+                '''on crée la fonderie'''
+                list_tole = [tole1, tole2]
+                list_all = [all1, all2]
+                list_p = [kg1, kg2]
+                fonderie = Fonderie.Fonderie(list_tole, list_all, client, list_p, i_cout)
 
-        elif file.find("_plaque") >= 0:
-            r = f.readlines()
-            i_prix = r[0]
-            i_prix.strip()
-            i_prix.split()
-            '''on crée le dictionnaire des figures à découper'''
-            d_plaques : dict[Polygones] = {}
-            for i in range(1,len(r)):
-                i_pi = r[i]
-                i_pi.strip()
-                i_pi.split()
-                d_plaques[i_pi[0]] = Polygone.Polygone(i_pi[1], i_pi[2], i_pi[3])
+            elif element.find(f"{instance}_fournisseurs") >= 0:
+                r = f.readlines()
+                '''on crée un dictionnaire de fournisseurs'''
+                d_fournisseurs : dict[Fournisseur] = {}
+                for i in range(len(r)):
+                    i_fi = r[i]
+                    i_fi.strip()
+                    i_fi.split()
+                    d_fournisseurs[i_fi[0]] = Fournisseur.Fournisseur(i_fi[1], i_fi[2], i_fi[3])
 
-            plaque = Plaque.Plaque(i_prix[0], d_plaques)
+            elif element.find(f"{instance}_") >= 0:
+                r = f.readlines()
 
-        else:
-            raise(ValueError)
+                '''on crée la figure représentée par le fichier'''
+
+                i_dim = r[0]
+                i_dim.strip()
+                i_dim.split()
+
+                list_pol : list[Polygone] = []
+                for i in range(1,len(r)):
+                    i_pol = r[i]
+                    i_pol.strip()
+                    i_pol.split("  ")
+                    list_p : list[Point] = []
+                    for j in range(len(i_pol)):
+                        i_pol[j].split()
+                        i_point = Point.Point(pol[j][0], pol[j][1])
+                        list_p.append(i_point)
+                    list_pol.append(list_p)
+
+                nom_element = element
+                nom_element.strip()
+                nom_element.split("_")
+                nom_element[1].split(".")
+                figures[f"{nom_element[1][0]}"] = Figure.Figure(i_dim[0], i_dim[1], list_pol)
+
+            elif element.find(f"{instance}_plaques") >= 0:
+
+                '''on crée la liste des figures à découper sur les plaques'''
+                r = f.readlines()
+                i_prix = r[0]
+                i_prix.strip()
+                i_prix.split()
+                '''on crée la liste des figures à découper'''
+                l_fig : list[Figures] = []
+                for i in range(1,len(r)):
+                    i_pi = r[i]
+                    i_pi.strip()
+                    i_pi.split()
+                    for j in range(i_pi[1]):
+                        l_fig.append(f"{i_pi[0]}")
+
+                plaques = Plaques.Plaques(i_prix[0], l_fig)
+                
+            else:
+                raise(ValueError)
 
 
 """
@@ -107,7 +143,8 @@ def resoudre(inst: str):
     :return: rien
     """
     debut: float = time.time()
-    # TODO
+    with open(f"{inst}_sol.txt", "w"):
+        f{}
     duree: float = time.time() - debut
     print(f"Durée d'execution : {round(100 * duree) / 100} secondes")
 
