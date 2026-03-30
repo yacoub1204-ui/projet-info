@@ -1,0 +1,5 @@
+def solution trivial (plaque):
+  solution=[]
+  for polygone in figure :
+    solution.append(polygone[0]) 
+  return solution
