@@ -113,7 +113,8 @@ class Fonderie:
         trajet_figure=[]
         for i in range(len(Plaque.rotation_plaque())):
             trajet_figure[i]=[Plaque.tole[i](),trajet point par point entre les polynomes]"""trajet ycoub recupere"""
-        return [cout_prod,fournisseur,nb_tole_finale,masse_metal_cree,masse_metal_stock_utilise,ligne_prod,trajet_figure[i] for i in range (len(Plaque.rotation_plaque()))]
+        a=[cout_prod,fournisseur,nb_tole_finale,masse_metal_cree,masse_metal_stock_utilise,ligne_prod,trajet_figure[i] for i in range (len(Plaque.rotation_plaque()))]
+        return a
          
  
         
