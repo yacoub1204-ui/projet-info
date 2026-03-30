@@ -12,7 +12,7 @@ class Polygone:
         distance_minimale = self._points[0].distance_point_droite(A, B )
         
         for point in self._points[1:]:                 
-            d = distance_point_droite(A, B, point)
+            d = point.distance_point_droite(A, B)
             if d < distance_minimale:
                 distance_minimale = d
                 point_le_plus_proche = point
