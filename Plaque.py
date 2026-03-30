@@ -26,7 +26,8 @@ class Plaque:
 
 
     def rotation(self):
-        return Plaque(self._y,self._x,self._dict_p,self._prix_d)
+        rotation_plaque=0
+        return Plaque(self._y,self._x,self._dict_p,self._prix_d) rotation_plaque=1
 
 
 
