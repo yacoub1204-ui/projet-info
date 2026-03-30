@@ -1,0 +1,18 @@
+import math
+from typing import List, Tuple, Union
+
+import random
+
+def solution1(data):
+    plaque = data.copy()
+    solution=[]
+    for _ in range(len(data)):
+        indice_plaque=random.randint(0,len(plaque)-1)
+        polygone=plaque[ indice_plaque]
+        pointd=random.randint(0,len(polygone))
+        polygone_reordonne = polygone[pointd:] + polygone[:pointd]
+        solution.append(polygone_reordonne)
+        plaque.remove(polygone)
+    return solution
+
+
