@@ -15,9 +15,9 @@ class Fonderie:
         '''liste des toles produites'''
         return self._tole
 
-    def nb_tole(self): #nombre tole produites
+"""    def nb_tole(self): #nombre tole produites
         nb_tole=len(tole)
-        return nb_tole
+        return nb_tole    """
     
     def get_z(self):
         '''épaisseur demandée par le client (cm)'''
@@ -96,11 +96,19 @@ class Fonderie:
 
 
     def solution_fonderie(self):
-        cout_prod=sum(calcul_cout(self, nb_toles, mv_metaux, prix_metaux) for i in range(len())
+        cout_prod=sum(calcul_cout(self, nb_tole, mv_metaux, prix_metaux) for i in range(len(figures)) """figures c le dictionnaire repertorant les differentes figures a produire"""
+        """nb_tole est le nombre de tole (donc de plaque) a produire pour solution triviale. Il faut un nb_tole par type de figure"""
         fournisseur=0 #fonderie
-        nb_tole=len(list_min]
-        masse_metal=[mv_metaux*pct[i]*nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()/1000 for i in range(len(list_min))
-       
+        nb_tole_final=len(self.tole)
+        masse_metal_cree=[mv_metaux*pct[i]*nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()/1000 for i in range(len(list_min))
+        masse_metal_stock_utilise=[ 0 for i in range(len(list_all_stock))]"""jsp si une variable repertoriant les alliages en stock existe"""
+        rotation_plaque=0
+        for i in range(len(nb_tole_final)):
+        
+            if rotation(plaque[i][1])=1: # parametres a refaire
+                rotation_plaque=1
+        
+            ligne_i_prod= [i,tole[i],0,0,rotation_plaque] # memoire de rotation pour chaque plaque a faire dans plaque.py
     
     
  
