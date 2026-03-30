@@ -100,8 +100,15 @@ class Plaque:
             masse;append(masse_metal_i)
         return masse
         
-        
+    def cout_production_tole(self, nb_toles, tole_x, tole_y, tole_z, alliage, cout_fonte):
+        cout_decoupe=self._prix_d*self.surface()
+        volume=tole._x*tole._y*tole.z"""pour une tole cm^3"""
+        cout_matiere_par_tole=alliage.prix_cm3()*volume
+ 
+        cout_fonte_par_tole = cout_fonte*volume_tole
+        cout_total= nb_toles*(cout_decoupe +cout_matiere_par_tole + cout_fonte_par_tole)
+ 
+        return cout_total
 
-    def cout_decoupe(self):
-        return self._prix_d*self.surface()
+   
 
