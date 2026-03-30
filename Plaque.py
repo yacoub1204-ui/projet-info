@@ -25,6 +25,10 @@ class Plaque:
         return self._x*self._y
 
 
+    
+    def rotation_plaque(self):
+        for i in range(len(Figure.
+
     def rotation(self,rotation_plaque):
         for i in range (len(rotation_plaque[i])):
             for j in range(len(rotation_plaque[i][j])):
