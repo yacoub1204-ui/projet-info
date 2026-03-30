@@ -87,6 +87,16 @@ class Fonderie:
         cout_fabrication = volume * self.cout_cm3
         cout_total = cout_metaux + cout_fabrication
         return cout_total
+
+
+
+
+    def solution_fonderie(self):
+        cout_prod=sum(calcul_cout(self, nb_toles, mv_metaux, prix_metaux) for i in range(len())
+        fournisseur=0 #fonderie
+        nb_tole=len(list_min]
+        masse_metal=[mv_metaux*pct[i]*nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()/1000 for i in range(len(list_min))
+       
     
     
  
