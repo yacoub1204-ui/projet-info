@@ -30,9 +30,9 @@ class Plaque:
 
 
 
-    def rentre_dedans(self, tole_x,tole_y)
+    def rentre_dedans(self, tole_x,tole_y):
     """renvoie booléen"""
-    return self.x<=tole_x and self._y <= tole_y
+        return self.x<=tole_x and self._y <= tole_y
 
 
     def cout_decoupe(self):
