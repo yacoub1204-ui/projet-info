@@ -11,3 +11,5 @@ class Client:
     def get_list_min(self):
         '''pourcentages min de chaque matériau'''
         return self._list_min
+
+    
