@@ -21,3 +21,15 @@ class Point:
     
     def distance_point_droite(self, A : Point, B : Point): 
         return abs((B.get_x() - A.get_x()) * (A.get_y() - self._y) - (A.get_x() - self._x) * (B.get_y() - A.get_y())) / A.distance(B)
+    def point_proche_liste(self, points):
+         if not points:
+            return None
+    point_le_plus_proche = points[0]
+    distance_minimale = self.distance(points[0])
+    for point in points[1:]:
+        dist = self.distance(point)
+        if dist < distance_minimale:
+            distance_minimale = dist
+            point_le_plus_proche = point
+    
+    return point_le_plus_proche
