@@ -24,7 +24,7 @@ class Fonderie:
         return self._client.get_z()
     
     def get_cout(self):
-        '''cout engendré par la fonte du métal et le laminage (€/cm^3)'''
+        '''cout engendré par la fonte du métal et le laminage (euro/cm^3)'''
         return self._cout
     
     def get_list_kg(self):
