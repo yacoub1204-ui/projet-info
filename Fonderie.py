@@ -58,7 +58,7 @@ class Fonderie:
             ajout = min(reste, absorbable)
             pct[i] += ajout
             reste -= ajout
-            if reste <= 1e-9:                 # reste nul (tolerance flottant)
+            if reste <= 1e-9:                 # reste nul (petie tolerance)
                 break
         return pct
         
