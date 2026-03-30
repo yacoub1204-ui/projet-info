@@ -96,10 +96,10 @@ class Fonderie:
 
 
     def solution_fonderie(self):
-        cout_prod=sum(calcul_cout(self, nb_tole, mv_metaux, prix_metaux) for i in range(len(figures)) """figures c le dictionnaire repertorant les differentes figures a produire"""
-        """nb_tole est le nombre de tole (donc de plaque) a produire pour solution triviale. Il faut un nb_tole par type de figure"""
+        cout_prod=sum(calcul_cout(self, len(Plaque.rotation_plaque[i], mv_metaux, prix_metaux) for i in range(len(Plaque.rotation_plaque))
+        #len(Plaque.rotation_plaque[i] est le nombre de tole (donc de plaque) a produire pour solution triviale. Il faut un len(Plaque.rotation_plaque[i] par type de figure"""
         fournisseur=0 #fonderie
-        nb_tole_final=len(self.tole)
+        nb_tole_final=len(rotation_plaque[i]for i in range(len(rotation_plaque))
         masse_metal_cree=[mv_metaux*pct[i]*nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()/1000 for i in range(len(list_min))
         masse_metal_stock_utilise=[ 0 for i in range(len(list_all_stock))]"""jsp si une variable repertoriant les alliages en stock existe"""
         ligne_prod=[]
@@ -113,7 +113,8 @@ class Fonderie:
         trajet_figure=[]
         for i in range(len(Plaque.rotation_plaque())):
             trajet_figure[i]=[Plaque.tole[i](),trajet point par point entre les polynomes]"""trajet ycoub recupere"""
-    
+        return [cout_prod,fournisseur,nb_tole_finale,masse_metal_cree,masse_metal_stock_utilise,ligne_prod,trajet_figure[i] for i in range (len(Plaque.rotation_plaque()))]
+         
  
         
     
