@@ -2,7 +2,7 @@ import Polygone
 
 class Plaque:
 
-    def __init__(self, x: float, y: float, dict_p: dict[Polygone], prix_d: float):
+    def __init__(self, x: float, y: float, dict_p: dict[Polygone], prix_d: float,tole: list[str],qte_tole:list[(str,int)],rotation_plaque):""" tole et qte_tole pour savoir quelle figure on cree et quelle quantite de cette figure on produit car c des listes. Exemple: tole[i]=bateau et qte_tole[i]=(bateau,3)              rotation_plaque[i][j]=1car la j-eme plaque bateau est tournee(car est 1) """
         self._x=x
         self.y=y
         self._prix_d = prix_d """euro/cm^2"""
@@ -25,9 +25,14 @@ class Plaque:
         return self._x*self._y
 
 
-    def rotation(self):
-        rotation_plaque=0
-        return Plaque(self._y,self._x,self._dict_p,self._prix_d) rotation_plaque=1
+    def rotation(self,rotation_plaque):
+        for i in range (len(rotation_plaque[i])):
+            for j in range(len(rotation_plaque[i][j])):
+                if  rentre_dedans(self, tole_x,tole_y)==False:
+                    return Plaque(self._y,self._x,self._dict_p,self._prix_d,qte_tole:list[(str,int)],rotation_plaque[i][j]=1) 
+                else:
+                    return Plaque(self._y,self._x,self._dict_p,self._prix_d,qte_tole:list[(str,int)],rotation_plaque[i][j]=0) 
+        
 
 
 
