@@ -3,13 +3,13 @@ def diagonalmax(figure):
     pointsolus = []
     solution = []
     for polygone in plaque:
-        pointsolus.append(point_plus_proche_droite((0, 0), figure.point_plus_loin(), polygone))
+        pointsolus.append(polygone.point_plus_proche_droite((0, 0), figure.point_plus_loin()))
 
-    pointactuel = (0, 0)
+    pointactuel = Point(0, 0)
 
     while pointsolus:  
         solution.append(pointactuel)
-        pointactuel = pointprocheliste(pointsolus, pointactuel)
-        remove.pointsolus(pointactuel)
+        pointactuel = pointactuel.point_proche_liste(pointsolus)
+        pointsolus.remove(pointactuel)
 
     return solution
