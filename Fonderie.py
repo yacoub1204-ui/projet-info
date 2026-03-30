@@ -31,8 +31,64 @@ class Fonderie:
         '''liste des alliages possibles'''
         return self._list_all
     
-    def creer_taule(self, t : int):
-        '''permet de créer une taule venant de la fonderie'''
-        tole = self._tole[t]
-        cout = self._client.get_x * self._client.get_y * self._client.get_z * (self._client.prix_cm3 + self._cout)
-        self._list_kg[t] -= 
+    #def creer_taule(self, t : int):
+     #   '''permet de créer une taule venant de la fonderie'''
+      #  tole = self._tole[t]
+       # cout = tole.get_x() * tole.get_y() * self._client.get_z() * (tole.get_all().prix_cm3() + self._cout)
+        #self._list_kg[t] -= 
+
+    def pct_triviaux(self) -> list[float]:
+        """1.  metaux avec min = max  prioritare
+            2. Tous les autres metaux partent de leur minimum.
+            3. pour  la condition " somme pct metaux =1" il faut distribuer le reste des pct sur les metaux libres (min < max),
+                en remplissant chacun jusqu'a son maximum jusqu'a somme pct metal egale a 1."""
+        list_min = self._client.get_list_min()
+        list_max = self._client.get_list_max()
+        n = len(list_min)
+
+        # Etape 1 : tous les metaux partent de leur minimum
+        pct = list_min.copy()
+
+        # Etape 2 : reperer les metaux libres (min < max), les fixes sont deja corrects
+        indices_libres = [i for i in range(n) if list_min[i] < list_max[i]]
+
+        # Etape 3 : calculer le reste de pourcentage a distribuer sur les metaux libres
+        reste = 1 - sum(pct)
+    
+        for i in indices_libres:
+            absorbable = list_max[i] - pct[i]   # marge disponible pour ce metal
+            ajout = min(reste, absorbable)
+            pct[i] += ajout
+            reste -= ajout
+            if reste <= 1e-9:                 # reste nul (petie tolerance)
+                break
+        return pct
+
+    def masse_volumique(self, pct, mv_metaux):
+            """masse volumique alliage."""
+            somme = 0
+            for i in range(len(pct)):
+                somme += pct[i] / mv_metaux[i]
+
+            return 1 / somme
+    
+    def calcul_cout(self, nb_toles, mv_metaux, prix_metaux):
+        """coût total de production."""
+        pct = self.calcul_pourcentages()
+        # volume total
+        volume = nb_toles * self.client.get_x() * self.client.get_y() * self.client.get_z()
+        # masse volumique
+        mv = self.masse_volumique(pct, mv_metaux)
+        # masse totale (kg)
+        masse = volume * mv / 1000
+        # coût des métaux
+        cout_metaux = 0
+        for i in range(len(pct)):
+            cout_metaux += masse * pct[i] * prix_metaux[i]
+        # coût fabrication
+        cout_fabrication = volume * self.cout_cm3
+        cout_total = cout_metaux + cout_fabrication
+        return cout_total
+    
+    def fond_tr(self):
+        
