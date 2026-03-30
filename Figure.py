@@ -19,6 +19,12 @@ class Figure:
     def surface(self):
         return self._x * self._y
     
+    def tourner(self) -> None :
+        for poly in self._list_p :
+            for point in poly.get_points() :
+                point.get_x() - self._x ; point.get_y() - self._y = point.get_y() - self._y ; point.get_x() - self._x
+        self._x ; self._y = self._y ; self._x
+    
     def decoupe_fig_tr(self):
         solution=[]
         for element in self._list_f() :
