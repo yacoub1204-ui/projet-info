@@ -30,3 +30,18 @@ class Figure:
         for element in self._list_f() :
             solution.append(element[0])
         return solution
+
+    def point_plus_loin(self):
+        point_max = None
+        distance_max = 0
+    
+        origine = Point(0, 0)
+    
+        for polygone in self.list_p :
+            for point in polygone.get_points():
+                d = point.distance( origine)
+                if d > distance_max:
+                    distance_max = d
+                    point_max = point
+                
+        return point_max
