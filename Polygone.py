@@ -7,9 +7,9 @@ class Polygone:
     def get_points(self):
         return self._points
         
-      def point_plus_proche_droite(self, A, B):
+    def point_plus_proche_droite(self, A, B):
         point_le_plus_proche = self._points[0]        
-        distance_minimale = distance_point_droite(A, B, self._points[0])
+        distance_minimale = self._points[0].distance_point_droite(A, B )
         
         for point in self._points[1:]:                 
             d = distance_point_droite(A, B, point)
