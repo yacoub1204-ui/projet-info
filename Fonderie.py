@@ -107,8 +107,12 @@ class Fonderie:
         numero=0 #numero de la tole utilisee
         for i in range(len(Plaque.rotation_plaque())):
             for j in range(len(Plaque.rotation_plaque[i]())):
-                ligne_prod[i][j]= [numero,tole[i],0,0,Plaque.rotation_plaque[i][j] # memoire de rotation pour chaque plaque 
+                ligne_prod[i][j]= [numero,Plaque.tole[i],0,0,Plaque.rotation_plaque[i][j] # memoire de rotation pour chaque plaque 
                 numero+=1
+
+        trajet_figure=[]
+        for i in range(len(Plaque.rotation_plaque())):
+            trajet_figure[i]=[Plaque.tole[i](),trajet point par point entre les polynomes]"""trajet ycoub recupere"""
     
  
         
