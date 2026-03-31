@@ -7,7 +7,12 @@ def solutiondecoupedecoupetr(tole, figure):
     placement = []
     n_tole = 0
     
-    for nom, dim_x, dim_y,n in figure:
+    for terme in figure:
+#if terme == True: return dit_les_termes
+        nom=terme[0] 
+        dim_x=terme[1]
+        dim_y=terme[2]
+        n=terme[3]
         for _ in range(n):
            
             if dim_x < dim_y:
