@@ -64,7 +64,7 @@ def solution1(self):
     for i in range(nb_toles):
         for j in range(qte_tole):
             
-            ligne_sol_1.append(j,qte_tole[i],0,0,rotation_plaque[i][j])
+            ligne_sol_1.append(j,qte_tole[i],0,0,Plaques.rotation_plaque[i][j]())
     return cout_total,masse_metal_toltale,fournisseur,masse_alliage,ligne_sol_1
     
     
