@@ -51,9 +51,9 @@ def read(instance):
                 '''on crée la liste des toles en stock'''
                 liste_tole = []
                 ligne = r[0].strip().split()
-                x = ligne[0]
-                y = ligne[1]
-                z = ligne[2]
+                x = float(ligne[0])
+                y = float(ligne[1])
+                z = float(ligne[2])
 
                 for alliage in liste_stock :
                     liste_tole.append(Tole.Tole(x, y, z, alliage))
@@ -64,7 +64,7 @@ def read(instance):
 
                 client = Client.Client(pct_max, pct_min)
 
-                cout = r[1]
+                cout = float(r[1])
 
                 '''on crée la fonderie'''
                 data_dict["fonderie"] = Fonderie.Fonderie(liste_tole, liste_stock, client, liste_prix, cout)
@@ -92,7 +92,7 @@ def read(instance):
                     ligne = r[i].strip().split()
                     if len(ligne) >= 2:
                         figure = ligne[0]
-                        nombre = ligne[1]
+                        nombre = float(ligne[1])
 
                     for j in range(int(nombre)):
                         liste_figures.append(f"{figure}")
@@ -110,8 +110,8 @@ def read(instance):
 
                         e = l.readlines()
                         dimensions = e[0].strip().split()
-                        x = dimensions[0]
-                        y = dimensions[1]
+                        x = float(dimensions[0])
+                        y = float(dimensions[1])
 
                         liste_polygones = []
                         for i in range(1,len(e)):
