@@ -19,8 +19,8 @@ def solution1(data):
 
 
 
-def masse_metaux(Plaques, tole : Tole, alliage):
-    volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(Plaques.get_list_f()))"""cm^3"""
+def masse_metaux(plaques, tole : Tole, alliage):
+    volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(plaques.get_list_f()))"""cm^3"""
     mv=alliage.get_mv()"""pas sur """#en g/cm^3
     pct =alliage.get_list_pct()
     masse=[]
@@ -29,8 +29,8 @@ def masse_metaux(Plaques, tole : Tole, alliage):
         masse.append(masse_metal_i)
     return masse
         
-def cout_production_tole(Plaques, tole, alliage, cout_fonte):
-    cout_decoupe=Plaques.get_prix_d()*Plaques.get_surface()
+def cout_production_tole(plaques, tole, alliage, cout_fonte):
+    cout_decoupe=plaques.get_prix_d()*plaques.get_surface()
     volume=tole.get_x()*tole.get_y()*tole.get_z()"""pour une tole cm^3"""
     cout_matiere_par_tole=alliage.get_prix_cm3()*volume
     cout_fonte_par_tole = cout_fonte*volume
@@ -39,10 +39,10 @@ def cout_production_tole(Plaques, tole, alliage, cout_fonte):
     return cout_total
 
     
-def tourner_plaque(Plaques, tole):
+def tourner_plaque(plaques, tole):
     """renvoi  plaque tournee ou pas"""
-    nouvelle_rotation = Plaques.get_ini_rotation_plaque()
-    for i in range(len(Plaques.get_list_f())):
+    nouvelle_rotation = plaques.get_ini_rotation_plaque()
+    for i in range(len(plaques.get_list_f())):
         if Plaques.get_rentre_dedans(tole.get_x(), tole.get_y())==False:
         """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
         
@@ -54,16 +54,16 @@ def tourner_plaque(Plaques, tole):
 
 
 
-def solution1(Plaques,tole, alliage, cout_fonte):
-    cout_total=cout_production_tole(Plaques, tole, alliage, cout_fonte)
-    masse_metal_toltale=masse_metaux(Plaques, tole, alliage)
+def solution1(plaques,tole, alliage, cout_fonte):
+    cout_total=cout_production_tole(plaques, tole, alliage, cout_fonte)
+    masse_metal_toltale=masse_metaux(plaques, tole, alliage)
     fournisseur=0
     masse_alliage=0
     ligne_sol_1=[]
     qte_tole=[]
     
-    for i in range(len(list_f)):
-        ligne_sol_1.append(i,Plaques.get_list_f[i](),0,0,Plaques.get_rotation_plaque[i]())
+    for i in range(len(plaques.get_list_f)):
+        ligne_sol_1.append(i,Plaques.get_list_f[i](),0,0,plaques.get_rotation_plaque[i]())
     solution_1=cout_total,masse_metal_toltale,fournisseur,masse_alliage,ligne_sol_1
     return solution_1
     
