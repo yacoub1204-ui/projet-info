@@ -15,11 +15,6 @@ class Plaques:
         """renvoie la liste contenant toutes les figures à découper dans chaque plaque"""
         return self._list_f
 
-    def get_tole(self):
-        return self._tole
-
-    def get_qte_tole(self):
-        return self._qte_tole
 
     def get_rotation_plaque(self):
         return self._rotation_plaque
