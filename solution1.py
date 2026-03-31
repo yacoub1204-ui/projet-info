@@ -24,7 +24,7 @@ def masse_metaux(Plaques, tole : Tole, alliage):
     mv=alliage.get_mv()"""pas sur """#en g/cm^3
     pct =alliage.get_list_pct()
     masse=[]
-    for i in range(len(mv)):
+    for i in range(len(list_f)):
         masse_metal_i=volume*mv[i]*pct[i]/1000
         masse.append(masse_metal_i)
     return masse
@@ -42,7 +42,7 @@ def cout_production_tole(Plaques, tole, alliage, cout_fonte):
 def tourner_plaque(Plaques, tole):
     """renvoi  plaque tournee ou pas"""
     nouvelle_rotation = Plaques.ini_rotation_plaque()
-    for i in range(len(nouvelle_rotation)):
+    for i in range(len(list_f)):
         if Plaques.rentre_dedans(tole.get_x, tole.get_y)==False:
         """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
         
@@ -54,7 +54,7 @@ def tourner_plaque(Plaques, tole):
 
 
 
-def solution1(Plaques):
+def solution1(Plaques,tole, alliage, cout_fonte):
     cout_total=cout_production_tole(Plaques, tole, alliage, cout_fonte)
     masse_metal_toltale=masse_metaux(Plaques, tole, alliage)
     fournisseur=0
