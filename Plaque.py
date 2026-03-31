@@ -57,23 +57,16 @@ class Plaque:
 
     
     def cout_decoupe(self):
-        return self._prix_d*self.surface
+        return self._prix_d*self.surface()
         
 
     def ini_rotation_plaque(self):
         ini_rotation=[]
         for i in range(len(self._tole)):
             nb_exemplaires = self._qte_tole[i][1]# qte_tole[i] = (nom de la figure, quantite)
-            ini_rotation.append([0] for j in range(nb_exemplaire))
+            ini_rotation.append([0 for j in range(nb_exemplaire)])
         return ini_rotation
         
-
-
-
-    
-    def rentre_dedans(self, tole_x,tole_y):
-    """renvoie booléen"""
-        return self.x<=tole_x and self._y <= tole_y
 
 
     def tourner_plaque(self, tole_x, tole_y):
@@ -91,21 +84,21 @@ class Plaque:
                           self._tole, self._qte_tole, nouvelle_rotation)
 
     def masse_metaux(self, nb_toles, tole_x, tole_y, tole_z, alliage):
-        volume=nb_tole*tole._x*tole._y*tole.z"""cm^3"""
+        volume=nb_toles*tole._x*tole._y*tole.z"""cm^3"""
         mv=alliage.get_mv()"""pas sur """#en g/cm^3
         pct =alliage.get_list_pct()
         masse=[]
         for i in range(len(mv)):
             masse_metal_i=volume*mv[i]*pct[i]/1000
-            masse;append(masse_metal_i)
+            masse.append(masse_metal_i)
         return masse
         
     def cout_production_tole(self, nb_toles, tole_x, tole_y, tole_z, alliage, cout_fonte):
         cout_decoupe=self._prix_d*self.surface()
-        volume=tole._x*tole._y*tole.z"""pour une tole cm^3"""
+        volume=tole._x*tole._y*tole._z"""pour une tole cm^3"""
         cout_matiere_par_tole=alliage.prix_cm3()*volume
  
-        cout_fonte_par_tole = cout_fonte*volume_tole
+        cout_fonte_par_tole = cout_fonte*volume
         cout_total= nb_toles*(cout_decoupe +cout_matiere_par_tole + cout_fonte_par_tole)
  
         return cout_total
