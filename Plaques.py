@@ -1,5 +1,6 @@
 import Polygone
-
+import Tole
+import Figure
 class Plaques:
 
     def __init__(self, prix_d : float, list_f : list[Figures], rotation_plaque):
@@ -24,14 +25,13 @@ class Plaques:
 
 
     def cout_decoupe(self):
-        return self._prix_d*self.surface
+        return self._prix_d*surface(self)
         
 
     def ini_rotation_plaque(self):
         ini_rotation=[]
-        for i in range(len(self._tole)):
-            nb_exemplaires = self._qte_tole[i][1]# qte_tole[i] = (nom de la figure, quantite)
-            ini_rotation.append([0] for j in range(nb_exemplaire))
+        
+        ini_rotation.append([0 for j in range(len(list_f))])
         return ini_rotation
     
 
@@ -43,22 +43,22 @@ class Plaques:
     def tourner_plaque(self, tole.get_x(), tole.get_y()):
         """renvoi  plaque tournee ou pas"""
         nouvelle_rotation = self.ini_rotation_plaque()
-        for i in range(len(list_f)):
+        for i in range(len(self._list_f)):
             if rentre_dedans(tole.get_x(), tole.get_y())==False:
             """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
                         
-                    nouvelle_rotation[i] = 1
+                nouvelle_rotation[i] = 1
                 return Plaque(self, self._dict_p, self._prix_d,self._list_f, nouvelle_rotation)
             else:
                 return Plaque(self, self._dict_p, self._prix_d,self._list_f, nouvelle_rotation)
 
 
     def masse_metaux(plaques, tole : Tole, alliage):
-        volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(plaques.get_list_f()))"""cm^3"""
+        volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(self._list_f()))"""cm^3"""
         mv=alliage.get_mv()"""pas sur """#en g/cm^3
         pct =alliage.get_list_pct()
         masse=[]
-        for i in range(len(get_list_f(self))):
+        for i in range(len(self._list_f(self))):
             masse_metal_i=volume*mv[i]*pct[i]/1000
             masse.append(masse_metal_i)
         return masse
