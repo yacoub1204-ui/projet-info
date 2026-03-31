@@ -63,7 +63,7 @@ def solution1(Plaques,tole, alliage, cout_fonte):
     qte_tole=[]
     
     for i in range(len(list_f)):
-        ligne_sol_1.append(j,Plaques.get_list_f[i],0,0,Plaques.get_rotation_plaque[i]())
+        ligne_sol_1.append(j,Plaques.get_list_f[i](),0,0,Plaques.get_rotation_plaque[i]())
     solution_1=cout_total,masse_metal_toltale,fournisseur,masse_alliage,ligne_sol_1
     return solution_1
     
