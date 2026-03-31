@@ -19,11 +19,8 @@ class Plaques:
     def get_rotation_plaque(self):
         return self._rotation_plaque
 
-    def surface(self):
-        return self._x*self._y
-
-    def rentre_dedans(self, tole_x, tole_y):
-        return self._x <=tole_x and self._y<= tole_y
+    def surface(self,figure.get_x(),figure.get_y()):
+        return figure.get_x()*figure.get_y()
 
 
     def cout_decoupe(self):
@@ -38,16 +35,16 @@ class Plaques:
         return ini_rotation
     
 
-    def rentre_dedans(self, tole.get_x(), tole.get_y()):
+    def rentre_dedans(self, tole.get_x(), tole.get_y(),figure.get_x(),figure.get_y()):
         """renvoie booléen"""
-        return self.x<=tole.get_x() and self._y <= tole.get_y()
+        return figure.get_x()<=tole.get_x() and figure.get_y() <= tole.get_y()
 
 
     def tourner_plaque(self, tole.get_x(), tole.get_y()):
         """renvoi  plaque tournee ou pas"""
         nouvelle_rotation = self.ini_rotation_plaque()
         for i in range(len(list_f)):
-            if self.rentre_dedans(tole.get_x(), tole.get_y())==False:
+            if rentre_dedans(tole.get_x(), tole.get_y())==False:
             """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
                         
                     nouvelle_rotation[i] = 1
@@ -61,7 +58,7 @@ class Plaques:
         mv=alliage.get_mv()"""pas sur """#en g/cm^3
         pct =alliage.get_list_pct()
         masse=[]
-        for i in range(len(plaques.get_list_f())):
+        for i in range(len(get_list_f(self))):
             masse_metal_i=volume*mv[i]*pct[i]/1000
             masse.append(masse_metal_i)
         return masse
@@ -70,7 +67,7 @@ class Plaques:
 
 
     def cout_production_tole(plaques, tole, alliage, cout_fonte):
-        cout_decoupe=plaques.get_prix_d()*surface(self)
+        cout_decoupe=get_prix_d(self)*surface(self)
         volume=tole.get_x()*tole.get_y()*tole.get_z()"""pour une tole cm^3"""
         cout_matiere_par_tole=alliage.get_prix_cm3()*volume
         cout_fonte_par_tole = cout_fonte*volume
