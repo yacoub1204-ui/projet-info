@@ -8,7 +8,7 @@ def def_plaque(plaques, figures, Toles):
 """ a la fin j'aurai plaque=[("bateau",x=6,y=12),("etoile",x=9,y=3)]"""
     plaque=[]
     for i in range(len(plaques.get_list_f())):
-        plaque.append(plaques.get_list_f()[i],figure.get_x(),figure.get_y())
+        plaque.append((plaques.get_list_f()[i],figure.get_x(),figure.get_y()))
     return plaque
 #plaque.get_list_f()[i].get_x()=x de la figure d'indice i
 
