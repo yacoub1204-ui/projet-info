@@ -61,10 +61,10 @@ def solution1(self):
     fournisseur=0
     masse_alliage=0
     ligne_sol_1=[]
-    for i in range(nb_toles):
-        for j in range(qte_tole):
-            
-            ligne_sol_1.append(j,qte_tole[i],0,0,Plaques.rotation_plaque[i][j]())
+    qte_tole=[]
+    
+    for i in range(len(list_f):
+        ligne_sol_1.append(j,list_f[i],0,0,Plaques.rotation_plaque[i]())
     return cout_total,masse_metal_toltale,fournisseur,masse_alliage,ligne_sol_1
     
     
