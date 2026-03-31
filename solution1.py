@@ -39,19 +39,18 @@ def cout_production_tole(self, nb_toles, tole_x, tole_y, tole_z, alliage, cout_f
     return cout_total
 
     
-    def tourner_plaque(self, tole_x, tole_y):
-        """renvoi  plaque tournee ou pas"""
-        nouvelle_rotation = self.ini_rotation_plaque()
+def tourner_plaque(self, tole_x, tole_y):
+    """renvoi  plaque tournee ou pas"""
+    nouvelle_rotation = self.ini_rotation_plaque()
+    for i in range(len(nouvelle_rotation)):
         if self.rentre_dedans(tole_x, tole_y)==False:
-            """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
-            for i in range(len(nouvelle_rotation)):
-                for j in range(len(nouvelle_rotation[i])):
-                    nouvelle_rotation[i][j] = 1
-            return Plaque(self._y, self._x, self._dict_p, self._prix_d,
-                          self._tole, self._qte_tole, nouvelle_rotation)
+        """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
+        
+            
+            nouvelle_rotation[i] = 1
+            return Plaque(self._y, self._x, self._dict_p, self._prix_d,self._tole, self._qte_tole, nouvelle_rotation)
         else:
-            return Plaque(self._x, self._y, self._dict_p, self._prix_d,
-                          self._tole, self._qte_tole, nouvelle_rotation)
+            return Plaque(self._x, self._y, self._dict_p, self._prix_d,self._tole, self._qte_tole, nouvelle_rotation)
 
 
 
