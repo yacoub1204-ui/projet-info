@@ -58,19 +58,27 @@ class Plaques:
                           self._tole, self._qte_tole, nouvelle_rotation)
 
 
-    def masse_metaux(self, nb_toles, tole_x, tole_y, tole_z, alliage):
-        volume=nb_tole*tole._x*tole._y*tole.z"""cm^3"""
+    def masse_metaux(plaques, tole : Tole, alliage):
+        volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(plaques.get_list_f()))"""cm^3"""
         mv=alliage.get_mv()"""pas sur """#en g/cm^3
         pct =alliage.get_list_pct()
         masse=[]
-        for i in range(len(mv)):
+        for i in range(len(plaques.get_list_f())):
             masse_metal_i=volume*mv[i]*pct[i]/1000
-            masse;append(masse_metal_i)
+            masse.append(masse_metal_i)
         return masse
-        
 
-    def cout_decoupe(self):
-        return self._prix_d*self.surface()
+
+
+
+    def cout_production_tole(plaques, tole, alliage, cout_fonte):
+        cout_decoupe=plaques.get_prix_d()*plaques.get_surface()
+        volume=tole.get_x()*tole.get_y()*tole.get_z()"""pour une tole cm^3"""
+        cout_matiere_par_tole=alliage.get_prix_cm3()*volume
+        cout_fonte_par_tole = cout_fonte*volume
+        cout_total= nb_toles*(cout_decoupe +cout_matiere_par_tole + cout_fonte_par_tole)
+ 
+        return cout_total
     
 
 
