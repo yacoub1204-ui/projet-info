@@ -33,3 +33,10 @@ class Point:
                 point_le_plus_proche = point
     
         return point_le_plus_proche
+                    
+    def classementpoint(self,liste,concurent)  :
+        clas=[]
+        for _ in range(concurent):
+            clas.append(self.point_proche_liste(liste))
+            liste.remove(self.point_proche_liste(liste))
+        return clas
