@@ -22,9 +22,9 @@ def solution1(plaques,tole, alliage, cout_fonte):
     cout_total=plaques.cout_production_tole(plaques, tole, alliage, cout_fonte)
     masse_metal_toltale=plaques.masse_metaux(plaques, tole, alliage)
     fournisseur=0
-    masse_alliage=0
+    masse_alliage=[0 for i in range(len(tole.get_list_all()))]
     ligne_sol_1=[]
-    qte_tole=[]
+    
     
     for i in range(len(plaques.get_list_f())):
         ligne_sol_1.append(i,plaques.get_list_f[i](),0,0,plaques.get_rotation_plaque[i]())
