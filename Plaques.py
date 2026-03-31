@@ -70,7 +70,7 @@ class Plaques:
 
 
     def cout_production_tole(plaques, tole, alliage, cout_fonte):
-        cout_decoupe=plaques.get_prix_d()*plaques.get_surface()
+        cout_decoupe=plaques.get_prix_d()*plaques.surface()
         volume=tole.get_x()*tole.get_y()*tole.get_z()"""pour une tole cm^3"""
         cout_matiere_par_tole=alliage.get_prix_cm3()*volume
         cout_fonte_par_tole = cout_fonte*volume
