@@ -1,4 +1,7 @@
 import Alliage
+import Figure
+import Plaques
+
 
 class Tole:
 
