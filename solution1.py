@@ -24,7 +24,7 @@ def masse_metaux(plaques, tole : Tole, alliage):
     mv=alliage.get_mv()"""pas sur """#en g/cm^3
     pct =alliage.get_list_pct()
     masse=[]
-    for i in range(len(Plaques.get_list_f())):
+    for i in range(len(plaques.get_list_f())):
         masse_metal_i=volume*mv[i]*pct[i]/1000
         masse.append(masse_metal_i)
     return masse
@@ -43,7 +43,7 @@ def tourner_plaque(plaques, tole):
     """renvoi  plaque tournee ou pas"""
     nouvelle_rotation = plaques.get_ini_rotation_plaque()
     for i in range(len(plaques.get_list_f())):
-        if Plaques.get_rentre_dedans(tole.get_x(), tole.get_y())==False:
+        if plaques.get_rentre_dedans(tole.get_x(), tole.get_y())==False:
         """ La plaque ne rentre pas: on la tourne (on met tout à 1 pour cette figure)"""
         
             
@@ -62,8 +62,8 @@ def solution1(plaques,tole, alliage, cout_fonte):
     ligne_sol_1=[]
     qte_tole=[]
     
-    for i in range(len(plaques.get_list_f)):
-        ligne_sol_1.append(i,Plaques.get_list_f[i](),0,0,plaques.get_rotation_plaque[i]())
+    for i in range(len(plaques.get_list_f())):
+        ligne_sol_1.append(i,plaques.get_list_f[i](),0,0,plaques.get_rotation_plaque[i]())
     solution_1=cout_total,masse_metal_toltale,fournisseur,masse_alliage,ligne_sol_1
     return solution_1
     
