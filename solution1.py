@@ -20,7 +20,7 @@ def solution1(data):
 
 
 def masse_metaux(Plaques, tole : Tole, alliage):
-    volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(Plaques.get_list_f))"""cm^3"""
+    volume=sum(tole.get_x()*tole.get_y()*tole.get_z() for i in range(len(Plaques.get_list_f()))"""cm^3"""
     mv=alliage.get_mv()"""pas sur """#en g/cm^3
     pct =alliage.get_list_pct()
     masse=[]
