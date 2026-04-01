@@ -37,7 +37,7 @@ class Figure:
     
         origine = Point(0, 0)
     
-        for polygone in self.list_p :
+        for polygone in self._list_p :
             for point in polygone.get_points():
                 d = point.distance( origine)
                 if d > distance_max:
