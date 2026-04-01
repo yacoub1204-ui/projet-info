@@ -3,7 +3,7 @@ import Tole
 import Figure
 class Plaques:
 
-    def __init__(self, prix_d : float, list_f : list[Figures], rotation_plaque):
+    def __init__(self, prix_d : float, list_f : list[Figure], rotation_plaque):
         self._prix_d = prix_d
         self._list_f = list_f
         self._rotation_plaque = rotation_plaque
@@ -20,12 +20,11 @@ class Plaques:
     def get_rotation_plaque(self):
         return self._rotation_plaque
 
-    def surface(self,figure.get_x(),figure.get_y()):
-        return figure.get_x()*figure.get_y()
+
 
 
     def cout_decoupe(self):
-        return self._prix_d*surface(self)
+        return self._prix_d*figure.surface()
         
 
     def ini_rotation_plaque(self):
@@ -34,13 +33,13 @@ class Plaques:
         ini_rotation.append([0 for j in range(len(list_f))])
         return ini_rotation
     
-
-    def rentre_dedans(self, tole.get_x(), tole.get_y(),figure.get_x(),figure.get_y()):
+    
+    def rentre_dedans(self, Figure,Plaques):
         """renvoie booléen"""
         return figure.get_x()<=tole.get_x() and figure.get_y() <= tole.get_y()
 
 
-    def tourner_plaque(self, tole.get_x(), tole.get_y()):
+    def tourner_plaque(self, Tole):
         """renvoi  plaque tournee ou pas"""
         nouvelle_rotation = self.ini_rotation_plaque()
         for i in range(len(self._list_f)):
