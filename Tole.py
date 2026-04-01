@@ -23,40 +23,76 @@ class Tole:
     def get_all(self):
         return self._all
 
-________________
-#methode decoupe num 1
-___________________
 
-    def def_plaque(plaques, figures, Toles):
-""" a la fin j'aurai plaque=[("bateau",x=6,y=12),("etoile",x=9,y=3)]"""
-    plaque=[]
-    for i in range(len(plaques.get_list_f())):
-        plaque.append((plaques.get_list_f()[i],figure.get_x(),figure.get_y()))
-    return plaque
-#plaque.get_list_f()[i].get_x()=x de la figure d'indice i
+#____________
+#methode 1
+#______________
 
-"""on sait que dans fichier tole on a :
+def decoupe_simple(self, plaques):
+	"""commence avec une tole entière.quand on place une plaque on crée 2 nouvelles zones :une à droite une en haut. on repete"""
+	toles_utilisees = 1
 
-    def __init__(self, x, y, z, all : Alliage"""
-    def surface_tole_restante(self, plaques,figure):
-        toles_utilisees=0
-        tole=Tole(self.x,self.y)
-        toutes_plaques=def_plaque(plaques.get_list_f(),figure.get_x(),figure.get_y())
-        plaques_restantes=toutes_plaques.copy()
-        tole_dispo=[Tole(self.x,self.y)]#liste dee morceaux de tole
-    
-        plaques_crees=[]
-        while plaques_restantes:
-            if self.x*self.y>=figure.get_x()*figure.get_y():
-                for i in range(len(toutes_plaques)):
-                    if plaque.rentre_dedans(toutes_plaques[i], tole.get_x(), tole.get_y(),self.x,self.y):
-                        plaques_crees.append(toutes_plaques[i])
-                        plaques_restantes.remove((plaques.get_list_f(),figure.get_x(),figure.get_y()))
-                        tole_part_bas=Tole(tole.x - figure.get_x(),figure.get_y())
-                        tole_part_haut=Tole(tole.x,tole.y - figure.get_y())
-                        tole=[tole_part_bas,tole_part_haut]
-            toles_utilisees+=1
-            tole=Tole(self.x,self.y)
+	# zones disponibles dans la tole actuelle
+	zones = [(self._x, self._y)]
 
-        return toles_utilisees
+	liste_plaques = plaques.get_list_f()
+	for i in range(len(liste_plaques)):
+
+		plaque = liste_plaques[i]
+		placee = False
+
+		for j in range(len(zones)):
+
+			zone_x, zone_y = zones[j]
+
+			px = plaque.get_x()
+			py = plaque.get_y()
+			
+			# sans rotation
+			if px <= zone_x and py <= zone_y:
+
+				zones.pop(j)
+
+				# découpe
+				zones.append((zone_x - px, py))      # droite
+				zones.append((zone_x, zone_y - py))  # haut
+
+				placee = True
+				break
+
+			# avec rotation
+			plaque.tourner()
+
+			px = plaque.get_x()
+			py = plaque.get_y()
+
+			if px <= zone_x and py <= zone_y:
+
+				zones.pop(j)
+
+				zones.append((zone_x - px, py))
+				zones.append((zone_x, zone_y - py))
+
+				placee = True
+				break
+
+			#remetdroite
+			plaque.tourner()
+
+
+		# nouvelle tole
+		if not placee:
+			toles_utilisees += 1
+
+			zones = [(self._x, self._y)]
+
+			px = plaque.get_x()
+			py = plaque.get_y()
+
+			zone_x, zone_y = zones.pop()
+
+			zones.append((zone_x - px, py))
+			zones.append((zone_x, zone_y - py))
+
+	return toles_utilisees
                     
