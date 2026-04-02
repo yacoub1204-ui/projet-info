@@ -6,7 +6,7 @@ import Tole
 # prerequis autres classes
 
 class Placement:
-    def __init__(self, figure: Figure, x_origine, y_origine, tournee):
+    def __init__(self, figure, x_origine, y_origine, tournee):#(self, figure: Figure, x_origine, y_origine, tournee)
         self._figure  = figure
         self._x  = x_origine   # coordonnees du coin en bas a gauche de la plaque
         self._y = y_origine
