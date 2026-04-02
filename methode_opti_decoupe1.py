@@ -87,7 +87,7 @@ def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):"""
         if espace.surface_libre() > 0:
             resultat.append(espace)
 
-    return resultat
+    return resultat """liste espaces libres crees apres avoir place une figure"""
 
 
 def _fusionner_espaces(espaces: list[EspaceLibre]):
@@ -141,7 +141,7 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
     result = [espaces[k] for k in range(len(espaces)) if utilises[k]==False]
     result.extend(nouveaux)
     result.sort(key=lambda e: e.surface_libre, reverse=True)
-    return result
+    return result"""liste espaces libres combinant precedents et nouveaux(fusions)"""
     
 def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure,autoriser_rotation: bool)): """espaces avec un s"""
     meilleur = None                                                   """autoriser_rotation defini dans decouper"""
@@ -152,8 +152,7 @@ def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure,autoriser_rot
     if autoriser_rotation and fx != fy:
         orientations.append((fy, fx))
 
-    meilleur = None
-    meilleur_gasp = float('inf')
+
     indice = 0
     for espace in espaces:
         for orientation in orientations:
@@ -165,7 +164,7 @@ def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure,autoriser_rot
                     meilleur = (indice, largeur, hauteur)
                 meilleur_gasp = gaspillage
         indice += 1
-    return meilleur
+    return meilleur"""tuple(indice=position liste[espzce], largeur,hauteur apres rotation eventuelle)"""
 
 
 #algo principal
@@ -246,4 +245,4 @@ def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):#ret
         for e in nouveaux_espaces:
             plans_espaces[tole_idx].append(e)    
         plans_espaces[tole_idx].sort(key=lambda esp: esp.surface_libre,reverse=True)
-    return solution    
+    return solution """liste des toleplan contenant tole associee a la liste des Placement"""
