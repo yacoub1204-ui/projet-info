@@ -19,6 +19,8 @@ class Placement:
         return self._y
     def get_tournee(self):
         return self._tournee
+    def __str__(self):
+        return f"fig={self._figure}, x={self._x}, y={self._y}, tournee={self._tournee}"
 
 
 class TolePlan:
