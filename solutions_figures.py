@@ -5,13 +5,13 @@ def triviale(figure : Figure):
     '''triviale : on parcourt la figure en prenant le premier point de chaque polygone'''
     solution : list[Point] = []
     for polygone in figure.get_list_poly():
-        solution.append(polygone.get_list_p()[0])
+        solution.append(polygone.get_list_points()[0])
     return solution
 
-def diagonalmax(figure):
+def diagonalmax(plaques):
     pointsolus = []
     solution = []
-    for polygone in figure:
+    for polygone in plaques.get_list_polygone():
         pointsolus.append(polygone.point_plus_proche_droite((0, 0), figure.point_plus_loin()))
 
     pointactuel = Point(0, 0)

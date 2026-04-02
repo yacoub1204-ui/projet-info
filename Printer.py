@@ -22,12 +22,12 @@ class Printer:
 
     def print_figures(self, fonction):
         solution = None
-        afficher = None
-        for figure in self.plaques.get_list_f():
-            solution = fonction(figure).copy()
-            afficher = f"{figure}  "
+        afficher = ""
+        for figure in self._plaques.get_list_f():
+            solution = fonction(figure)
+            afficher += f"{figure}  "
             for i in range(len(solution)):
-                afficher += f"{solution[i]}  "
+                afficher += f"{solution[i]}   "
             afficher += "\n"
         
         return afficher
