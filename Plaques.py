@@ -34,7 +34,7 @@ class Plaques:
         return ini_rotation
     
     
-    def rentre_dedans(self, Figure,Plaques):
+    def rentre_dedans(self, Figure, Tole):
         """renvoie booléen"""
         return figure.get_x()<=tole.get_x() and figure.get_y() <= tole.get_y()
 
