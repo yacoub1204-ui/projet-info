@@ -4,7 +4,7 @@ import Tole
 
 
 
-def def_plaque(plaques, figures, Toles):
+def def_plaque(Plaques, Figure, Tole):
 """ a la fin j'aurai plaque=[("bateau",x=6,y=12),("etoile",x=9,y=3)]"""
     plaque=[]
     for i in range(len(plaques.get_list_f())):
