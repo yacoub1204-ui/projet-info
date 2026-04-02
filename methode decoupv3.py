@@ -61,7 +61,7 @@ class EspaceLibre:
         return self._ly
     def surface_libre(self):
         return self._lx * self._ly
-    def renre_dedans(self, largeur, hauteur):    
+    def rentre_dedans(self, largeur, hauteur):    
         return largeur <= self._lx and hauteur <= self._ly
     def gaspillage(self, largeur, hauteur):
         return self.surface_libre() - largeur *hauteur   
