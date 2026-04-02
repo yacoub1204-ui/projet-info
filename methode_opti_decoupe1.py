@@ -117,7 +117,7 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
                 y_haut = max(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
                 fv = EspaceLibre(x_gauche, y_bas,
                                  x_droit - x_gauche, y_haut - y_bas)"""fv=fusion verticale"""
-                if fv.surface_libre > A.surface_libre and fv.surface_libre > B.surface_libre:
+                if fv.surface_libre() > A.surface_libre() and fv.surface_libre() > B.surface_libre():
                     nouveaux.append(fv)
                     utilises[i]=True
                     utilises[j]=True
@@ -131,7 +131,7 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
                 x_droit = max(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
                 fh = EspaceLibre(x_gauche, y_bas,
                                  x_droit - x_gauche, y_haut - y_bas)"""fh =fusion horizontale"""
-                if fh.surface_libre > A.surface_libre and fh.surface_libre > B.surface_libre:
+                if fh.surface_libre() > A.surface_libre() and fh.surface_libre() > B.surface_libre():
                     nouveaux.append(fh)
                     utilises.add(i); utilises.add(j)
                     break
@@ -182,69 +182,69 @@ def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):#ret
         tole_idx = None
 
         # 1. Chercher la meilleure tôle déjà utilisée
-    meilleur_score = -1
-    resultat = None
-    tole_idx = None
-    indice_tole = 0
-    
-    for espaces in plans_espaces:    
-        res = _meilleur_placement(espaces, figure, autoriser_rotation)
-    
-        if res is not None:    
-            surface_tole = tole.get_x() * tole.get_y()    
-            surface_utilisee = 0
-            for p in solution.plans[indice_tole].placements:
-                surface_utilisee += p.figure.get_x() * p.figure.get_y()    
-            surface_figure = res[1] * res[2]    
-            score = (surface_utilisee + surface_figure) / surface_tole    
-            if score > meilleur_score:
-                meilleur_score = score
-                resultat = res
-                tole_idx = indice_tole
-    
-        indice_tole += 1
-    
-    
-    # 2. Si aucune tôle ne marche → essayer de fusionner
-    if resultat is None:    
-        indice_tole = 0    
+        meilleur_score = -1
+        resultat = None
+        tole_idx = None
+        indice_tole = 0
+        
         for espaces in plans_espaces:    
-            espaces_fusionnes = _fusionner_espaces(espaces)    
-            res = _meilleur_placement(espaces_fusionnes, figure, autoriser_rotation)
-    
-            if res is not None:
-                plans_espaces[indice_tole] = espaces_fusionnes
-                resultat = res
-                tole_idx = indice_tole
-                break    
+            res = _meilleur_placement(espaces, figure, autoriser_rotation)
+        
+            if res is not None:    
+                surface_tole = tole.get_x() * tole.get_y()    
+                surface_utilisee = 0
+                for p in solution.plans[indice_tole].placements:
+                    surface_utilisee += p.figure.get_x() * p.figure.get_y()    
+                surface_figure = res[1] * res[2]    
+                score = (surface_utilisee + surface_figure) / surface_tole    
+                if score > meilleur_score:
+                    meilleur_score = score
+                    resultat = res
+                    tole_idx = indice_tole
+        
             indice_tole += 1
-    
-    
-    # 3. Si toujours rien → créer une nouvelle tôle
-    if resultat is None:    
-        tole_idx = len(solution.plans)    
-        espace_initial = EspaceLibre(0, 0, tole.get_x(), tole.get_y())    
-        plans_espaces.append([espace_initial])
-        solution.plans.append(TolePlan(tole))
-    
-        resultat = _meilleur_placement(plans_espaces[tole_idx],figure,autoriser_rotation)
-    
-        if resultat is None:
-            raise ValueError("Figure trop grande pour la tôle")    
-    
-    # 4. Placer la figure
-    indice_espace, largeur, hauteur = resultat    
-    espace = plans_espaces[tole_idx][indice_espace]    
-    tournee = (largeur != figure.get_x())
-    
-    solution.plans[tole_idx].placements.append(Placement(figure, espace.get_x(), espace.get_y(), tournee))
-    
-    
-    # 5. Découper l’espace
-    nouveaux_espaces = _decouper_guillotine(espace, figure, tournee)    
-    plans_espaces[tole_idx].pop(indice_espace)
-    
-    for e in nouveaux_espaces:
-        plans_espaces[tole_idx].append(e)    
-    plans_espaces[tole_idx].sort(key=lambda esp: esp.surface_libre,reverse=True)
+        
+        
+        # 2. Si aucune tôle ne marche → essayer de fusionner
+        if resultat is None:    
+            indice_tole = 0    
+            for espaces in plans_espaces:    
+                espaces_fusionnes = _fusionner_espaces(espaces)    
+                res = _meilleur_placement(espaces_fusionnes, figure, autoriser_rotation)
+        
+                if res is not None:
+                    plans_espaces[indice_tole] = espaces_fusionnes
+                    resultat = res
+                    tole_idx = indice_tole
+                    break    
+                indice_tole += 1
+        
+        
+        # 3. Si toujours rien → créer une nouvelle tôle
+        if resultat is None:    
+            tole_idx = len(solution.plans)    
+            espace_initial = EspaceLibre(0, 0, tole.get_x(), tole.get_y())    
+            plans_espaces.append([espace_initial])
+            solution.plans.append(TolePlan(tole))
+        
+            resultat = _meilleur_placement(plans_espaces[tole_idx],figure,autoriser_rotation)
+        
+            if resultat is None:
+                raise ValueError("Figure trop grande pour la tôle")    
+        
+        # 4. Placer la figure
+        indice_espace, largeur, hauteur = resultat    
+        espace = plans_espaces[tole_idx][indice_espace]    
+        tournee = (largeur != figure.get_x())
+        
+        solution.plans[tole_idx].placements.append(Placement(figure, espace.get_x(), espace.get_y(), tournee))
+        
+        
+        # 5. Découper l’espace
+        nouveaux_espaces = _decouper_guillotine(espace, figure, tournee)    
+        plans_espaces[tole_idx].pop(indice_espace)
+        
+        for e in nouveaux_espaces:
+            plans_espaces[tole_idx].append(e)    
+        plans_espaces[tole_idx].sort(key=lambda esp: esp.surface_libre,reverse=True)
     return solution    
