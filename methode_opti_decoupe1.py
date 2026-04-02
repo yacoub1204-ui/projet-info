@@ -4,130 +4,24 @@ import Tole
 
 
 
-def def_plaque(Plaques, Figure, Tole):
-""" a la fin j'aurai plaque=[("bateau",x=6,y=12),("etoile",x=9,y=3)]"""
-    plaque=[]
-    for i in range(len(plaques.get_list_f())):
-        plaque.append((plaques.get_list_f()[i],figure.get_x(),figure.get_y()))
-    return plaque
-#plaque.get_list_f()[i].get_x()=x de la figure d'indice i
+#prerequis autresclasses
 
-"""on sait que dans fichier tole on a :
-
-    def __init__(self, x, y, z, all : Alliage"""
-def surface_tole_restante(self, plaques,figure):
-    toles_utilisees=0
-    tole=Tole(self.x,self.y)
-    toutes_plaques=def_plaque(plaques.get_list_f(),figure.get_x(),figure.get_y())
-    plaques_restantes=toutes_plaques.copy()
-    tole_dispo=[Tole(self.x,self.y)]#liste dee morceaux de tole
-    
-    plaques_crees=[]
-    while plaques_restantes:
-        if self.x*self.y>=figure.get_x()*figure.get_y():
-            for i in range(len(toutes_plaques)):
-                if plaque.rentre_dedans(toutes_plaques[i], tole.get_x(), tole.get_y(),self.x,self.y):
-                    plaques_crees.append(toutes_plaques[i])
-                    plaques_restantes.remove((plaques.get_list_f(),figure.get_x(),figure.get_y()))
-                    tole_part_bas=Tole(tole.x - figure.get_x(),figure.get_y())
-                    tole_part_haut=Tole(tole.x,tole.y - figure.get_y())
-                    tole=[tole_part_bas,tole_part_haut]
-        toles_utilisees+=1
-        tole=Tole(self.x,self.y)
-
-    return toles_utilisees
-
-
-
-#methode 2 test pas finos
-
-
-"""Algorithme de découpe 2D optimisé : Guillotine Best-Fit Décroissant (GBFD).
-Principe:
-1. Trier les figures par surface décroissante (les plus grandes d'abord).
-2. Pour chaque figure, essayer les deux orientations (normale et +90°).
-3. Parmi tous les espaces libres disponibles, choisir celui qui minimise
-   le gaspillage (surface restante après découpe).
-4. Découpe guillotine : l'espace choisi est scindé en deux restes
-   (bas et droite). On conserve le plus grand en premier.
-5. Si aucun espace ne convient, ouvrir une nouvelle tôle.
-
-First-Fit Guillotine
-
-- BFD    : grandes pièces en premier → moins de fragmentation des espaces.
-- Best-Fit : on choisit l'espace le moins gaspillé → espaces restants plus utiles.
-- Rotation : augmente les chances de placement sans nouvelle tôle."""
-
-#from __future__ import annotations
-#from dataclasses import dataclass, field
-#from Solution import Placement, TolePlan, Solution
-
-
-#prerequis dans les autresclasses
-class Figure:
-    def __init__(self, x, y, nom=""):
-        self.x = x
-        self.y = y
-        self.nom = nom
-
-    def get_x(self):
-        return self.x
-
-    def get_y(self):
-        return self.y
-
-    def __repr__(self):
-        return f"{self.nom}({self.x}x{self.y})"
-
-
-
-class Plaques:
-    def __init__(self, figures):
-        self.figures = figures
-
-    def get_list_f(self):
-        return self.figures
-
-
-
-class Tole:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def get_x(self):
-        return self.x
-
-    def get_y(self):
-        return self.y
-
-
-#classe pour solution
 class Placement:
-    def __init__(self, figure, x_origine, y_origine, tournee):
-        self.figure = figure
-        self.x = x_origine
-        self.y = y_origine
-        self.tournee = tournee
-
-    def __repr__(self):
-        rot = " (rot)" if self.tournee else ""
-        return f"{self.figure} placé en ({self.x},{self.y}){rot}"
-
+    def __init__(self, figure: Figure, x_origine, y_origine, tournee):
+        self._figure = figure
+        self._x = x_origine"""coordonnees du coin en bas a gauche de la plaque"""
+        self._y= y_origine
+        self._tournee=tournee
 
 class TolePlan:
-    def __init__(self, tole):
-        self.tole = tole
-        self.placements = [] """Placement(figure, x_origine,y_origine,tournee)"""
+    def __init__(self, tole:Tole):
+        self._tole = tole
+        self._placements = [] """Placement(figure, x_origine,y_origine,tournee)"""
                             """liste des plaques decoupees dans toles"""
-
-    def __repr__(self):
-        return f"Tole {self.tole.get_x()}x{self.tole.get_y()} -> {self.placements}"
-
 
 class Solution:
     def __init__(self):
-        self.plans = []
+        self.plans = [] #liste de Tolplan
 
     def afficher(self):
         for i, plan in enumerate(self.plans):
@@ -154,32 +48,46 @@ class EspaceLibre:
         return self._lx
     def get_ly(self):
         return self._ly
-    @property
+
     def surface_libre(self):
-        return self.lx * self.ly
+        return self._lx * self._ly
 
     def rentre_dedans(self,Figure):
-        return figure.get_x() <= self.lx and figure.get_y() <= self.ly
+        return figure.get_x() <= self._lx and figure.get_y() <= self._ly
 
-
+    def gaspillage(self):
+        return self.surface_libre - self._lx *self._ly
+        
 #alg decoupe
-def _decouper_guillotine(espace, figure):
+def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):
     reste = []
-    r_x = espace.get_lx() - figure.get_x()
-    r_y = espace.get_ly() - figure.get_()
+    if tournee==True:
+        fx= figure.get_y() # largeur figure/plaque placée
+        fy = figure.get_x() 
+    else:
+        fx= figure.get_x() 
+        fy = figure.get_y() 
+        
+    r_x = espace.get_lx() - fx """reste en x"""
+    r_y = espace.get_ly() - fy
 
-    if r_x >= r_y:
+    if r_x >= r_y: """coupe horizontale-> grand espace en haut"""
         if r_y > 0:
             reste.append(EspaceLibre(espace.x, espace.y + fy, espace.lx, r_y))
         if r_x > 0:
             reste.append(EspaceLibre(espace.x + fx, espace.y, r_x, fy))
-    else:
+    else:"""coupe verticale -> grand espace a droite"""
         if r_x > 0:
             reste.append(EspaceLibre(espace.x + fx, espace.y, r_x, espace.ly))
         if r_y > 0:
             reste.append(EspaceLibre(espace.x, espace.y + fy, fx, r_y))
 
-    return [r for r in reste if r.surface_libre() > 0]
+    resultat = []
+    for espace in reste:
+        if espace.surface_libre() > 0:
+            resultat.append(espace)
+
+    return resultat
 
 
 
