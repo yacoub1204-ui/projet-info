@@ -28,18 +28,18 @@ class TolePlan:
                                 # liste des plaques decoupees dans la tole
     def get_tole(self):
         return self._tole
-    def get_placements(self):       # CORRIGE : get_placement → get_placements, et self._placement → self._placements
+    def get_placements(self):      
         return self._placements
 
 class Solution:
     def __init__(self):
-        self._plans = []            # CORRIGE : self.plans → self._plans pour cohérence avec get_plans()
+        self._plans = []            
     def get_plans(self):
         return self._plans
     def afficher(self):
         for i, plan in enumerate(self._plans):
             print(f"\n--- Tôle {i+1} ---")
-            for p in plan.get_placements():     # CORRIGE : plan.placements → plan.get_placements()
+            for p in plan.get_placements():    
                 print(p)
 
 
