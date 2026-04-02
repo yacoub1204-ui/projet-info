@@ -8,19 +8,15 @@ import Tole
 class Placement:
     def __init__(self, figure: Figure, x_origine, y_origine, tournee):
         self._figure  = figure
-        self._x       = x_origine   # coordonnees du coin en bas a gauche de la plaque
-        self._y       = y_origine
+        self._x  = x_origine   # coordonnees du coin en bas a gauche de la plaque
+        self._y = y_origine
         self._tournee = tournee     # true si plaque tournee
-
     def get_figure(self):
         return self._figure
-
     def get_x(self):
         return self._x
-
     def get_y(self):
         return self._y
-
     def get_tournee(self):
         return self._tournee
 
@@ -30,21 +26,16 @@ class TolePlan:
         self._tole       = tole
         self._placements = []   # liste des Placement(figure, x_origine, y_origine, tournee)
                                 # liste des plaques decoupees dans la tole
-
     def get_tole(self):
         return self._tole
-
     def get_placements(self):       # CORRIGE : get_placement → get_placements, et self._placement → self._placements
         return self._placements
-
 
 class Solution:
     def __init__(self):
         self._plans = []            # CORRIGE : self.plans → self._plans pour cohérence avec get_plans()
-
     def get_plans(self):
         return self._plans
-
     def afficher(self):
         for i, plan in enumerate(self._plans):
             print(f"\n--- Tôle {i+1} ---")
@@ -60,27 +51,20 @@ class EspaceLibre:
         self._y  = y
         self._lx = lx   # espace libre largeur
         self._ly = ly
-
     def get_x(self):
         return self._x
-
     def get_y(self):
         return self._y
-
     def get_lx(self):
         return self._lx
-
     def get_ly(self):
         return self._ly
-
     def surface_libre(self):
         return self._lx * self._ly
-
-    def peut_accueillir(self, largeur, hauteur):    # CORRIGE : rentre_dedans(Figure) → peut_accueillir(largeur, hauteur)
+    def renre_dedans(self, largeur, hauteur):    
         return largeur <= self._lx and hauteur <= self._ly
-
     def gaspillage(self, largeur, hauteur):
-        return self.surface_libre() - largeur * hauteur     # CORRIGE : surface_libre()
+        return self.surface_libre() - largeur * hauteur   
 
 
 # algo decoupe
@@ -99,7 +83,7 @@ def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):
 
     if r_x >= r_y:      # coupe horizontale -> grand espace en haut
         if r_y > 0:
-            reste.append(EspaceLibre(espace.get_x(), espace.get_y() + fy, espace.get_lx(), r_y))   # CORRIGE : get_x() etc.
+            reste.append(EspaceLibre(espace.get_x(), espace.get_y() + fy, espace.get_lx(), r_y))  
         if r_x > 0:
             reste.append(EspaceLibre(espace.get_x() + fx, espace.get_y(), r_x, fy))
     else:               # coupe verticale -> grand espace a droite
@@ -158,7 +142,7 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
                 fh = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)  # fh = fusion horizontale
                 if fh.surface_libre() > A.surface_libre() and fh.surface_libre() > B.surface_libre():
                     nouveaux.append(fh)
-                    utilises[i] = True  # CORRIGE : utilises.add(i) → utilises[i] = True (c'est une liste)
+                    utilises[i] = True 
                     utilises[j] = True
                     break
 
@@ -167,11 +151,11 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
 
     result = [espaces[k] for k in range(len(espaces)) if not utilises[k]]
     result.extend(nouveaux)
-    result.sort(key=lambda e: e.surface_libre(), reverse=True)  # CORRIGE : surface_libre()
+    result.sort(key=lambda e: e.surface_libre(), reverse=True)  
     return result   # liste espaces libres combinant precedents et nouveaux (fusions)
 
 
-def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure, autoriser_rotation: bool):  # CORRIGE : parenthèse en trop retirée
+def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure, autoriser_rotation: bool):  # 
     # autoriser_rotation defini dans decouper
     meilleur      = None
     meilleur_gasp = float('inf')
@@ -186,11 +170,11 @@ def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure, autoriser_ro
         for orientation in orientations:
             largeur = orientation[0]
             hauteur = orientation[1]
-            if espace.peut_accueillir(largeur, hauteur):    # CORRIGE : rentre_dedans → peut_accueillir
+            if espace.rentre_dedans(largeur, hauteur):   
                 gaspillage = espace.gaspillage(largeur, hauteur)
                 if gaspillage < meilleur_gasp:
                     meilleur      = (indice, largeur, hauteur)
-                    meilleur_gasp = gaspillage  # CORRIGE : était hors du if
+                    meilleur_gasp = gaspillage  
         indice += 1
 
     return meilleur     # tuple (indice=position dans liste espaces, largeur, hauteur apres rotation eventuelle)
@@ -217,8 +201,8 @@ def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):
             if res is not None:
                 surface_tole     = tole.get_x() * tole.get_y()
                 surface_utilisee = 0
-                for p in solution.get_plans()[indice_tole].get_placements():    # CORRIGE : .plans[i].placements → get_plans()[i].get_placements()
-                    surface_utilisee += p.get_figure().get_x() * p.get_figure().get_y()    # CORRIGE : p.figure → p.get_figure()
+                for p in solution.get_plans()[indice_tole].get_placements():   
+                    surface_utilisee += p.get_figure().get_x() * p.get_figure().get_y()    
                 surface_figure = res[1] * res[2]
                 score = (surface_utilisee + surface_figure) / surface_tole
                 if score > meilleur_score:
@@ -242,10 +226,10 @@ def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):
 
         # 3. Si toujours rien → créer une nouvelle tôle
         if resultat is None:
-            tole_idx       = len(solution.get_plans())      # CORRIGE : solution.plans → solution.get_plans()
+            tole_idx       = len(solution.get_plans())    
             espace_initial = EspaceLibre(0, 0, tole.get_x(), tole.get_y())
             plans_espaces.append([espace_initial])
-            solution.get_plans().append(TolePlan(tole))    # CORRIGE : solution.plans → solution.get_plans()
+            solution.get_plans().append(TolePlan(tole))    
             resultat = _meilleur_placement(plans_espaces[tole_idx], figure, autoriser_rotation)
             if resultat is None:
                 raise ValueError("Figure trop grande pour la tôle")
@@ -254,7 +238,7 @@ def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):
         indice_espace, largeur, hauteur = resultat
         espace  = plans_espaces[tole_idx][indice_espace]
         tournee = (largeur != figure.get_x())
-        solution.get_plans()[tole_idx].get_placements().append(     # CORRIGE : .plans[].placements → get_plans()[].get_placements()
+        solution.get_plans()[tole_idx].get_placements().append(   
             Placement(figure, espace.get_x(), espace.get_y(), tournee)
         )
 
@@ -263,6 +247,6 @@ def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):
         plans_espaces[tole_idx].pop(indice_espace)
         for e in nouveaux_espaces:
             plans_espaces[tole_idx].append(e)
-        plans_espaces[tole_idx].sort(key=lambda e: e.surface_libre(), reverse=True)     # CORRIGE : surface_libre()
+        plans_espaces[tole_idx].sort(key=lambda e: e.surface_libre(), reverse=True)    
 
     return solution     # liste des TolePlan contenant tole associee a la liste des Placement
