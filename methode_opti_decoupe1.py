@@ -13,15 +13,35 @@ class Placement:
         self._y= y_origine
         self._tournee=tournee#true si plaque tournee
 
+    def get_figure(self):
+        return self._figure
+
+    def get_x(self):
+        return self._x
+    def get_y(self):
+        return self._y
+
+    def get_tournee(self):
+        return self._tournee
+        
+
 class TolePlan:
     def __init__(self, tole:Tole):
         self._tole = tole
         self._placements = [] """Placement(figure, x_origine,y_origine,tournee)"""
                             """liste des plaques decoupees dans toles"""
+    def get_tole(self):
+        return self._tole
+
+    def get_placement(self):
+        return self._placement
+    
 
 class Solution:
     def __init__(self):
         self.plans = [] #liste de Tolplan(plan de decoupe dans la tole
+    def get_plans(self):
+        return self._plans
 
     def afficher(self):
         for i, plan in enumerate(self.plans):
