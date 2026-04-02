@@ -24,7 +24,7 @@ class Placement:
 
 
 class TolePlan:
-    def __init__(self, tole: Tole):
+    def __init__(self, tole):#(self, tole: Tole)
         self._tole= tole
         self._placements = []   # liste des Placement(figure, x_origine, y_origine, tournee)
                                 # liste des plaques decoupees dans la tole
@@ -70,7 +70,7 @@ class EspaceLibre:
 
 
 # algo decoupe
-def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):
+def _decouper_guillotine(espace, figure, tournee):#(espace: EspaceLibre, figure: Figure, tournee: bool)
     # decoupe un espace libre apres le placement d'un rectangle
     reste = []
     if tournee:
@@ -102,7 +102,7 @@ def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):
     return resultat     # liste espaces libres crees apres avoir place une figure
 
 
-def _fusionner_espaces(espaces: list[EspaceLibre]):
+def _fusionner_espaces(espaces):#(espaces: list[EspaceLibre])
     """Tente de fusionner des paires d'espaces dont les intervalles x ou y
     se chevauchent pour créer un rectangle d'espace libre qui traverse les autres."""
     if len(espaces) < 2:
@@ -157,7 +157,7 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
     return result   # liste espaces libres combinant precedents et nouveaux (fusions)
 
 
-def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure, autoriser_rotation: bool):  # 
+def _meilleur_placement(espaces, figure, autoriser_rotation):  # (espaces: list[EspaceLibre], figure: Figure, autoriser_rotation: bool)
     # autoriser_rotation defini dans decouper
     meilleur      = None
     meilleur_gasp = float('inf')
@@ -183,7 +183,7 @@ def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure, autoriser_ro
 
 
 # algo principal
-def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):
+def decouper(tole, plaques, autoriser_rotation = True):#(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True)
     # return une Solution avec les TolePlan et leurs Placements
     figures = sorted(plaques.get_list_f(), key=lambda f: f.get_x() * f.get_y(), reverse=True)
 
