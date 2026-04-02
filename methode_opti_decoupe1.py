@@ -60,7 +60,7 @@ class EspaceLibre:
         
 #alg decoupe
 def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):"""espace sans s"""
-    reste = []
+    reste = []                                                                """decoupe un espace libre apres le placement d'un rectangle"""
     if tournee==True:
         fx= figure.get_y() # largeur figure/plaque placée
         fy = figure.get_x() 
@@ -96,11 +96,11 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
     if len(espaces) < 2:
         return espaces
  
-    utilises = set()
+    utilises = utilises = [False] * len(espaces)  #utilises =set() marche est peut etre pllus pertinient
     nouveaux = []
  
     for i in range(len(espaces)):
-        if i in utilises:
+        if utilises[i]==True:
             continue
         for j in range(i + 1, len(espaces)):
             if j in utilises:
@@ -118,7 +118,8 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
                                  x_inter_d - x_inter_g, y_union_h - y_union_b)
                 if fv.surface_libre > A.surface_libre and fv.surface_libre > B.surface_libre:
                     nouveaux.append(fv)
-                    utilises.add(i); utilises.add(j)
+                    utilises[i]=True
+                    utilises[j]=True
                     break
  
             # Fusion horizontale : chevauchement en Y
