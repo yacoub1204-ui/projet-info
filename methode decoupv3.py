@@ -10,7 +10,7 @@ class Placement:
         self._figure  = figure
         self._x  = x_origine   # coordonnees du coin en bas a gauche de la plaque
         self._y = y_origine
-        self._tournee = tournee     # true si plaque tournee
+        self._tournee = tournee     # True si plaque tournee
     def get_figure(self):
         return self._figure
     def get_x(self):
@@ -33,7 +33,7 @@ class TolePlan:
 
 class Solution:
     def __init__(self):
-        self._plans = []            
+        self._plans = [] # Liste de TolePlan            
     def get_plans(self):
         return self._plans
     def afficher(self):
@@ -47,10 +47,10 @@ class Solution:
 
 class EspaceLibre:
     def __init__(self, x, y, lx, ly):
-        self._x  = x    # position espace libre (coordonnee du coin inferieur gauche)
+        self._x  = x  # position espace libre (coordonnee du coin inferieur gauche)
         self._y  = y
-        self._lx = lx   # espace libre largeur
-        self._ly = ly
+        self._lx = lx # espace libre largeur
+        self._ly = ly #hauteur
     def get_x(self):
         return self._x
     def get_y(self):
