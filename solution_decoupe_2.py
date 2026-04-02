@@ -3,7 +3,7 @@ import Figure
 import Tole
 
 
-#le 02/04 a 19h00 pas encore finis dans branch malcom
+#le 02/04 a 20h20 pas encore finis dans branch malcom
 #prerequis autresclasses
 
 class Placement:
