@@ -90,7 +90,57 @@ def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):"""
     return resultat
 
 
-
+def _fusionner_espaces(espaces: list[EspaceLibre]):
+    """Tente de fusionner des paires d'espaces dont les intervalles x ou y
+    se chevauchent pour créer un rectangle d'espace libre qui "traverse" les autres (et qui est plus grand)."""
+    if len(espaces) < 2:
+        return espaces
+ 
+    utilises = set()
+    nouveaux = []
+ 
+    for i in range(len(espaces)):
+        if i in utilises:
+            continue
+        for j in range(i + 1, len(espaces)):
+            if j in utilises:
+                continue
+ 
+            A, B = espaces[i], espaces[j]
+ 
+            # Fusion verticale : chevauchement en X
+            x_inter_g = max(A.get_x(), B.get_x())
+            x_inter_d = min(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
+            if x_inter_d - x_inter_g > 0:
+                y_union_b = min(A.get_y(), B.get_y())
+                y_union_h = max(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
+                fv = EspaceLibre(x_inter_g, y_union_b,
+                                 x_inter_d - x_inter_g, y_union_h - y_union_b)
+                if fv.surface_libre > A.surface_libre and fv.surface_libre > B.surface_libre:
+                    nouveaux.append(fv)
+                    utilises.add(i); utilises.add(j)
+                    break
+ 
+            # Fusion horizontale : chevauchement en Y
+            y_inter_b = max(A.get_y(), B.get_y())
+            y_inter_h = min(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
+            if y_inter_h - y_inter_b > 0:
+                x_union_g = min(A.get_x(), B.get_x())
+                x_union_d = max(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
+                fh = EspaceLibre(x_union_g, y_inter_b,
+                                 x_union_d - x_union_g, y_inter_h - y_inter_b)
+                if fh.surface_libre > A.surface_libre and fh.surface_libre > B.surface_libre:
+                    nouveaux.append(fh)
+                    utilises.add(i); utilises.add(j)
+                    break
+ 
+    if not nouveaux:
+        return espaces
+ 
+    result = [espaces[k] for k in range(len(espaces)) if k not in utilises]
+    result.extend(nouveaux)
+    result.sort(key=lambda e: e.surface_libre, reverse=True)
+    return result
 def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure,autoriser_rotation: bool)): """espaces avec un s"""
     meilleur = None                                                   """autoriser_rotation defini dans decouper"""
     meilleur_gasp = float('inf')
@@ -114,6 +164,7 @@ def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure,autoriser_rot
                 meilleur_gasp = gaspillage
         indice += 1
     return meilleur
+
 
 #algo principal
 def decouper(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True):#return une solution avec les Toleplan et leurs Placements
