@@ -63,59 +63,111 @@ First-Fit Guillotine
 #from Solution import Placement, TolePlan, Solution
 
 
+#prerequis dans les autresclasses
+class Figure:
+    def __init__(self, x, y, nom=""):
+        self.x = x
+        self.y = y
+        self.nom = nom
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def __repr__(self):
+        return f"{self.nom}({self.x}x{self.y})"
+
+
+
+class Plaques:
+    def __init__(self, figures):
+        self.figures = figures
+
+    def get_list_f(self):
+        return self.figures
+
+
+
+class Tole:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+
+#classe pour solution
+class Placement:
+    def __init__(self, figure, x_offset, y_offset, tournee):
+        self.figure = figure
+        self.x = x_offset
+        self.y = y_offset
+        self.tournee = tournee
+
+    def __repr__(self):
+        rot = " (rot)" if self.tournee else ""
+        return f"{self.figure} placé en ({self.x},{self.y}){rot}"
+
+
+class TolePlan:
+    def __init__(self, tole):
+        self.tole = tole
+        self.placements = []
+
+    def __repr__(self):
+        return f"Tole {self.tole.get_x()}x{self.tole.get_y()} -> {self.placements}"
+
+
+class Solution:
+    def __init__(self):
+        self.plans = []
+
+    def afficher(self):
+        for i, plan in enumerate(self.plans):
+            print(f"\n--- Tôle {i+1} ---")
+            for p in plan.placements:
+                print(p)
+
+
+
+# Classe espace libre
 
 class _EspaceLibre:
-    """Rectangle libre dans une tôle (coin bas-gauche + dimensions)."""
-    x  : float
-    y  : float
-    lx : float   # largeur disponible
-    ly : float   # hauteur disponible
+    def __init__(self, x, y, lx, ly):
+        self.x = x
+        self.y = y
+        self.lx = lx
+        self.ly = ly
 
     @property
-    def surface(self) -> float:
+    def surface(self):
         return self.lx * self.ly
 
-    def peut_accueillir(self, fx: float, fy: float) -> bool:
+    def peut_accueillir(self, fx, fy):
         return fx <= self.lx and fy <= self.ly
 
-    def gaspillage(self, fx: float, fy: float) -> float:
-        """Surface perdue si on place une figure fx×fy dans cet espace."""
+    def gaspillage(self, fx, fy):
         return self.surface - fx * fy
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-#  Découpe guillotine d'un espace après placement
-# ══════════════════════════════════════════════════════════════════════════════
-
-def _decouper_guillotine(espace: _EspaceLibre,
-                         fx: float, fy: float) -> list[_EspaceLibre]:
-    """
-    Après avoir placé une figure fx×fy dans `espace`, génère les restes.
-
-    Stratégie « découpe par le long côté » :
-    - Si la largeur restante > la hauteur restante → coupe horizontale
-    - Sinon → coupe verticale
-    Cela produit des reste aussi carrés que possible (plus faciles à remplir).
-
-    Schéma (coupe horizontale) :
-        ┌───────────────────┐
-        │  haut (lx × r_y)  │
-        ├──────┬────────────┤
-        │ fig  │bas (r_x×fy)│
-        └──────┴────────────┘
-    """
+#alg decoupe
+def _decouper_guillotine(espace, fx, fy):
     reste = []
-    r_x = espace.lx - fx   # largeur restante à droite
-    r_y = espace.ly - fy   # hauteur restante au-dessus
+    r_x = espace.lx - fx
+    r_y = espace.ly - fy
 
     if r_x >= r_y:
-        # Coupe horizontale : reste en  haut sur toute la largeur
         if r_y > 0:
             reste.append(_EspaceLibre(espace.x, espace.y + fy, espace.lx, r_y))
         if r_x > 0:
             reste.append(_EspaceLibre(espace.x + fx, espace.y, r_x, fy))
     else:
-        # Coupe verticale : reste a droite sur toute la hauteur
         if r_x > 0:
             reste.append(_EspaceLibre(espace.x + fx, espace.y, r_x, espace.ly))
         if r_y > 0:
@@ -124,67 +176,29 @@ def _decouper_guillotine(espace: _EspaceLibre,
     return [r for r in reste if r.surface > 0]
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-#  Recherche du meilleur placement pour une figure
-# ══════════════════════════════════════════════════════════════════════════════
 
-def _meilleur_placement(espaces: list[_EspaceLibre],
-                        fx: float, fy: float,
-                        autoriser_rotation: bool
-                        ) -> tuple[int, float, float] | None:
-    """
-    Cherche parmi tous les espaces celui qui minimise le gaspillage.
-
-    Retourne (indice_espace, fx_effectif, fy_effectif) ou None.
-    fx_effectif / fy_effectif tiennent compte de la rotation éventuelle.
-    """
-    meilleur_idx   = None
-    meilleur_gasp  = float('inf')
-    meilleur_fx    = fx
-    meilleur_fy    = fy
+def _meilleur_placement(espaces, fx, fy, autoriser_rotation):
+    meilleur = None
+    meilleur_gasp = float('inf')
 
     orientations = [(fx, fy)]
     if autoriser_rotation and fx != fy:
-        orientations.append((fy, fx))   # rotation 90 deg
+        orientations.append((fy, fx))
 
     for i, esp in enumerate(espaces):
         for ex, ey in orientations:
             if esp.peut_accueillir(ex, ey):
                 gasp = esp.gaspillage(ex, ey)
                 if gasp < meilleur_gasp:
-                    meilleur_gasp  = gasp
-                    meilleur_idx   = i
-                    meilleur_fx    = ex
-                    meilleur_fy    = ey
+                    meilleur = (i, ex, ey)
+                    meilleur_gasp = gasp
 
-    if meilleur_idx is None:
-        return None
-    return meilleur_idx, meilleur_fx, meilleur_fy
+    return meilleur
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-#  Algorithme principal
-# ══════════════════════════════════════════════════════════════════════════════
+#algo principal
+def decouper(tole, plaques, autoriser_rotation=True):
 
-def decouper(tole, plaques, autoriser_rotation: bool = True) -> Solution:
-    """
-    Algorithme Guillotine Best-Fit Décroissant (GBFD).
-
-    Paramètres
-    ----------
-    tole : Tole
-        Gabarit de tôle (x, y, z, alliage).
-    plaques : Plaques
-        Ensemble des figures à découper.
-    autoriser_rotation : bool
-        Si True, chaque figure peut être pivotée de 90°.
-
-    Retourne
-    --------
-    Solution
-        Plan complet de découpe avec positions et rotations.
-    """
-    # 1. Récupérer les figures et les trier par surface décroissante
     figures = sorted(
         plaques.get_list_f(),
         key=lambda f: f.get_x() * f.get_y(),
@@ -192,61 +206,72 @@ def decouper(tole, plaques, autoriser_rotation: bool = True) -> Solution:
     )
 
     solution = Solution()
-    plans_espaces: list[list[_EspaceLibre]] = []  # espaces libres par tôle
+    plans_espaces = []
 
     for figure in figures:
         fx, fy = figure.get_x(), figure.get_y()
 
-        # 2. Chercher un espace dans les tôles déjà ouvertes
         resultat = None
-        tole_choisie_idx = None
+        tole_idx = None
 
-        for t_idx, espaces in enumerate(plans_espaces):
+        for i, espaces in enumerate(plans_espaces):
             res = _meilleur_placement(espaces, fx, fy, autoriser_rotation)
-            if res is not None:
-                # Préférer la tôle la plus remplie (indice le plus bas = plus ancienne)
+            if res:
                 resultat = res
-                tole_choisie_idx = t_idx
-                break   # first-fit sur les tôles, best-fit sur les espaces
+                tole_idx = i
+                break
 
-        # 3. Aucune tôle existante ne convient → ouvrir une nouvelle tôle
         if resultat is None:
-            tole_choisie_idx = len(solution.plans)
-            espace_initial   = _EspaceLibre(0, 0, tole.get_x(), tole.get_y())
-            plans_espaces.append([espace_initial])
-            solution.plans.append(TolePlan(tole=tole))
-            resultat = _meilleur_placement(
-                plans_espaces[tole_choisie_idx], fx, fy, autoriser_rotation
-            )
-            if resultat is None:
-                raise ValueError(
-                    f"La figure {figure} ({fx}×{fy}) ne tient pas dans une tôle "
-                    f"({tole.get_x()}×{tole.get_y()}). Vérifiez les dimensions."
-                )
+            tole_idx = len(solution.plans)
+            espace_init = _EspaceLibre(0, 0, tole.get_x(), tole.get_y())
 
-        # 4. Enregistrer le placement
+            plans_espaces.append([espace_init])
+            solution.plans.append(TolePlan(tole))
+
+            resultat = _meilleur_placement(plans_espaces[tole_idx], fx, fy, autoriser_rotation)
+
+            if resultat is None:
+                raise ValueError("Figure trop grande pour la tôle")
+
         esp_idx, fx_eff, fy_eff = resultat
-        esp = plans_espaces[tole_choisie_idx][esp_idx]
-        tournee = (fx_eff != fx)
+        esp = plans_espaces[tole_idx][esp_idx]
 
         placement = Placement(
-            figure   = figure,
-            x_offset = esp.x,
-            y_offset = esp.y,
-            tournee  = tournee
+            figure,
+            esp.x,
+            esp.y,
+            tournee=(fx_eff != fx)
         )
-        solution.plans[tole_choisie_idx].placements.append(placement)
 
-        # 5. Découpe guillotine : remplacer l'espace utilisé par ses reste
+        solution.plans[tole_idx].placements.append(placement)
+
         reste = _decouper_guillotine(esp, fx_eff, fy_eff)
-        plans_espaces[tole_choisie_idx].pop(esp_idx)
-        plans_espaces[tole_choisie_idx].extend(reste)
+        plans_espaces[tole_idx].pop(esp_idx)
+        plans_espaces[tole_idx].extend(reste)
 
-        # Trier les espaces par surface décroissante (best-fit plus rapide)
-        plans_espaces[tole_choisie_idx].sort(key=lambda e: e.surface, reverse=True)
+        plans_espaces[tole_idx].sort(key=lambda e: e.surface, reverse=True)
 
     return solution
 
+
+# =========================
+# TEST
+# =========================
+if __name__ == "__main__":
+
+    figs = [
+        Figure(5, 4, "A"),
+        Figure(3, 3, "B"),
+        Figure(6, 2, "C"),
+        Figure(2, 2, "D"),
+    ]
+
+    plaques = Plaques(figs)
+    tole = Tole(10, 10)
+
+    sol = decouper(tole, plaques)
+
+    sol.afficher()
 
 
                     
