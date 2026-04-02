@@ -104,10 +104,10 @@ class Tole:
 
 #classe pour solution
 class Placement:
-    def __init__(self, figure, x_offset, y_offset, tournee):
+    def __init__(self, figure, x_origine, y_origine, tournee):
         self.figure = figure
-        self.x = x_offset
-        self.y = y_offset
+        self.x = x_origine
+        self.y = y_origine
         self.tournee = tournee
 
     def __repr__(self):
@@ -118,7 +118,8 @@ class Placement:
 class TolePlan:
     def __init__(self, tole):
         self.tole = tole
-        self.placements = []
+        self.placements = [] """Placement(figure, x_origine,y_origine,tournee)"""
+                            """liste des plaques decoupees dans toles"""
 
     def __repr__(self):
         return f"Tole {self.tole.get_x()}x{self.tole.get_y()} -> {self.placements}"
@@ -138,42 +139,47 @@ class Solution:
 
 # Classe espace libre
 
-class _EspaceLibre:
+class EspaceLibre:
     def __init__(self, x, y, lx, ly):
-        self.x = x
-        self.y = y
-        self.lx = lx
-        self.ly = ly
+        self._x = x"""position espace libre"""
+        self._y = y
+        self._lx = lx"""espace libre largeur"""
+        self._ly = ly
 
+    def get_x(self):
+        return self._x
+    def get_y(self):
+        return self._y
+    def get_lx(self):
+        return self._lx
+    def get_ly(self):
+        return self._ly
     @property
-    def surface(self):
+    def surface_libre(self):
         return self.lx * self.ly
 
-    def peut_accueillir(self, fx, fy):
-        return fx <= self.lx and fy <= self.ly
-
-    def gaspillage(self, fx, fy):
-        return self.surface - fx * fy
+    def rentre_dedans(self,Figure):
+        return figure.get_x() <= self.lx and figure.get_y() <= self.ly
 
 
 #alg decoupe
-def _decouper_guillotine(espace, fx, fy):
+def _decouper_guillotine(espace, figure):
     reste = []
-    r_x = espace.lx - fx
-    r_y = espace.ly - fy
+    r_x = espace.get_lx() - figure.get_x()
+    r_y = espace.get_ly() - figure.get_()
 
     if r_x >= r_y:
         if r_y > 0:
-            reste.append(_EspaceLibre(espace.x, espace.y + fy, espace.lx, r_y))
+            reste.append(EspaceLibre(espace.x, espace.y + fy, espace.lx, r_y))
         if r_x > 0:
-            reste.append(_EspaceLibre(espace.x + fx, espace.y, r_x, fy))
+            reste.append(EspaceLibre(espace.x + fx, espace.y, r_x, fy))
     else:
         if r_x > 0:
-            reste.append(_EspaceLibre(espace.x + fx, espace.y, r_x, espace.ly))
+            reste.append(EspaceLibre(espace.x + fx, espace.y, r_x, espace.ly))
         if r_y > 0:
-            reste.append(_EspaceLibre(espace.x, espace.y + fy, fx, r_y))
+            reste.append(EspaceLibre(espace.x, espace.y + fy, fx, r_y))
 
-    return [r for r in reste if r.surface > 0]
+    return [r for r in reste if r.surface_libre() > 0]
 
 
 
