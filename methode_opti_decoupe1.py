@@ -106,30 +106,31 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
             if j in utilises:
                 continue
  
-            A, B = espaces[i], espaces[j]
+            A= espaces[i]#rectangle coin inferieur gauche en x,y et largeur lx et hauteur ly
+            B = espaces[j]
  
-            # Fusion verticale : chevauchement en X
-            x_inter_g = max(A.get_x(), B.get_x())
-            x_inter_d = min(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
-            if x_inter_d - x_inter_g > 0:
-                y_union_b = min(A.get_y(), B.get_y())
-                y_union_h = max(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
-                fv = EspaceLibre(x_inter_g, y_union_b,
-                                 x_inter_d - x_inter_g, y_union_h - y_union_b)
+            # Fusion verticale : chevauchement en x, un rectangle avec un plus grand y est cree
+            x_gauche = max(A.get_x(), B.get_x())#intervalle
+            x_droit = min(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
+            if x_droit - x_gauche > 0:
+                y_bas = min(A.get_y(), B.get_y())
+                y_haut = max(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
+                fv = EspaceLibre(x_gauche, y_bas,
+                                 x_droit - x_gauche, y_haut - y_bas)"""fv=fusion verticale"""
                 if fv.surface_libre > A.surface_libre and fv.surface_libre > B.surface_libre:
                     nouveaux.append(fv)
                     utilises[i]=True
                     utilises[j]=True
                     break
  
-            # Fusion horizontale : chevauchement en Y
-            y_inter_b = max(A.get_y(), B.get_y())
-            y_inter_h = min(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
-            if y_inter_h - y_inter_b > 0:
-                x_union_g = min(A.get_x(), B.get_x())
-                x_union_d = max(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
-                fh = EspaceLibre(x_union_g, y_inter_b,
-                                 x_union_d - x_union_g, y_inter_h - y_inter_b)
+            # Fusion horizontale : chevauchement en y, un rectangle avec un plus grand x est cree
+            y_bas = max(A.get_y(), B.get_y())
+            y_haut = min(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
+            if y_haut - y_bas > 0:
+                x_gauche = min(A.get_x(), B.get_x())
+                x_droit = max(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
+                fh = EspaceLibre(x_gauche, y_bas,
+                                 x_droit - x_gauche, y_haut - y_bas)"""fh =fusion horizontale"""
                 if fh.surface_libre > A.surface_libre and fh.surface_libre > B.surface_libre:
                     nouveaux.append(fh)
                     utilises.add(i); utilises.add(j)
@@ -142,6 +143,7 @@ def _fusionner_espaces(espaces: list[EspaceLibre]):
     result.extend(nouveaux)
     result.sort(key=lambda e: e.surface_libre, reverse=True)
     return result
+    
 def _meilleur_placement(espaces: list[EspaceLibre], figure: Figure,autoriser_rotation: bool)): """espaces avec un s"""
     meilleur = None                                                   """autoriser_rotation defini dans decouper"""
     meilleur_gasp = float('inf')
