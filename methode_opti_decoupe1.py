@@ -56,7 +56,7 @@ class EspaceLibre:
         return figure.get_x() <= self._lx and figure.get_y() <= self._ly
 
     def gaspillage(self,largeur,hauteur):
-        return self.surface_libre - self._lx *self._ly
+        return self.surface_libre - largeur*hauteur
         
 #alg decoupe
 def _decouper_guillotine(espace: EspaceLibre, figure: Figure, tournee: bool):"""espace sans s"""
