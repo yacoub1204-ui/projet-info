@@ -105,7 +105,7 @@ class EspaceLibre:
 def _decouper_guillotine(espace, figure, tournee):
     # decoupe un espace libre apres le placement d'un rectangle
     reste = []
-    if tournee:
+    if tournee==1:
         fx = figure.get_y()     # largeur figure/plaque placee
         fy = figure.get_x()
     else:
@@ -182,7 +182,7 @@ def _fusionner_espaces(espaces):
     if not nouveaux:
         return espaces
 
-    result = [espaces[k] for k in range(len(espaces)) if not utilises[k]]
+    result = [espaces[k] for k in range(len(espaces)) if utilises[k] == 0]
     result.extend(nouveaux)
     result.sort(key=lambda e: e.surface_libre(), reverse=True)
     return result
@@ -194,7 +194,7 @@ def _meilleur_placement(espaces, figure, autoriser_rotation):
     fx = figure.get_x()
     fy = figure.get_y()
     orientations = [(fx, fy)]
-    if autoriser_rotation and fx != fy:
+    if autoriser_rotation==1 and fx != fy:
         orientations.append((fy, fx))
 
     indice = 0
@@ -234,7 +234,7 @@ def decouper(tole, plaques):
                 surface_utilisee = 0
                 for p in tole_plans[indice_tole].get_placements():   
                     f = p.get_figure()
-                    if p.get_tournee():
+                    if p.get_tournee()==1:
                         surface_utilisee += f.get_y() * f.get_x()
                     else:
                         surface_utilisee += f.get_x() * f.get_y()    
