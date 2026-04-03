@@ -1,6 +1,6 @@
 import Fonderie2
 import Plaques
-
+import Solution
 class Printer:
 
     def __init__(self, fonderie : Fonderie2, plaques : Plaques):
