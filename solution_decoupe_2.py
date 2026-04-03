@@ -1,125 +1,101 @@
-import Plaques
-import Figure
-import Tole
-
-
-# prerequis autres classes
-
 class Placement:
-    def __init__(self, figure, x_origine, y_origine, tournee):#(self, figure: Figure, x_origine, y_origine, tournee)
-        self._figure  = figure
-        self._x  = x_origine   # coordonnees du coin en bas a gauche de la plaque
+    def __init__(self, figure, x_origine, y_origine, tournee):
+        self._figure = figure
+        self._x = x_origine
         self._y = y_origine
-        self._tournee = tournee     # True si plaque tournee
+        self._tournee = tournee
+
     def get_figure(self):
         return self._figure
+
     def get_x(self):
         return self._x
+
     def get_y(self):
         return self._y
+
     def get_tournee(self):
         return self._tournee
-    def __str__(self):
-        return f"fig={self._figure}, x={self._x}, y={self._y}, tournee={self._tournee}"
+
+
+class Figure:
+    def __init__(self, nom, x, y, list_poly, r=0):
+        self._nom = nom
+        self._x = x
+        self._y = y
+        self._list_poly = list_poly
+        self._r = r
+
+    def get_nom(self):
+        return self._nom
+
+    def get_x(self):
+        return self._x
+
+    def get_y(self):
+        return self._y
+
+    def set_x(self, x):
+        self._x = x
+
+    def set_y(self, y):
+        self._y = y
+
+    def get_list_poly(self):
+        return self._list_poly
+
+
+class Tole:
+    def __init__(self, x, y):
+        self._tole_x = x
+        self._tole_y = y
+
+    def get_x(self):
+        return self._tole_x
+
+    def get_y(self):
+        return self._tole_y
 
 
 class TolePlan:
-    def __init__(self, tole):#(self, tole: Tole)
-        self._tole= tole
-        self._placements = []   # liste des Placement(figure, x_origine, y_origine, tournee)
-                                # liste des plaques decoupees dans la tole
+    def __init__(self, tole):
+        self._tole = tole
+        self._placements = []
+
     def get_tole(self):
         return self._tole
-    def get_placements(self):      
+
+    def get_placements(self):
         return self._placements
 
 
-
-
-
-
-
-         
-
-class Solution:
-    def __init__(self, plans):
-            self._plans = plans
-    
-    def get_plans(self):
-        return self._plans
-    
-    def nb_tole(self):
-        return len(self._plans)  # Nombre de tôles utilisées
-    
-    # Méthode pour écrire la solution dans un fichier
-    def ecrire_solution(self, fonderie, plaques)
-    
-    
-        
-        #placement
-        # Parcours chaque tole
-        numero_tole = 0
-        for plan in self._plans:
-            # Parcours chaque figure placée dans cette tole
-            for placement in plan.get_placements():
-                figure = placement.get_figure()
-                nom = figure.get_nom()
-                x = placement.get_x()
-                y = placement.get_y()
-                
-                if placement.get_tournee():
-                    tournee = 1
-                else:
-                    tournee = 0
-                
-                fichier.write(str(numero_tole) + " " + nom + " " + str(x) + " " + str(y) + " " + str(tournee) + "\n")
-            
-            numero_tole +=1
-        
-      
-        
-        for tole_idx, plan in enumerate(self._plans): #compte
-            for placement in plan.get_placements():
-                figure = placement.get_figure()
-                x = placement.get_x()
-                y = placement.get_y()
-                tournee = 1 if placement.get_tournee() else 0
-                output_lignes.append(f"{tole_idx} {figure.get_nom()} {x:.2f} {y:.2f} {tournee}") # 2f pour deux decimales
-        
-      
-        for figure in plaques.get_list_f():
-            ligne = figure.get_nom()
-            for poly_idx, polygone in enumerate(figure.get_list_poly()):
-                if len(polygone.get_points()) > 0:
-                    ligne += f" {poly_idx} 0"
-            output_lignes.append(ligne)
-        
-        return "\n".join(output_lignes)
-    
-   
-
-# Classe espace libre
-
 class EspaceLibre:
     def __init__(self, x, y, lx, ly):
-        self._x  = x  # position espace libre (coordonnee du coin inferieur gauche)
-        self._y  = y
-        self._lx = lx # espace libre largeur
-        self._ly = ly #hauteur
+        self._x = x
+        self._y = y
+        self._lx = lx
+        self._ly = ly
+
     def get_x(self):
         return self._x
+
     def get_y(self):
         return self._y
+
     def get_lx(self):
         return self._lx
+
     def get_ly(self):
         return self._ly
+
     def surface_libre(self):
         return self._lx * self._ly
-    def rentre_dedans(self, largeur, hauteur):    
+
+    def rentre_dedans(self, largeur, hauteur):
         return largeur <= self._lx and hauteur <= self._ly
+
     def gaspillage(self, largeur, hauteur):
-        return self.surface_libre() - largeur *hauteur   
+        return self.surface_libre() - largeur * hauteur  
 
 
 # algo decoupe
@@ -241,7 +217,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
     autoriser_rotation = True
     figures = sorted(plaques.get_list_f(), key=lambda f: f.get_x() * f.get_y(), reverse=True)
 
-    solution      = Solution()
+    tole_plan =[] #liste des toleplan
     plans_espaces = []  # plans_espaces[i] = list[EspaceLibre] pour la tole i
 
     for figure in figures:
@@ -257,7 +233,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
             if res is not None:
                 surface_tole= tole.get_x() * tole.get_y()
                 surface_utilisee = 0
-                for p in solution.get_plans()[indice_tole].get_placements():   
+                for p in stole_plans[indice_tole].get_placements():   
                     f = p.get_figure()
                     if p.get_tournee():
                         surface_utilisee += f.get_y() * f.get_x()
@@ -286,19 +262,19 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
 
         # 3. Si toujours rien → créer une nouvelle tôle
         if resultat is None:
-            tole_idx= len(solution.get_plans())    
+            tole_idx= len(tole_plans)    
             espace_initial = EspaceLibre(0, 0, tole.get_x(), tole.get_y())
             plans_espaces.append([espace_initial])
-            solution.get_plans().append(TolePlan(tole))    
+            tole_plans.append(TolePlan(tole))    
             resultat = _meilleur_placement(plans_espaces[tole_idx], figure, autoriser_rotation)
             if resultat is None:
-                raise ValueError("Figure trop grande pour la tôle")
+                raise ValueError("Figure trop grande pour la tole")
 
         # 4. Placer la figure
         indice_espace, largeur, hauteur = resultat
         espace  =plans_espaces[tole_idx][indice_espace]
         tournee = (largeur != figure.get_x())
-        solution.get_plans()[tole_idx].get_placements().append(   
+        tole_plans()[tole_idx].get_placements().append(   
             Placement(figure, espace.get_x(), espace.get_y(), tournee)
         )
 
@@ -309,4 +285,4 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
             plans_espaces[tole_idx].append(e)
         plans_espaces[tole_idx].sort(key=lambda e: e.surface_libre(), reverse=True)    
 
-    return solution  # liste des TolePlan contenant tole associee a la liste des Placement (self, figure, x_origine, y_origine, tournee)
+    return tole_plans  # liste des TolePlan contenant tole associee a la liste des Placement (self, figure, x_origine, y_origine, tournee)
