@@ -33,30 +33,32 @@ class TolePlan:
     def get_placements(self):      
         return self._placements
 
-class Solution:
-    def __init__(self,plans):
-        self._plans = [] # Liste de TolePlan  
-    def get_plan(self):
-        return self._plans
-    def get_plans(self):
-        return self._plans
-    def nb_toles(self):
-        return len(self._plans)
-    def get_resume(self):      
-        resultats = []
-        for i, plan in enumerate(self._plans):
-            for p in plan.get_placements():
-                fig = p.get_figure()
 
-                resultats.append({
-                    "tole": i + 1,
-                    "nom": str(fig),   # ou fig.get_nom() si dispo
-                    "x": p.get_x(),
-                    "y": p.get_y(),
-                    "tournee": p.get_tournee()
-                })
 
-        return resultats
+# class Solution:    
+#     def __init__(self,plans)    
+#         self._plans = [] # Liste de TolePlan  
+#     def get_plans(self):
+#         return self._plans
+#     def get_plans(self):
+#         return self._plans
+#     def nb_toles(self):
+#         return len(self._plans)
+#     def get_resume(self):      
+#         resultats = []
+#         for i, plan in enumerate(self._plans):
+#             for p in plan.get_placements():
+#                 fig = p.get_figure()
+
+#                 resultats.append({
+#                     "tole": i + 1,
+#                     "nom": str(fig),   # ou fig.get_nom() si dispo
+#                     "x": p.get_x(),
+#                     "y": p.get_y(),
+#                     "tournee": p.get_tournee()
+#                 })
+
+#         return resultats
 
 
 # Classe espace libre
@@ -197,8 +199,9 @@ def _meilleur_placement(espaces, figure, autoriser_rotation):  # (espaces: list[
 
 
 # algo principal
-def decouper(tole, plaques, autoriser_rotation = True):#(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True)
+def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True)
     # return une Solution avec les TolePlan et leurs Placements
+    autoriser_rotation = True
     figures = sorted(plaques.get_list_f(), key=lambda f: f.get_x() * f.get_y(), reverse=True)
 
     solution      = Solution()
@@ -269,4 +272,4 @@ def decouper(tole, plaques, autoriser_rotation = True):#(tole: Tole, plaques: Pl
             plans_espaces[tole_idx].append(e)
         plans_espaces[tole_idx].sort(key=lambda e: e.surface_libre(), reverse=True)    
 
-    return solution     # liste des TolePlan contenant tole associee a la liste des Placement
+    return solution  # liste des TolePlan contenant tole associee a la liste des Placement (self, figure, x_origine, y_origine, tournee)
