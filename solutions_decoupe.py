@@ -1,4 +1,5 @@
 import Plaques
+import Tole
 
 def solutiondecoupedecoupetr(tole : Tole, plaques : Plaques):
     tole_x = tole.get_x()
