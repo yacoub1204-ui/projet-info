@@ -12,8 +12,8 @@ class Client:
         '''pourcentages min de chaque matériau'''
         return self._list_min
 
-    def get_pct_max(self):      # CORRIGE : alias utilisé dans solutions_fournisseurs
+    def get_pct_max(self):      
         return self._list_max
 
-    def get_pct_min(self):      # CORRIGE : alias utilisé dans solutions_fournisseurs
+    def get_pct_min(self):      
         return self._list_min
