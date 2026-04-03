@@ -4,16 +4,16 @@ class Tole:
         self._x = x
         self._y = y
         self._z = z
-        self._all = all
+        # CORRIGE : self._all = all supprimé (écrasait le builtin Python)
 
     def get_x(self):
-        '''largeur de la taule en stock'''
+        '''largeur de la tole en stock'''
         return self._x
 
     def get_y(self):
-        '''hateur de la tole en stock'''
+        '''hauteur de la tole en stock'''
         return self._y
-    
+
     def get_z(self):
         '''épaisseur de la tole en stock'''
         return self._z
