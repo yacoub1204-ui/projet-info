@@ -20,35 +20,17 @@ class Printer:
     
     def print_plaques(self, fonction):
         solution = None
-        solution_decoupe = fonction(self._fonderie, self._plaques)
+        afficher = None
 
-        tole = self._fonderie.get_tole()
-        solution = fonction(tole, self._plaques)
-    
-        afficher = ""
-        for numero_tole, plan in enumerate(solution.get_plans()):
-            for p in plan.get_placements():
-                nom = p.get_figure().get_nom()
-                x = p.get_x()
-                y = p.get_y()
-                if p.get_tournee()==1:
-                    tourne=1
-                else:
-                    tourne= 0
-                afficher += f"{numero_tole}  {nom}  {x}  {y}  {tourne}\n"
-        return afficher
-        
-
-
+   # Dans Printer.py
     def print_figures(self, fonction):
-        solution = None
         afficher = ""
         for figure in self._plaques.get_list_f():
-            solution = fonction(figure)
-            afficher += f"{figure}  "
-            for i in range(len(solution)):
-                afficher += f"{solution[i]}   "
-            afficher += "\n"
-        
+            solutions = fonction(figure)  # Doit retourner une liste de solutions
+            
+            for solution in solutions:
+                afficher += f"{figure}  "
+                for valeur in solution:
+                    afficher += f"{valeur}   "
+                afficher += "\n"
         return afficher
-
