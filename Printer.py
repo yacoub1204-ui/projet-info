@@ -18,25 +18,24 @@ class Printer:
         afficher += "\n"
         return afficher
         
-    def print_plaques(self, fonction):
-        solution = None
-        solution_decoupe = fonction(self._fonderie, self._plaques)
+    def print_plaques(self, solution):
 
-        tole = self._fonderie.get_tole()
-        solution = fonction(tole, self._plaques)
-    
-        afficher = ""
-        for numero_tole, plan in enumerate(solution.get_plans()):
-            for p in plan.get_placements():
-                nom = p.get_figure().get_nom()
-                x = p.get_x()
-                y = p.get_y()
-                if p.get_tournee()==True:
-                    tourne=1
-                else:
-                    tourne= 0
-                afficher += f"{numero_tole}  {nom}  {x}  {y}  {tourne}\n"
-        return afficher
+        output = []
+        
+        # Parcours chaque tôle
+        for tole_idx, plan in enumerate(solution.get_plans()):
+            # Parcours chaque figure placée dans cette tôle
+            for placement in plan.get_placements():
+                figure = placement.get_figure()
+                nom = figure.get_nom()
+                x = placement.get_x()
+                y = placement.get_y()
+                tournee = 1 if placement.get_tournee() else 0
+                
+                # Format: numéro_tole nom_figure x y tournee
+                output.append(f"{tole_idx} {nom} {x:.2f} {y:.2f} {tournee}")
+        
+        return "\n".join(output)
     
    
 
