@@ -34,7 +34,13 @@ def resoudre(inst: str):
     with open(f"{inst}_sol.txt", "w") as file:
         file.write(solution.print_fournisseurs(solutions_fournisseurs.fonderie_pl))
         file.write(solution.print_figures(solutions_figures.triviale))
-        file.write(solution.get_plans())
+        file.write(len(solution_dcp.get_plans))#=nbr toles utiliseees
+        file.write(solution_dcp.afficher())
+
+        for i, plan in enumerate(self._plans):
+            print(f"\n--- Tôle {i+1} ---")
+            for p in plan.get_placements():
+                print(p)
     duree: float = time.time() - debut
     print(f"Durée d'execution : {round(100 * duree) / 100} secondes")
 
