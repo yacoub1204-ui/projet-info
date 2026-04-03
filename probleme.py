@@ -33,9 +33,12 @@ def resoudre(inst: str):
     solution = Printer.Printer(fonderie, plaques)
     with open(f"{inst}_sol.txt", "w") as file:
         file.write(solution.print_fournisseurs(solutions_fournisseurs.fonderie_pl))
+        solution_decoupe = decouper(tole, plaques)
+        file.write(solution_decoupe.nb_toles())#=nbr toles utiliseees
         file.write(solution.print_figures(solutions_figures.triviale))
-        file.write(len(solution_dcp.get_plans))#=nbr toles utiliseees
-        file.write(solution_dcp.afficher())#ou alors placemnt(self, figure: Figure, x_origine, y_origine, tournee)
+        solution_decoupe = decouper(tole, plaques)
+        file.write(solution_decoupe.nb_toles())#=nbr toles utiliseees
+        
 
         for i, plan in enumerate(self._plans):
             print(f"\n--- Tôle {i+1} ---")
