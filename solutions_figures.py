@@ -1,23 +1,23 @@
-from __future__ import annotations
 import Figure
 import Point
 
-def triviale(figure : Figure.Figure):
+def triviale(figure : Figure):
     '''triviale : on parcourt la figure en prenant le premier point de chaque polygone'''
-    solution : list[Point.Point] = []
-    for polygone in figure.get_list_poly():
-        solution.append(polygone.get_list_points()[0])  # CORRIGE : get_list_points() ajouté dans Polygone
+    solution : list[Point] = []
+    for i in range(len(figure.get_list_poly())):
+        solution.append(i)
+        solution.append(0)
     return solution
 
-def diagonalmax(figure : Figure.Figure):   # CORRIGE : paramètre renommé figure (était plaques, incohérent)
+def diagonalmax(plaques):
     pointsolus = []
     solution = []
-    for polygone in figure.get_list_poly():     # CORRIGE : get_list_poly() au lieu de get_list_polygone()
-        pointsolus.append(polygone.point_plus_proche_droite((0, 0), figure.get_list_poly()[-1].get_list_points()[-1]))
+    for polygone in plaques.get_list_polygone():
+        pointsolus.append(polygone.point_plus_proche_droite((0, 0), figure.point_plus_loin()))
 
-    pointactuel = Point.Point(0, 0)             # CORRIGE : Point.Point() au lieu de Point()
+    pointactuel = Point(0, 0)
 
-    while pointsolus:
+    while pointsolus:  
         solution.append(pointactuel)
         pointactuel = pointactuel.point_proche_liste(pointsolus)
         pointsolus.remove(pointactuel)

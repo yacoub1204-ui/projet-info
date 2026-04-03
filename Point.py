@@ -1,4 +1,3 @@
-from __future__ import annotations
 from math import sqrt
 
 class Point:
@@ -11,17 +10,22 @@ class Point:
 
     def get_y(self):
         return self._y
-
+    
     def set_x(self, x):
-        self._x=x
-    def set_y(self, y):
-        self._y=y
+        self._x = x
 
-    def distance(self, autre_p : Point):
+    def set_y(self, y):
+        self._y = y
+
+    def __str__(self) -> str:
+        return f"{self._x} {self._y}"
+
+    def distance(self, autre_p):
         return sqrt((-self._x + autre_p.get_x())**2 + (-self._y + autre_p.get_y())**2)
     
-    def distance_point_droite(self, A : Point, B : Point): 
-        return abs((B.get_x() - A.get_x()) * (A.get_y() - self._y) - (A.get_x() - self._x) * (B.get_y() - A.get_y())) / A.distance(B)
+    def distance_point_droite(self, A, B): 
+        return abs((B.get_x() - A.get_x()) * (A.get_y() - self._y) - (A.get_x() - self._x) * (B.get_y() - A.get_x())) / A.distance(B)
+    
     def point_proche_liste(self, points):
         if not points:
             return None
@@ -32,12 +36,5 @@ class Point:
             if dist < distance_minimale:
                 distance_minimale = dist
                 point_le_plus_proche = point
-    
+        
         return point_le_plus_proche
-                    
-    def classementpoint(self,liste,concurent)  :
-        clas=[]
-        for _ in range(concurent):
-            clas.append(self.point_proche_liste(liste))
-            liste.remove(self.point_proche_liste(liste))
-        return clas

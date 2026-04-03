@@ -1,10 +1,8 @@
-from __future__ import annotations
-import Figure
 import Polygone
 
 class Plaques:
 
-    def __init__(self, prix_d : float, list_f : list[Figure.Figure], rotation_fig):
+    def __init__(self, prix_d : float, list_f : list[Figures], rotation_fig):
         self._prix_d = prix_d
         self._list_f = list_f
         self._rotation_fig = rotation_fig
@@ -72,3 +70,7 @@ class Plaques:
 
     def cout_decoupe(self):
         return self._prix_d*self.surface()
+    
+
+
+
