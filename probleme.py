@@ -1,10 +1,10 @@
 import Printer
 
 import reader2
-
+from solution_decoupe_2 import decoupe
 import solutions_figures
 import solutions_fournisseurs
-
+import TolePlan
 """
 Fichier à completer
 Seule la méthode resoudre() sera appelée
@@ -34,6 +34,7 @@ def resoudre(inst: str):
     with open(f"{inst}_sol.txt", "w") as file:
         file.write(solution.print_fournisseurs(solutions_fournisseurs.fonderie_pl))
         file.write(solution.print_figures(solutions_figures.triviale))
+        file.write(solution.get_plans())
     duree: float = time.time() - debut
     print(f"Durée d'execution : {round(100 * duree) / 100} secondes")
 
