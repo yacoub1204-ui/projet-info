@@ -1,7 +1,8 @@
-import Fonderie
+from __future__ import annotations
+import Fonderie2
 import Plaques
 
-def triviale(fonderie : Fonderie, plaques : Plaques):
+def triviale(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
 
     nb_plaques = 0
     for _ in plaques.get_list_f():
@@ -19,7 +20,7 @@ def triviale(fonderie : Fonderie, plaques : Plaques):
     
     return nb_plaques, cout_total
 
-def triviale2(fonderie : Fonderie, plaques : Plaques):
+def triviale2(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
     nombre_plaques = len(plaques.get_liste_f())
     '''on compare les alliages présents en stock pour trouver le moins cher à produire'''
     liste_achat1 = []
@@ -40,7 +41,7 @@ def triviale2(fonderie : Fonderie, plaques : Plaques):
                 count +=1
             liste_prix_achats.append(count)
 
-def triviale3(fonderie : Fonderie, plaques : Plaques):
+def triviale3(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
     nombre_plaques = len(plaques.get_liste_f())
     volume_plaque = fonderie.get_list_tole()[0].get_x() * fonderie.get_list_tole()[0].get_y() * fonderie.get_list_tole()[0].get_z()
     liste_prix = []
@@ -79,6 +80,8 @@ min sum(i for i in range(len(fonderie.get_list_prix()[i]))(m[i] * fonderie.get_l
 """
 from math import inf
 from typing import List, Tuple
+import sys
+
 import pulp
 
 
