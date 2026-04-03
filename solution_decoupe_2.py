@@ -204,7 +204,11 @@ def decouper(tole, plaques, autoriser_rotation = True):#(tole: Tole, plaques: Pl
                 surface_tole= tole.get_x() * tole.get_y()
                 surface_utilisee = 0
                 for p in solution.get_plans()[indice_tole].get_placements():   
-                    surface_utilisee += p.get_figure().get_x() * p.get_figure().get_y()    
+                    f = p.get_figure()
+                    if p.get_tournee():
+                        surface_utilisee += f.get_y() * f.get_x()
+                    else:
+                        surface_utilisee += f.get_x() * f.get_y()    
                 surface_figure = res[1] * res[2]
                 score = (surface_utilisee + surface_figure) / surface_tole
                 if score > meilleur_score:
