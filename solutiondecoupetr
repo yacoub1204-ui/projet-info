@@ -1,26 +1,24 @@
+from __future__ import annotations
+import Tole
+import Plaques
 
-
-def solutiondecoupedecoupetr(tole, figure):
+def solutiondecoupedecoupetr(tole : Tole.Tole, plaques : Plaques.Plaques):  # CORRIGE : imports ajoutés
     tole_x = tole.get_x()
     tole_y = tole.get_y()
-    
+
+    list_f = plaques.get_list_f()
+
     placement = []
     n_tole = 0
-    
-    for terme in figure:
-#if terme == True: return dit_les_termes
-        nom=terme[0] 
-        dim_x=terme[1]
-        dim_y=terme[2]
-        n=terme[3]
+
+    for nom, dim_x, dim_y, n in list_f:
         for _ in range(n):
-           
             if dim_x < dim_y:
                 tourne = 1
             else:
                 tourne = 0
-            
+
             placement.append([n_tole, nom, 0.0, 0.0, tourne])
             n_tole += 1
-    
+
     return placement, n_tole
