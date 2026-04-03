@@ -1,4 +1,4 @@
-from __future__ import annotations  # CORRIGE : forward reference pour Point
+from __future__ import annotations  
 import Point
 
 class Polygone:
