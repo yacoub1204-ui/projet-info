@@ -17,10 +17,28 @@ class Printer:
             afficher += f"{round(valeur, 3)}  "
         afficher += "\n"
         return afficher
-    
+        
     def print_plaques(self, fonction):
         solution = None
-        afficher = None
+        solution_decoupe = fonction(self._fonderie, self._plaques)
+
+        tole = self._fonderie.get_tole()
+        solution = fonction(tole, self._plaques)
+    
+        afficher = ""
+        for numero_tole, plan in enumerate(solution.get_plans()):
+            for p in plan.get_placements():
+                nom = p.get_figure().get_nom()
+                x = p.get_x()
+                y = p.get_y()
+                if p.get_tournee()==1:
+                    tourne=1
+                else:
+                    tourne= 0
+                afficher += f"{numero_tole}  {nom}  {x}  {y}  {tourne}\n"
+        return afficher
+    
+   
 
    # Dans Printer.py
     def print_figures(self, fonction):
