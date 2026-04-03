@@ -1,8 +1,9 @@
 import Polygone
-
+import Figure
+import Tole
 class Plaques:
 
-    def __init__(self, prix_d : float, list_f : list[Figures], rotation_fig):
+    def __init__(self, prix_d : float, list_f : list[Figure], rotation_fig):
         self._prix_d = prix_d
         self._list_f = list_f
         self._rotation_fig = rotation_fig
@@ -21,8 +22,8 @@ class Plaques:
     def surface(self, figure):
         return self._x*self._y
 
-    def rentre_dedans(self):
-        return self._x <=tole_x and self._y<= tole_y
+    def rentre_dedans(self, tole):
+        return self._x <=tole.get_x() and self._y<= tole.get_y()
 
 
     def cout_decoupe(self):
@@ -31,9 +32,9 @@ class Plaques:
 
     def ini_rotation_plaque(self):
         ini_rotation=[]
-        for i in range(len(self._tole)):
-            nb_exemplaires = self._qte_tole[i][1]# qte_tole[i] = (nom de la figure, quantite)
-            ini_rotation.append([0] for j in range(nb_exemplaire))
+        for i in range(len(self.__list_f)):
+            nb_exemplaires = self.list_f[i][1]# qte_tole[i] = (nom de la figure, quantite)
+            ini_rotation.append([0] for j in range(len(self.list_f)))
         return ini_rotation
     
 
@@ -50,10 +51,10 @@ class Plaques:
             for i in range(len(nouvelle_rotation)):
                 for j in range(len(nouvelle_rotation[i])):
                     nouvelle_rotation[i][j] = 1
-            return Plaque(self._y, self._x, self._dict_p, self._prix_d,
+            return Plaques(self._y, self._x, self._dict_p, self._prix_d,
                           self._tole, self._qte_tole, nouvelle_rotation)
         else:
-            return Plaque(self._x, self._y, self._dict_p, self._prix_d,
+            return Plaques(self._x, self._y, self._dict_p, self._prix_d,
                           self._tole, self._qte_tole, nouvelle_rotation)
 
 
