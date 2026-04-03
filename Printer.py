@@ -23,13 +23,14 @@ class Printer:
         solution_decoupe = fonction(self._fonderie, self._plaques)
 
         # on récupère les infos
-        infos = solution_decoupe.get_placements_infos()
-
+        infos = solution_decoupe.decoupe()
+        afficher=''
         for info in infos:
             afficher += (
-                f"{info['tole']}  "
-                f"{info['x']}  {info['y']}  "
-                f"{info['largeur']}  {info['hauteur']}\n"
+                f"solution.get_plan()[info]  "
+                f"plaques.get_list_f()[info]  "
+                f"figure.get._x() , igure.get._y()  "
+                f"espacelibre.get_lx() , espaelibre.get_ly()\n"
             )
     
         return afficher
