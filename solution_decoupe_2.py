@@ -140,14 +140,14 @@ def _fusionner_espaces(espaces):
     if len(espaces) < 2:
         return espaces
 
-    utilises = [False] * len(espaces)
+    utilises = [0] * len(espaces)
     nouveaux = []
 
     for i in range(len(espaces)):
-        if utilises[i]:
+        if utilises[i]!=0:
             continue
         for j in range(i + 1, len(espaces)):
-            if utilises[j]:
+            if utilises[j]==1:
                 continue
 
             A = espaces[i]
@@ -162,8 +162,8 @@ def _fusionner_espaces(espaces):
                 fv = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)
                 if fv.surface_libre() > A.surface_libre() and fv.surface_libre() > B.surface_libre():
                     nouveaux.append(fv)
-                    utilises[i] = True
-                    utilises[j] = True
+                    utilises[i] = 1
+                    utilises[j] =1
                     break
 
             # Fusion horizontale : chevauchement en y
@@ -175,8 +175,8 @@ def _fusionner_espaces(espaces):
                 fh = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)
                 if fh.surface_libre() > A.surface_libre() and fh.surface_libre() > B.surface_libre():
                     nouveaux.append(fh)
-                    utilises[i] = True
-                    utilises[j] = True
+                    utilises[i] = 1
+                    utilises[j] = 1
                     break
 
     if not nouveaux:
