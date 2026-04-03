@@ -33,7 +33,7 @@ class TolePlan:
     def get_placements(self):      
         return self._placements
 
-class Solution:
+class Solution_dcp:
     def __init__(self):
         self._plans = [] # Liste de TolePlan            
     def get_plans(self):
