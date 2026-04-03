@@ -36,8 +36,8 @@ def resoudre(inst: str):
         solution_decoupe = decouper(tole, plaques)
         file.write(solution_decoupe.nb_toles())#=nbr toles utiliseees
         file.write(solution.print_figures(solutions_figures.triviale))
-        solution_decoupe = decouper(tole, plaques)
-        file.write(solution_decoupe.nb_toles())#=nbr toles utiliseees
+        
+        file.write(solution.print_nb_toles(solution-decoupe_2.decouper))#=nbr toles utiliseees
         
 
         for i, plan in enumerate(self._plans):
