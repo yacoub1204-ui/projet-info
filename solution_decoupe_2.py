@@ -40,7 +40,7 @@ class Solution:
         return self._plans
     def nb_toles(self):
         return len(self._plans)
-        def get_resume(self):      
+    def get_resume(self):      
         resultats = []
         for i, plan in enumerate(self._plans):
             for p in plan.get_placements():
