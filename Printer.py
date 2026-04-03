@@ -1,9 +1,10 @@
+from __future__ import annotations
 import Fonderie2
 import Plaques
 
 class Printer:
 
-    def __init__(self, fonderie : Fonderie, plaques : Plaques):
+    def __init__(self, fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
         self._fonderie = fonderie
         self._plaques = plaques
 
@@ -31,4 +32,3 @@ class Printer:
             afficher += "\n"
         
         return afficher
-
