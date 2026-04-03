@@ -17,17 +17,14 @@ class Printer:
             afficher += f"{round(valeur, 3)}  "
         afficher += "\n"
         return afficher
-    def print_plaques(self, fonction):
+    def print_plaques(self, tole_plans):
         afficher = ""
     
-    # fonction doit retourner une liste de TolePlan
-        tole_plans = fonction(self._plaques)
-
-        for i, plan in enumerate(tole_plans):  # i = numéro de tôle
+        for i, plan in enumerate(tole_plans):
             for placement in plan.get_placements():
                 figure = placement.get_figure()
-                
-                afficher += f"{i}  "  # numéro de tôle
+    
+                afficher += f"{i}  "
                 afficher += f"{figure.get_nom()}  "
                 afficher += f"{placement.get_x()}  "
                 afficher += f"{placement.get_y()}  "
