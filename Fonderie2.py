@@ -7,7 +7,7 @@ import Materiau
 class Fonderie2:
 
     def __init__(self, tole : Tole.Tole, liste_mat : list, list_all : list, client : Client.Client, cout):
-        self._tole     = [tole]     # CORRIGE : wrappé en liste car get_tole()[0] utilisé partout
+        self._tole     = [tole]     #  liste car get_tole()[0] utilisé partout
         self._client   = client
         self._liste_mat = liste_mat
         self._list_all = list_all
@@ -29,5 +29,5 @@ class Fonderie2:
         '''liste des alliages en stock à la fonderie'''
         return self._list_all
 
-    def get_client(self):           # CORRIGE : manquait, utilisé dans solutions_fournisseurs
+    def get_client(self):           
         return self._client
