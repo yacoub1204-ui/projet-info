@@ -1,29 +1,51 @@
-from __future__ import annotations
 import Figure
-import Point
+from Point import Point
+import Polygone
 
-def triviale(figure : Figure.Figure):
+def triviale(figure : Figure):
     '''triviale : on parcourt la figure en prenant le premier point de chaque polygone'''
-    solution : list[Point.Point] = []
+    solution : list[Point] = []
+    for i in range(len(figure.get_list_poly())):
+        solution.append(i)
+        solution.append(0)
+    return solution
+def diagonalmax(figure):
+    '''diagonalmax : on parcourt les polygones dans l'ordre de leur point 
+    le plus proche de la diagonale (0,0) -> point le plus éloigné'''
+    
+    # 1. Trouver le point le plus éloigné de l'origine dans toute la figure
+    point_loin = None
+    distance_max = 0
+    origine = Point(0, 0)
+    
     for polygone in figure.get_list_poly():
-        solution.append(polygone.get_list_points()[0])  # CORRIGE : get_list_points() ajouté dans Polygone
-    return solution
-
-def diagonalmax(figure : Figure.Figure):   # CORRIGE : paramètre renommé figure (était plaques, incohérent)
-    pointsolus = []
+        for point in polygone.get_list_points():
+            dist = origine.distance(point)
+            if dist > distance_max:
+                distance_max = dist
+                point_loin = point
+    
+    # 2. Pour chaque polygone, trouver l'index du point le plus proche de la diagonale
+    points_diagonale = []
+    
+    liste_poly = figure.get_list_poly()
+    for i in range(len(liste_poly)):
+        polygone = liste_poly[i]
+        point = polygone.point_plus_proche_droite(origine, point_loin)  # Corrigé ici
+        # Trouver l'index de ce point dans le polygone
+        index_point = polygone.get_list_points().index(point)
+        points_diagonale.append((i, index_point, point))
+    
+    # 3. Trier les polygones par distance depuis (0,0)
+    points_diagonale.sort(key=lambda x: origine.distance(x[2]))
+    
+    # 4. Construire la solution au format attendu
     solution = []
-    for polygone in figure.get_list_poly():     # CORRIGE : get_list_poly() au lieu de get_list_polygone()
-        pointsolus.append(polygone.point_plus_proche_droite((0, 0), figure.get_list_poly()[-1].get_list_points()[-1]))
-
-    pointactuel = Point.Point(0, 0)             # CORRIGE : Point.Point() au lieu de Point()
-
-    while pointsolus:
-        solution.append(pointactuel)
-        pointactuel = pointactuel.point_proche_liste(pointsolus)
-        pointsolus.remove(pointactuel)
-
+    for index_poly, index_point, _ in points_diagonale:
+        solution.append(index_poly)
+        solution.append(index_point)
+    
     return solution
-
 def glouton(figure, point_depart=None):
     if point_depart is None:
         point_depart = Point(0, 0) 
@@ -33,7 +55,7 @@ def glouton(figure, point_depart=None):
     
     while polygones_restants:
         meilleur_point = None
-        meilleure_distance = float('inf')
+        meilleure_distance = 99999
         meilleur_polygone = None
         
         for polygone in polygones_restants:
@@ -44,66 +66,70 @@ def glouton(figure, point_depart=None):
                     meilleur_point = point
                     meilleur_polygone = polygone
         
-        # Trouver l'INDEX du polygone (pas un compteur)
+        
         index_poly = figure.get_list_poly().index(meilleur_polygone)
-        solution.append(index_poly)  # ← utilise index, pas numero
+        solution.append(index_poly)  
         solution.append(meilleur_point)
         point_actuel = meilleur_point
         polygones_restants.remove(meilleur_polygone)
         
     return solution
+
+
+
+
 import time
 import copy
 
-import time
-from copy import deepcopy
-def beam_search(figure, beam_width=3, timeout=40):
+def beam_search(figure, nbrdeconcurent=2, limite=10):
     depart = time.time()
     point_depart = Point(0, 0)
     polygones = figure.get_list_poly()
     nb_poly = len(polygones)
     
-    # (points, nums, indices_points, cout, visites)
-    chemins = [([point_depart], [], [], 0.0, set())]
+    # le chemin = (points, position, indices_points, longueur, visites)
+    chemins = [([point_depart], [], [], 0.0, [])]
     meilleure_solution = None
-    meilleur_cout = float('inf')
+    meilleur_long = 99999 #pour la mettre a l'infini
     
-    while (time.time() - depart) < timeout:
+    while (time.time() - depart) < limite: # on cree un nouveaux chemin jusqua qu'on a depassé la limite
         nouveaux_chemins = []
-        for points, nums, idx_pts, cout, visites in chemins:
+        for points, position, reelindicedupoint, long, visites in chemins:
             dernier_point = points[-1]
-            restants = [p for i, p in enumerate(polygones) if i not in visites]
+            restants = []
+            for i in range(len(polygones)):
+                if i not in visites:
+                    restants.append(polygones[i])   #on cherche les points qu'on a pas visité
             
-            if not restants:
-                if cout < meilleur_cout:
-                    meilleur_cout = cout
-                    meilleure_solution = (points, nums, idx_pts)
+            if not restants:                # lorsquon a plus de valeur on classe la meilleur valeur au dessus 
+                if long < meilleur_long:
+                    meilleur_long = long
+                    meilleure_solution = (points, position, reelindicedupoint)
                 continue
             
-            for poly in restants:
+            for poly in restants:           #pour les valeurs pas visité on crée des noouveau chemin jusqua ne plus avoir ne chemin 
                 for point in poly.get_list_points():
-                    dist = dernier_point.distance(point)
-                    idx_poly = polygones.index(poly)
-                    idx_point = poly.get_list_points().index(point)
-                    nouveaux_chemins.append((
-                        points + [point],
-                        nums + [idx_poly],
-                        idx_pts + [idx_point],
-                        cout + dist,
-                        visites | {idx_poly}
-                    ))
-        
-        if not nouveaux_chemins:
+                    distance = dernier_point.distance(point)
+                    idice_polygone = polygones.index(poly)
+                    idice_point = poly.get_list_points().index(point)
+                    nouveau_points = points + [point]
+                    nouvelle_position = position + [idice_polygone]
+                    nouveaux_indices = reelindicedupoint + [idice_point]
+                    nouvolong = long + distance
+                    nouveaux_visites = visites + [idice_polygone]
+
+                    nouveaux_chemins.append((nouveau_points, nouvelle_position, nouveaux_indices, nouvolong, nouveaux_visites))
+        if not nouveaux_chemins:            # quand on a plus de chemin cest qu'on a tous visité 
             break
-        nouveaux_chemins.sort(key=lambda x: x[3])
-        chemins = nouveaux_chemins[:beam_width]
+        nouveaux_chemins.sort(key=lambda x: x[3])           #on classe par rapport a leur longueur
+        chemins = nouveaux_chemins[:nbrdeconcurent]         #les valeur du chemin cest les valeur quon a cho
     
     if meilleure_solution:
-        points, nums, idx_pts = meilleure_solution
-        resultat = []
+        point, nums, idice_point = meilleure_solution
+        solution = []
         for i in range(len(nums)):
-            resultat.append(nums[i])
-            resultat.append(idx_pts[i])  # indice du point (entier)
-        return resultat
+            solution.append(nums[i])
+            solution.append(idice_point[i])  # indice du point (entier)
+        return solution
     else:
-        return glouton(figure, point_depart)  # mais glouton aussi doit être modifié
+        return glouton(figure, point_depart)  #Si aucune solution est trouvé dans le temps impartie on fait un algo glouton
