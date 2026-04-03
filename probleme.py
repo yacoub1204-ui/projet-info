@@ -2,7 +2,7 @@ import Printer
 import reader2
 import solutions_figures
 import solutions_fournisseurs
-
+import solution_decoupe_2
 """
 Fichier à completer
 Seule la méthode resoudre() sera appelée
@@ -12,12 +12,7 @@ import time
 
 
 def resoudre(inst: str):
-    """
-    Cette methode est la seule qui sera appelee par le checker
-
-    :param inst: nom de l'instance traitee
-    :return: rien
-    """
+   
     debut: float = time.time()
 
     # on récupère les données de l'instance choisie grâce au reader
@@ -31,6 +26,7 @@ def resoudre(inst: str):
     with open(f"{inst}_sol.txt", "w") as file:
         file.write(solution.print_fournisseurs(solutions_fournisseurs.test_fonderie))
         file.write(solution.print_figures(solutions_figures.triviale))
+        file.write(solution.print_paques(solution_decoupe_2.decouper))
 
     duree: float = time.time() - debut
     print(f"Durée d'execution : {round(100 * duree) / 100} secondes")
