@@ -1,8 +1,8 @@
-from __future__ import annotations
-import Fonderie2
+import Fonderie
 import Plaques
+import pulp
 
-def triviale(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
+def triviale(fonderie : Fonderie, plaques : Plaques):
 
     nb_plaques = 0
     for _ in plaques.get_list_f():
@@ -20,7 +20,7 @@ def triviale(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
     
     return nb_plaques, cout_total
 
-def triviale2(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
+def triviale2(fonderie : Fonderie, plaques : Plaques):
     nombre_plaques = len(plaques.get_liste_f())
     '''on compare les alliages présents en stock pour trouver le moins cher à produire'''
     liste_achat1 = []
@@ -41,7 +41,7 @@ def triviale2(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
                 count +=1
             liste_prix_achats.append(count)
 
-def triviale3(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
+def triviale3(fonderie : Fonderie, plaques : Plaques):
     nombre_plaques = len(plaques.get_liste_f())
     volume_plaque = fonderie.get_list_tole()[0].get_x() * fonderie.get_list_tole()[0].get_y() * fonderie.get_list_tole()[0].get_z()
     liste_prix = []
@@ -65,88 +65,96 @@ def triviale3(fonderie : Fonderie2.Fonderie2, plaques : Plaques.Plaques):
         
         liste_prix.append(prix_achat)
 
-"""
-Exemple de programme permettant de résoudre le problème du Jardin vu en cours
-max   4 xC + 5 xN
-s.t.  2 xC + 1 xN <= 8
-      1 xC + 2 xN <= 7
-      0 xC + 1 xN <= 3
-        xC ,   xN >= 0
-"""
-
-"""
-Pour la fonderie on veut résoudre :
-min sum(i for i in range(len(fonderie.get_list_prix()[i]))(m[i] * fonderie.get_list_prix()[i])
-"""
-from math import inf
-from typing import List, Tuple
-import sys
-
-import pulp
-
-
-def resoudre_fonderie(rendements: List[float], stocks: List[float], conso: List[List[float]]) \
-        -> Tuple[float, List[float], List[float]]:
+def fonderie_pl(fonderie):
     """
-    Résolution du problème du jardin
-    :param rendements: rendement[i] est le rendement du légume i
-    :param stocks: stocks[j] est la quantité disponible de la ressource j
-    :param conso: conso[i][j] est la consommation unitaire du légume j en ressource i
-    :return: la valeur optimale de l'objectif, la solution optimale primale, la solution optimale duale
+    Résolution du problème d'optimisation de la fonderie.
+    :param fonderie: objet Fonderie contenant toutes les donnees
+    :param nb_toles: nombre de toles a produire
+    :return: cout optimal, masses de metaux achetes, masses d'alliages utilises
     """
-    # Données des ensembles pour simplifier l'écriture
-    nb_legumes: int = len(rendements)
-    nb_ressources: int = len(stocks)
-    legumes = range(nb_legumes)
-    ressources = range(nb_ressources)
 
-    # Modèle
-    modele: pulp.LpProblem = pulp.LpProblem("Jardin", pulp.LpMaximize)
+    # Donnees de base
+    nb_toles = 30
+    volume_tole = fonderie.get_tole().get_x() * fonderie.get_tole().get_y() * fonderie.get_tole().get_z()
+    volume_total = nb_toles * volume_tole  # volume total de metal a fondre (cm3)
 
-    # Variables de décision
-    superficie: List[pulp.LpVariable] = \
-        [pulp.LpVariable(f"superficie_{leg}", lowBound=0, cat="Continuous") for leg in legumes]
+    metaux = range(len(fonderie.get_list_mat()))
+    alliages = range(len(fonderie.get_list_all()))
 
-    # Fonction objectif
-    modele += pulp.lpSum(rendements[leg] * superficie[leg] for leg in legumes)
+    prix_kg = [fonderie.get_list_mat()[i].get_prix_kg() for i in metaux]
+    mv_metal = [fonderie.get_list_mat()[i].get_mv() for i in metaux]
+    pct_min = [fonderie.get_client().get_list_min()[i] for i in metaux]
+    pct_max = [fonderie.get_client().get_list_max()[i] for i in metaux]
 
-    # Contraintes
-    cont_stock: List[pulp.LpConstraint] = \
-        [pulp.lpSum(conso[res][leg] * superficie[leg] for leg in legumes) <= stocks[res] for res in ressources]
-    for res in ressources:
-        modele += cont_stock[res], f"respect_stock_{res}"
+    # pct_all[j][i] = proportion du metal i dans l'alliage j
+    pct_all = [fonderie.get_list_all()[j].get_list_pct() for j in alliages]
+    # mv_all[j] = masse volumique de l'alliage j (g/cm3)
+    mv_all = [fonderie.mv_alliage(j) for j in alliages]
+    # stock_kg[j] = masse disponible de l'alliage j (kg)
+    stock_kg = [fonderie.get_list_all()[j].get_kg() for j in alliages]
 
-    # Résolution (en demandant de supprimer les messages pulp)
+    # Modele
+    modele = pulp.LpProblem("Fonderie", pulp.LpMinimize)
+
+    # Variables de decision
+    # masse_achetee[i] : kg du metal pur i achete sur le marche
+    masse_achetee = [
+        pulp.LpVariable(f"achat_metal_{i}", lowBound=0, cat="Continuous")
+        for i in metaux
+    ]
+    # masse_alliage[j] : kg de l'alliage en stock j utilise
+    masse_alliage = [
+        pulp.LpVariable(f"alliage_{j}", lowBound=0, cat="Continuous")
+        for j in alliages
+    ]
+
+    # Fonction objectif : minimiser le cout d'achat des metaux purs
+    modele += pulp.lpSum(prix_kg[i] * masse_achetee[i] for i in metaux)
+
+    # Contrainte 1 : volume total de metal suffisant pour produire les toles
+    # La masse totale / masse volumique moyenne doit etre >= volume_total
+    # On exprime en cm3 : sum(masse_achetee[i]*1000/mv_metal[i]) + sum(masse_alliage[j]*1000/mv_all[j]) >= volume_total
+    modele += (
+        pulp.lpSum(masse_achetee[i] * 1000 / mv_metal[i] for i in metaux)
+        + pulp.lpSum(masse_alliage[j] * 1000 / mv_all[j] for j in alliages)
+        >= volume_total
+    ), "volume_suffisant"
+
+    # masse totale en kg de metal dans la cuve
+    masse_totale = (
+        pulp.lpSum(masse_achetee[i] for i in metaux)
+        + pulp.lpSum(masse_alliage[j] for j in alliages)
+    )
+
+    # Contrainte 2a : proportion minimale de chaque metal dans l'alliage final
+    # (masse du metal i dans la cuve) >= pct_min[i] * masse_totale
+    # masse du metal i = masse_achetee[i] + sum_j(pct_all[j][i] * masse_alliage[j])
+    for i in metaux:
+        masse_metal_i = (
+            masse_achetee[i]
+            + pulp.lpSum(pct_all[j][i] * masse_alliage[j] for j in alliages)
+        )
+        modele += masse_metal_i >= pct_min[i] * masse_totale, f"pct_min_{i}"
+        modele += masse_metal_i <= pct_max[i] * masse_totale, f"pct_max_{i}"
+
+    # Contrainte 3 : ne pas depasser le stock disponible de chaque alliage
+    for j in alliages:
+        modele += masse_alliage[j] <= stock_kg[j], f"stock_alliage_{j}"
+
+    # Resolution
     modele.solve(pulp.PULP_CBC_CMD(msg=False))
 
-    # Definition des valeurs renvoyées
-    print("Statut de la résolution:", pulp.LpStatus[modele.status])
+    print("Resolution:", pulp.LpStatus[modele.status])
     if modele.status == pulp.constants.LpSolutionOptimal:
-        # si la résolution a réussi on renvoie la valeur de l'objectif, et des solutions primales et duales
-        return pulp.value(modele.objective), \
-               [superficie[leg].varValue for leg in legumes], \
-               [cont_stock[res].pi for res in ressources]
+        cout_achat = pulp.value(modele.objective)
+        cout_fonte = volume_total * fonderie.get_cout()
+        cout_total = cout_achat + cout_fonte
+        return [
+            cout_total,
+            0,
+            nb_toles,
+            [masse_achetee[i].varValue for i in metaux],
+            [masse_alliage[j].varValue for j in alliages]
+        ]
     else:
-        # si le statut n'est pas Optimal c'est qu'il y a eu un problème (PL non réalisable ou non borné)
         return -inf, [], []
-
-
-'''
-if __name__ == "__main__":
-    # Données
-    rendements: List[float] = [4, 5]
-    stocks: List[float] = [8, 7, 3]
-    conso: List[List[float]] = [
-        [2, 1],
-        [1, 2],
-        [0, 1]
-    ]
-    # Résolution avec en retour les valeurs de l'objectif, et des solutions optimales primale et duale
-    objectif, x, y = resoudre_jardin(rendements, stocks, conso)
-    print("Objectif :", objectif)
-    print("Solution primale:", x)
-    print("Solution duale:", y)
-'''
-
-def test_fonderie(fonderie, plaques):
-    return fonderie.get_list_all()[0].get_kg()
