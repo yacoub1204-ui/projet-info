@@ -217,7 +217,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
     autoriser_rotation = True
     figures = sorted(plaques.get_list_f(), key=lambda f: f.get_x() * f.get_y(), reverse=True)
 
-    tole_plan =[] #liste des toleplan
+    tole_plans =[] #liste des toleplan
     plans_espaces = []  # plans_espaces[i] = list[EspaceLibre] pour la tole i
 
     for figure in figures:
@@ -233,7 +233,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
             if res is not None:
                 surface_tole= tole.get_x() * tole.get_y()
                 surface_utilisee = 0
-                for p in stole_plans[indice_tole].get_placements():   
+                for p in tole_plans[indice_tole].get_placements():   
                     f = p.get_figure()
                     if p.get_tournee():
                         surface_utilisee += f.get_y() * f.get_x()
@@ -274,7 +274,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
         indice_espace, largeur, hauteur = resultat
         espace  =plans_espaces[tole_idx][indice_espace]
         tournee = (largeur != figure.get_x())
-        tole_plans()[tole_idx].get_placements().append(   
+        tole_plans[tole_idx].get_placements().append(   
             Placement(figure, espace.get_x(), espace.get_y(), tournee)
         )
 
