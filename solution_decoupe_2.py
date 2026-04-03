@@ -208,8 +208,10 @@ def _meilleur_placement(espaces, figure, autoriser_rotation):
                     meilleur = (indice, largeur, hauteur)
                     meilleur_gasp = gaspillage  
         indice += 1
-
-    return meilleur
+    if meilleur is not None:
+        return meilleur
+    return None
+    
 
 
 # Algo principal
