@@ -1,14 +1,17 @@
 import Printer
-import reader
-
 import reader2
+
+import subprocess, sys
+subprocess.run([sys.executable, "-m", "pip", "install", "pulp"])
+
 
 import solutions_figures
 import solutions_fournisseurs
-
+import subprocess
+subprocess.run(["pip", "install", "pulp"])
 """
 Fichier à completer
-Seule la méthode resoudre() sera appelée
+Seule la méthode resoudre()  sera   appelée
 """
 import os
 import time
