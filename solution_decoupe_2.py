@@ -131,59 +131,59 @@ def _decouper_guillotine(espace, figure, tournee):#(espace: EspaceLibre, figure:
     return resultat     # liste espaces libres crees apres avoir place une figure
 
 
-def _fusionner_espaces(espaces):#(espaces: list[EspaceLibre])
-    """Tente de fusionner des paires d'espaces dont les intervalles x ou y
-    se chevauchent pour créer un rectangle d'espace libre qui traverse les autres."""
-    if len(espaces) < 2:
-        return espaces
+# def _fusionner_espaces(espaces):#(espaces: list[EspaceLibre])
+#     """Tente de fusionner des paires d'espaces dont les intervalles x ou y
+#     se chevauchent pour créer un rectangle d'espace libre qui traverse les autres."""
+#     if len(espaces) < 2:
+#         return espaces
 
-    # marquer les espaces deja fusionnes
-    utilises = [False] * len(espaces)
-    nouveaux = []
+#     # marquer les espaces deja fusionnes
+#     utilises = [False] * len(espaces)
+#     nouveaux = []
 
-    for i in range(len(espaces)):
-        if utilises[i]:
-            continue
-        for j in range(i + 1, len(espaces)):
-            if utilises[j]:
-                continue
+#     for i in range(len(espaces)):
+#         if utilises[i]:
+#             continue
+#         for j in range(i + 1, len(espaces)):
+#             if utilises[j]:
+#                 continue
 
-            A = espaces[i]  # rectangle coin inferieur gauche en x,y et largeur lx et hauteur ly
-            B = espaces[j]
+#             A = espaces[i]  # rectangle coin inferieur gauche en x,y et largeur lx et hauteur ly
+#             B = espaces[j]
 
-            # Fusion verticale : chevauchement en x, un rectangle avec un plus grand y est cree
-            x_gauche = max(A.get_x(), B.get_x())
-            x_droit  = min(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
-            if x_droit - x_gauche > 0:
-                y_bas  = min(A.get_y(), B.get_y())
-                y_haut = max(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
-                fv = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)  # fv = fusion verticale
-                if fv.surface_libre() > A.surface_libre() and fv.surface_libre() > B.surface_libre():
-                    nouveaux.append(fv)
-                    utilises[i] = True
-                    utilises[j] = True
-                    break
+#             # Fusion verticale : chevauchement en x, un rectangle avec un plus grand y est cree
+#             x_gauche = max(A.get_x(), B.get_x())
+#             x_droit  = min(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
+#             if x_droit - x_gauche > 0:
+#                 y_bas  = min(A.get_y(), B.get_y())
+#                 y_haut = max(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
+#                 fv = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)  # fv = fusion verticale
+#                 if fv.surface_libre() > A.surface_libre() and fv.surface_libre() > B.surface_libre():
+#                     nouveaux.append(fv)
+#                     utilises[i] = True
+#                     utilises[j] = True
+#                     break
 
-            # Fusion horizontale : chevauchement en y, un rectangle avec un plus grand x est cree
-            y_bas  = max(A.get_y(), B.get_y())
-            y_haut = min(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
-            if y_haut - y_bas > 0:
-                x_gauche = min(A.get_x(), B.get_x())
-                x_droit  = max(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
-                fh = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)  # fh = fusion horizontale
-                if fh.surface_libre() > A.surface_libre() and fh.surface_libre() > B.surface_libre():
-                    nouveaux.append(fh)
-                    utilises[i] = True 
-                    utilises[j] = True
-                    break
+#             # Fusion horizontale : chevauchement en y, un rectangle avec un plus grand x est cree
+#             y_bas  = max(A.get_y(), B.get_y())
+#             y_haut = min(A.get_y() + A.get_ly(), B.get_y() + B.get_ly())
+#             if y_haut - y_bas > 0:
+#                 x_gauche = min(A.get_x(), B.get_x())
+#                 x_droit  = max(A.get_x() + A.get_lx(), B.get_x() + B.get_lx())
+#                 fh = EspaceLibre(x_gauche, y_bas, x_droit - x_gauche, y_haut - y_bas)  # fh = fusion horizontale
+#                 if fh.surface_libre() > A.surface_libre() and fh.surface_libre() > B.surface_libre():
+#                     nouveaux.append(fh)
+#                     utilises[i] = True 
+#                     utilises[j] = True
+#                     break
 
-    if not nouveaux:
-        return espaces
+#     if not nouveaux:
+#         return espaces
 
-    result = [espaces[k] for k in range(len(espaces)) if not utilises[k]]
-    result.extend(nouveaux)
-    result.sort(key=lambda e: e.surface_libre(), reverse=True)  
-    return result   # liste espaces libres combinant precedents et nouveaux (fusions)
+#     result = [espaces[k] for k in range(len(espaces)) if not utilises[k]]
+#     result.extend(nouveaux)
+#     result.sort(key=lambda e: e.surface_libre(), reverse=True)  
+#     return result   # liste espaces libres combinant precedents et nouveaux (fusions)
 
 
 def _meilleur_placement(espaces, figure, autoriser_rotation):  # (espaces: list[EspaceLibre], figure: Figure, autoriser_rotation: bool)
@@ -251,7 +251,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
         if resultat is None:
             indice_tole = 0
             for espaces in plans_espaces:
-                espaces_fusionnes = _fusionner_espaces(espaces)
+              #  espaces_fusionnes = _fusionner_espaces(espaces)
                 res = _meilleur_placement(espaces_fusionnes, figure, autoriser_rotation)
                 if res is not None:
                     plans_espaces[indice_tole] = espaces_fusionnes
