@@ -1,7 +1,6 @@
 import Printer
 
 import reader2
-from solution_decoupe_2 import decoupe
 import solutions_figures
 import solutions_fournisseurs
 import TolePlan
@@ -33,15 +32,12 @@ def resoudre(inst: str):
     solution = Printer.Printer(fonderie, plaques)
     with open(f"{inst}_sol.txt", "w") as file:
         file.write(solution.print_fournisseurs(solutions_fournisseurs.fonderie_pl))
-        file.write(solution.print_plaques(solution-decoupe_2.decouper))#=nbr toles utiliseees
+        file.write(solution.print_plaques(solution.decouper))#=nbr toles utiliseees
         file.write(solution.print_figures(solutions_figures.triviale))
         
         
 
-        for i, plan in enumerate(self._plans):
-            print(f"\n--- Tôle {i+1} ---")
-            for p in plan.get_placements():
-                print(p)
+       
     duree: float = time.time() - debut
     print(f"Durée d'execution : {round(100 * duree) / 100} secondes")
 
