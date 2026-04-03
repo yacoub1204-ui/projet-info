@@ -8,7 +8,7 @@ class Polygone:
     def get_points(self):
         return self._points
 
-    def get_list_points(self):      # CORRIGE : alias utilisé dans solutions_figures
+    def get_list_points(self):      
         return self._points
 
     def point_plus_proche_droite(self, A, B):
