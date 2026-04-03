@@ -51,7 +51,7 @@ class Solution:
 
                 resultats.append({
                     "tole": i + 1,
-                    "nom": str(fig),   # ou fig.get_nom() si dispo
+                    "nom": fig.get_nom(),
                     "x": p.get_x(),
                     "y": p.get_y(),
                     "tournee": p.get_tournee()
