@@ -31,7 +31,7 @@ class Printer:
                 nom = p.get_figure().get_nom()
                 x = p.get_x()
                 y = p.get_y()
-                if p.get_tournee()==1:
+                if p.get_tournee()==True:
                     tourne=1
                 else:
                     tourne= 0
