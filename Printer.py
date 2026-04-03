@@ -20,7 +20,20 @@ class Printer:
     
     def print_plaques(self, fonction):
         solution = None
-        afficher = None
+        solution_decoupe = fonction(self._fonderie, self._plaques)
+
+        # on récupère les infos
+        infos = solution_decoupe.get_placements_infos()
+
+        for info in infos:
+            afficher += (
+                f"{info['tole']}  "
+                f"{info['x']}  {info['y']}  "
+                f"{info['largeur']}  {info['hauteur']}\n"
+            )
+    
+        return afficher
+
 
     def print_figures(self, fonction):
         solution = None
