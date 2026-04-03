@@ -35,7 +35,7 @@ def resoudre(inst: str):
         file.write(solution.print_fournisseurs(solutions_fournisseurs.fonderie_pl))
         file.write(solution.print_figures(solutions_figures.triviale))
         file.write(len(solution_dcp.get_plans))#=nbr toles utiliseees
-        file.write(solution_dcp.afficher())#placemnt(self, figure: Figure, x_origine, y_origine, tournee)
+        file.write(solution_dcp.afficher())#ou alors placemnt(self, figure: Figure, x_origine, y_origine, tournee)
 
         for i, plan in enumerate(self._plans):
             print(f"\n--- Tôle {i+1} ---")
