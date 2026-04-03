@@ -33,16 +33,13 @@ class TolePlan:
     def get_placements(self):      
         return self._placements
 
-class Solution_dcp:
+class Solution:
     def __init__(self):
         self._plans = [] # Liste de TolePlan            
     def get_plans(self):
         return self._plans
-    def afficher(self):
-        for i, plan in enumerate(self._plans):
-            print(f"\n--- Tôle {i+1} ---")
-            for p in plan.get_placements():    
-                print(p)
+    def nb_toles(self):
+        return len(self._plans)
 
 
 # Classe espace libre
