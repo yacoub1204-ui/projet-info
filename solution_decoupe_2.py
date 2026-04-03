@@ -35,30 +35,30 @@ class TolePlan:
 
 
 
-# class Solution:    
-#     def __init__(self,plans)    
-#         self._plans = [] # Liste de TolePlan  
-#     def get_plans(self):
-#         return self._plans
-#     def get_plans(self):
-#         return self._plans
-#     def nb_toles(self):
-#         return len(self._plans)
-#     def get_resume(self):      
-#         resultats = []
-#         for i, plan in enumerate(self._plans):
-#             for p in plan.get_placements():
-#                 fig = p.get_figure()
+class Solution:    
+    def __init__(self,plans)    
+        self._plans = [] # Liste de TolePlan  
+    def get_plans(self):
+        return self._plans
+    def get_plans(self):
+        return self._plans
+    def nb_toles(self):
+        return len(self._plans)
+    def get_resume(self):      
+        resultats = []
+        for i, plan in enumerate(self._plans):
+            for p in plan.get_placements():
+                fig = p.get_figure()
 
-#                 resultats.append({
-#                     "tole": i + 1,
-#                     "nom": str(fig),   # ou fig.get_nom() si dispo
-#                     "x": p.get_x(),
-#                     "y": p.get_y(),
-#                     "tournee": p.get_tournee()
-#                 })
+                resultats.append({
+                    "tole": i + 1,
+                    "nom": str(fig),   # ou fig.get_nom() si dispo
+                    "x": p.get_x(),
+                    "y": p.get_y(),
+                    "tournee": p.get_tournee()
+                })
 
-#         return resultats
+        return resultats
 
 
 # Classe espace libre
