@@ -36,7 +36,7 @@ class TolePlan:
 
 
 class Solution:    
-    def __init__(self,plans)    
+    def __init__(self,plans):    
         self._plans = [] # Liste de TolePlan  
     def get_plans(self):
         return self._plans
