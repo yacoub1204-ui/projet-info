@@ -38,8 +38,9 @@ def resoudre(inst: str):
         #file.write(solution.print_plaques(solutions_decoupe.solution.decouper))
         #file.write(print(s))
         file.write(solution.print_figures(solutions_figures.diagonalmax))
-        solution = solution_decoupe_2.decouper(tole, plaques)
-        print(f"Solution : {solution}")
+        stole_plans = solution_decoupe_2.decouper(tole, plaques)
+
+        file.write(solution.print_plaques(tole_plans)))
         #file.write(solution.print_plaques(solution_decoupe_2.decouper))
         
         
