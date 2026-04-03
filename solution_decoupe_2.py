@@ -33,31 +33,16 @@ class TolePlan:
     def get_placements(self):      
         return self._placements
 
-
-
-class Solution:    
-    def __init__(self,plans):    
-        self._plans = [] # Liste de TolePlan  
+class Solution:
+    def __init__(self):
+        self._plans = [] # Liste de TolePlan            
     def get_plans(self):
         return self._plans
-
-    def nb_tole(self):
-        return len(self._plans)
-    def get_resume(self):      
-        resultats = []
+    def afficher(self):
         for i, plan in enumerate(self._plans):
-            for p in plan.get_placements():
-                fig = p.get_figure()
-
-                resultats.append({
-                    "tole": i + 1,
-                    "nom": fig.get_nom(),
-                    "x": p.get_x(),
-                    "y": p.get_y(),
-                    "tournee": p.get_tournee()
-                })
-
-        return resultats
+            print(f"\n--- Tôle {i+1} ---")
+            for p in plan.get_placements():    
+                print(p)
 
 
 # Classe espace libre
@@ -198,9 +183,8 @@ def _meilleur_placement(espaces, figure, autoriser_rotation):  # (espaces: list[
 
 
 # algo principal
-def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True)
+def decouper(tole, plaques, autoriser_rotation = True):#(tole: Tole, plaques: Plaques, autoriser_rotation: bool = True)
     # return une Solution avec les TolePlan et leurs Placements
-    autoriser_rotation = True
     figures = sorted(plaques.get_list_f(), key=lambda f: f.get_x() * f.get_y(), reverse=True)
 
     solution      = Solution()
@@ -220,11 +204,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
                 surface_tole= tole.get_x() * tole.get_y()
                 surface_utilisee = 0
                 for p in solution.get_plans()[indice_tole].get_placements():   
-                    f = p.get_figure()
-                    if p.get_tournee():
-                        surface_utilisee += f.get_y() * f.get_x()
-                    else:
-                        surface_utilisee += f.get_x() * f.get_y()    
+                    surface_utilisee += p.get_figure().get_x() * p.get_figure().get_y()    
                 surface_figure = res[1] * res[2]
                 score = (surface_utilisee + surface_figure) / surface_tole
                 if score > meilleur_score:
@@ -233,7 +213,10 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
                     tole_idx= indice_tole
             indice_tole += 1
 
-        # 2. Si aucune tôle ne marche → essayer de fusionner
+        # 2. CORRECTION BUG 4 : Fusion desactivee car elle cree des chevauchements
+        # Si aucune tole ne marche, on passera directement a l'etape 3 (nouvelle tole)
+        # Les 12 lignes suivantes sont commentees pour eviter les chevauchements
+        """
         if resultat is None:
             indice_tole = 0
             for espaces in plans_espaces:
@@ -245,6 +228,7 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
                     tole_idx= indice_tole
                     break
                 indice_tole += 1
+        """
 
         # 3. Si toujours rien → créer une nouvelle tôle
         if resultat is None:
@@ -271,4 +255,4 @@ def decouper(tole, plaques):#(tole: Tole, plaques: Plaques, autoriser_rotation: 
             plans_espaces[tole_idx].append(e)
         plans_espaces[tole_idx].sort(key=lambda e: e.surface_libre(), reverse=True)    
 
-    return solution  # liste des TolePlan contenant tole associee a la liste des Placement (self, figure, x_origine, y_origine, tournee)
+    return solution     # liste des TolePlan contenant tole associee a la liste des Placement
