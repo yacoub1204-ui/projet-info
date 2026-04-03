@@ -52,9 +52,9 @@ class Solution:
         return len(self._plans)  # Nombre de tôles utilisées
     
     # Méthode pour écrire la solution dans un fichier
-    def ecrire_solution(self, fonderie, plaques, inst):
-        # Ouvre le fichier pour écrire
-        fichier = open(f"{inst}_sol.txt", "w")
+    def ecrire_solution(self, fonderie, plaques)
+    
+    
         
         #placement
         # Parcours chaque tole
@@ -86,25 +86,17 @@ class Solution:
                 tournee = 1 if placement.get_tournee() else 0
                 output_lignes.append(f"{tole_idx} {figure.get_nom()} {x:.2f} {y:.2f} {tournee}") # 2f pour deux decimales
         
-        modeles_vus = set()
+      
         for figure in plaques.get_list_f():
-            nom = figure.get_nom()
-            if nom in modeles_vus:
-                continue
-            modeles_vus.add(nom)
-            
-            ligne = nom
+            ligne = figure.get_nom()
             for poly_idx, polygone in enumerate(figure.get_list_poly()):
-                if len(polygone.get_list_points()) > 0:
+                if len(polygone.get_points()) > 0:
                     ligne += f" {poly_idx} 0"
             output_lignes.append(ligne)
         
         return "\n".join(output_lignes)
     
-    def ecrire_solution(self, fonderie, plaques, inst):
-        """Écrit la solution dans un fichier """
-        with open(f"{inst}_sol.txt", "w") as file:
-            file.write(self.formater_sortie(fonderie, plaques, inst))
+   
 
 # Classe espace libre
 
