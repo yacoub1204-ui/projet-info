@@ -1,17 +1,11 @@
 import Printer
 import reader2
-
-import subprocess, sys
-subprocess.run([sys.executable, "-m", "pip", "install", "pulp"])
-
-
 import solutions_figures
 import solutions_fournisseurs
-import subprocess
-subprocess.run(["pip", "install", "pulp"])
+
 """
 Fichier à completer
-Seule la méthode resoudre()  sera   appelée
+Seule la méthode resoudre() sera appelée
 """
 import os
 import time
@@ -26,24 +20,24 @@ def resoudre(inst: str):
     """
     debut: float = time.time()
 
-    '''on récupère les données de l'instance choisie grâce au reader'''
-    print(reader2.read(inst))
+    # on récupère les données de l'instance choisie grâce au reader
+    data = reader2.read(inst)       # CORRIGE : read() appelé une seule fois et stocké
 
-    fonderie = reader2.read(inst)["fonderie"]
-    plaques = reader2.read(inst)["plaques"]
+    fonderie = data["fonderie"]
+    plaques  = data["plaques"]
 
-    '''on peut écrire la solution grâce au printer'''
-
+    # on peut écrire la solution grâce au printer
     solution = Printer.Printer(fonderie, plaques)
     with open(f"{inst}_sol.txt", "w") as file:
         file.write(solution.print_fournisseurs(solutions_fournisseurs.test_fonderie))
         file.write(solution.print_figures(solutions_figures.triviale))
+
     duree: float = time.time() - debut
     print(f"Durée d'execution : {round(100 * duree) / 100} secondes")
 
 
 if __name__ == "__main__":
-    
+
     instance = "nom_instance"
     time_max = 60
     if os.path.exists("CONFIG"):
