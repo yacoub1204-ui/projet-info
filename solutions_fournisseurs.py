@@ -157,4 +157,4 @@ def fonderie_pl(fonderie):
             [masse_alliage[j].varValue for j in alliages]
         ]
     else:
-        return -inf, [], []
+        return float('-inf'), [], []
