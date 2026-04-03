@@ -229,11 +229,13 @@ def decouper(tole, plaques):
         indice_tole = 0
 
         # 1. Chercher la meilleure tôle déjà utilisée
+        indice_tole = 0
         for espaces in plans_espaces:
             res = _meilleur_placement(espaces, figure, autoriser_rotation)
             if res is not None:
-                surface_tole = tole.get_x() * tole.get_y()
-                surface_utilisee = 0
+                if indice_tole < len(tole_plans):
+                    surface_tole = tole.get_x() * tole.get_y()
+                    surface_utilisee = 0
                 for p in tole_plans[indice_tole].get_placements():   
                     f = p.get_figure()
                     if p.get_tournee()==1:
