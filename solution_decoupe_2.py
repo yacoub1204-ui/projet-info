@@ -40,9 +40,8 @@ class Solution:
         self._plans = [] # Liste de TolePlan  
     def get_plans(self):
         return self._plans
-    def get_plans(self):
-        return self._plans
-    def nb_toles(self):
+
+    def nb_tole(self):
         return len(self._plans)
     def get_resume(self):      
         resultats = []
