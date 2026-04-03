@@ -35,30 +35,76 @@ class TolePlan:
 
 
 
-class Solution:    
-    def __init__(self,plans):    
-        self._plans = [] # Liste de TolePlan  
+
+
+
+
+         
+
+class Solution:
+    def __init__(self, plans):
+            self._plans = plans
+    
     def get_plans(self):
         return self._plans
-
+    
     def nb_tole(self):
-        return len(self._plans)
-    def get_resume(self):      
-        resultats = []
-        for i, plan in enumerate(self._plans):
-            for p in plan.get_placements():
-                fig = p.get_figure()
-
-                resultats.append({
-                    "tole": i + 1,
-                    "nom": fig.get_nom(),
-                    "x": p.get_x(),
-                    "y": p.get_y(),
-                    "tournee": p.get_tournee()
-                })
-
-        return resultats
-
+        return len(self._plans)  # Nombre de tôles utilisées
+    
+    # Méthode pour écrire la solution dans un fichier
+    def ecrire_solution(self, fonderie, plaques, inst):
+        # Ouvre le fichier pour écrire
+        fichier = open(f"{inst}_sol.txt", "w")
+        
+        #placement
+        # Parcours chaque tole
+        numero_tole = 0
+        for plan in self._plans:
+            # Parcours chaque figure placée dans cette tole
+            for placement in plan.get_placements():
+                figure = placement.get_figure()
+                nom = figure.get_nom()
+                x = placement.get_x()
+                y = placement.get_y()
+                
+                if placement.get_tournee():
+                    tournee = 1
+                else:
+                    tournee = 0
+                
+                fichier.write(str(numero_tole) + " " + nom + " " + str(x) + " " + str(y) + " " + str(tournee) + "\n")
+            
+            numero_tole +=1
+        
+      
+        
+        for tole_idx, plan in enumerate(self._plans): #compte
+            for placement in plan.get_placements():
+                figure = placement.get_figure()
+                x = placement.get_x()
+                y = placement.get_y()
+                tournee = 1 if placement.get_tournee() else 0
+                output_lignes.append(f"{tole_idx} {figure.get_nom()} {x:.2f} {y:.2f} {tournee}") # 2f pour deux decimales
+        
+        modeles_vus = set()
+        for figure in plaques.get_list_f():
+            nom = figure.get_nom()
+            if nom in modeles_vus:
+                continue
+            modeles_vus.add(nom)
+            
+            ligne = nom
+            for poly_idx, polygone in enumerate(figure.get_list_poly()):
+                if len(polygone.get_list_points()) > 0:
+                    ligne += f" {poly_idx} 0"
+            output_lignes.append(ligne)
+        
+        return "\n".join(output_lignes)
+    
+    def ecrire_solution(self, fonderie, plaques, inst):
+        """Écrit la solution dans un fichier """
+        with open(f"{inst}_sol.txt", "w") as file:
+            file.write(self.formater_sortie(fonderie, plaques, inst))
 
 # Classe espace libre
 
